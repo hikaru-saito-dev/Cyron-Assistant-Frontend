@@ -32,10 +32,28 @@ export const AuthCallback = () => {
 
       // Flow B: Discord redirected here with ?code=...&state=...
       if (code && state) {
-        const url = new URL('/auth/callback', API_BASE_URL);
-        url.searchParams.set('code', code);
-        url.searchParams.set('state', state);
-        window.location.assign(url.toString());
+        void (async () => {
+          try {
+            const url = new URL('/auth/callback', API_BASE_URL);
+            url.searchParams.set('code', code);
+            url.searchParams.set('state', state);
+            const res = await fetch(url.toString(), { method: 'POST' });
+            if (!res.ok) {
+              throw new Error('OAuth exchange failed');
+            }
+            const data = (await res.json()) as { token?: string };
+            if (!data.token) {
+              throw new Error('Missing token in OAuth response');
+            }
+            setAuthToken(data.token);
+            navigate('/', { replace: true });
+          } catch {
+            const msg =
+              'Something went wrong during authentication. Please try again.';
+            setError(msg);
+            alert.error(msg);
+          }
+        })();
         return;
       }
 
