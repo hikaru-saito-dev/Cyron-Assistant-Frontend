@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAlert } from 'react-alert';
 import { useAuth } from '../hooks/useAuth';
-import { api } from '../lib/api';
+import { API_BASE_URL } from '../lib/config';
 
 export const AuthCallback = () => {
   const location = useLocation();
@@ -32,24 +32,10 @@ export const AuthCallback = () => {
 
       // Flow B: Discord redirected here with ?code=...&state=...
       if (code && state) {
-        void api
-          .post<{ token: string; redirect?: string }>('/auth/callback', null, {
-            params: { code, state },
-          })
-          .then((res) => {
-            setAuthToken(res.data.token);
-            const target = res.data.redirect ?? '/';
-            if (target.startsWith('http')) {
-              window.location.replace(target);
-              return;
-            }
-            navigate(target, { replace: true });
-          })
-          .catch(() => {
-            const msg = 'Discord sign-in failed. Please try again.';
-            setError(msg);
-            alert.error(msg);
-          });
+        const url = new URL('/auth/callback', API_BASE_URL);
+        url.searchParams.set('code', code);
+        url.searchParams.set('state', state);
+        window.location.assign(url.toString());
         return;
       }
 

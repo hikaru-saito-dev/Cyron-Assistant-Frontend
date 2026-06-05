@@ -3,7 +3,7 @@ import { FaChartBar, FaRobot, FaSlidersH } from 'react-icons/fa';
 
 export const FeaturesSection = () => {
   return (
-    <section className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+    <section className="border-b border-slate-200 bg-white dark:bg-[#0b1120] dark:border-slate-800">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
@@ -24,7 +24,7 @@ export const FeaturesSection = () => {
           }}
         >
           <motion.div
-            className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:bg-slate-900 dark:border-slate-700"
             variants={{
               hidden: { opacity: 0, y: 32 },
               visible: { opacity: 1, y: 0 },
@@ -45,7 +45,7 @@ export const FeaturesSection = () => {
           </motion.div>
 
           <motion.div
-            className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:bg-slate-900 dark:border-slate-700"
             variants={{
               hidden: { opacity: 0, y: 32 },
               visible: { opacity: 1, y: 0 },
@@ -66,7 +66,7 @@ export const FeaturesSection = () => {
           </motion.div>
 
           <motion.div
-            className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+            className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:bg-slate-900 dark:border-slate-700"
             variants={{
               hidden: { opacity: 0, y: 32 },
               visible: { opacity: 1, y: 0 },

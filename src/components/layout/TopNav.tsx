@@ -52,7 +52,7 @@ export const TopNav = ({ currentGuildName }: TopNavProps) => {
             />
           </Link>
           <div className="leading-tight hidden sm:block">
-            <h1 className="text-base font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+            <h1 className="text-base font-semibold tracking-tight">
               Cyron Assistant
             </h1>
           </div>

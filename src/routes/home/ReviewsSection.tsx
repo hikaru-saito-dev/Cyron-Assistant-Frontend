@@ -5,7 +5,7 @@ import { useApp } from '../../context/AppContext';
 export const ReviewsSection = () => {
   const { reviews } = useApp();
   return (
-    <section className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
+    <section className="border-b border-slate-200 bg-slate-50 dark:bg-[#0b1120] dark:border-slate-800">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
@@ -20,7 +20,7 @@ export const ReviewsSection = () => {
         <div className="grid gap-6 md:grid-cols-3">
           {reviews.map((review, idx) => (
             <motion.div
-              className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+              className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:bg-slate-900 dark:border-slate-700"
               key={review.id ?? idx}
               initial={{ opacity: 0, y: 36, scale: 0.96 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}

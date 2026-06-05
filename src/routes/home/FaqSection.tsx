@@ -5,7 +5,7 @@ import { useApp } from '../../context/AppContext';
 export const FaqSection = () => {
   const { homeFaqs } = useApp();
   return (
-    <section className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+    <section className="border-b border-slate-200 bg-white dark:bg-[#0b1120] dark:border-slate-800">
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
@@ -21,7 +21,7 @@ export const FaqSection = () => {
           {homeFaqs.map((item, idx) => (
             <motion.div
               key={item.id}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm"
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm dark:bg-slate-900 dark:border-slate-700"
               initial={{ opacity: 0, x: idx % 2 === 0 ? -48 : 48 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
