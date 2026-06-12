@@ -122,6 +122,15 @@ export const guildService = {
     return api.delete(`/guilds/${guildId}/knowledge/${id}`);
   },
 
+  async fetchChannels(guildId: string): Promise<{id: string; name: string}[]> {
+    const res = await api.get(`/guilds/${guildId}/channels`);
+    return res.data;
+  },
+
+  async sendPanelToChannel(guildId: string, panelId: string, channelId: string): Promise<void> {
+    await api.post(`/guilds/${guildId}/panels/${panelId}/send`, { channel_id: channelId });
+  },
+
   // Panels
   async fetchPanels(guildId: string) {
     const res = await api.get<Panel[]>(`/guilds/${guildId}/panels`);

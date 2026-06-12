@@ -93,6 +93,8 @@ export function Panels() {
   const [form, setForm] = useState<Omit<Panel, 'id' | 'guild_id'>>(EMPTY);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>('general');
+  const [sendingPanel, setSendingPanel] = useState<Panel | null>(null);
+  const [selectedChannel, setSelectedChannel] = useState('');
 
   const set = (key: keyof typeof EMPTY, value: any) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -105,6 +107,12 @@ export function Panels() {
   const { data: contexts = [], isLoading: contextsLoading } = useQuery({
     queryKey: ['contexts', guildId],
     queryFn: () => guildService.fetchContexts(guildId!),
+    enabled: !!guildId,
+  });
+
+  const { data: channels = [] } = useQuery({
+    queryKey: ['channels', guildId],
+    queryFn: () => guildService.fetchChannels(guildId!),
     enabled: !!guildId,
   });
 
@@ -149,6 +157,7 @@ export function Panels() {
                 </p>
               </div>
               <div className="flex gap-2">
+                <button onClick={() => { setSendingPanel(p); setSelectedChannel(''); }} className="rounded-lg border border-indigo-200 px-3 py-1 text-xs text-indigo-600 hover:bg-indigo-50">Send Panel</button>
                 <button onClick={() => openEdit(p)} className="rounded-lg border border-slate-200 px-3 py-1 text-xs hover:bg-slate-50">Edit</button>
                 <button onClick={() => deleteMut.mutate(p.id)} className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50">Delete</button>
               </div>
@@ -377,6 +386,48 @@ export function Panels() {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* Send Panel Modal */}
+      {sendingPanel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-slate-900 shadow-xl p-6 flex flex-col gap-4">
+            <h3 className="text-base font-semibold">Send Panel to Channel</h3>
+            <p className="text-xs text-slate-500">Select a channel to send the <span className="font-medium text-slate-700 dark:text-slate-300">{sendingPanel.name || 'Unnamed'}</span> panel embed.</p>
+            <select
+              value={selectedChannel}
+              onChange={(e) => setSelectedChannel(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-slate-800 dark:border-slate-700"
+            >
+              <option value="">Select a channel…</option>
+              {(channels as {id: string; name: string}[]).map((ch) => (
+                <option key={ch.id} value={ch.id}>#{ch.name}</option>
+              ))}
+            </select>
+            {channels.length === 0 && (
+              <p className="text-xs text-amber-500">No channels found. Make sure the bot is online and restart it to sync channels.</p>
+            )}
+            <div className="flex gap-2 justify-end">
+              <button onClick={() => setSendingPanel(null)} className="rounded-xl border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50">Cancel</button>
+              <button
+                disabled={!selectedChannel}
+                onClick={async () => {
+                  if (!selectedChannel || !guildId) return;
+                  try {
+                    await guildService.sendPanelToChannel(guildId, sendingPanel.id, selectedChannel);
+                    setSendingPanel(null);
+                    alert('✅ Panel sent! Check the channel in Discord.');
+                  } catch {
+                    alert('❌ Failed to send panel. Make sure the bot is online.');
+                  }
+                }}
+                className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
+              >
+                Send the Panel
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
