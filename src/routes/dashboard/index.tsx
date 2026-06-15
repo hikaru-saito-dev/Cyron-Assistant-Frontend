@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 // @ts-expect-error react-alert ships without TS types in this repo
 import { useAlert } from 'react-alert';
 import { api } from '../../lib/api';
+import { DISCORD_BOT_INVITE_URL } from '../../lib/config';
 import { FaServer } from 'react-icons/fa';
 import { DashboardHeaderSection } from './HeaderSection';
 import { DashboardFiltersSection } from './FiltersSection';
@@ -16,9 +17,7 @@ async function fetchGuilds(): Promise<Guild[]> {
   return res.data;
 }
 
-const BOT_INVITE_BASE_URL =
-  import.meta.env.VITE_DISCORD_BOT_INVITE_URL ??
-  'https://discord.com/oauth2/authorize?client_id=1473403672086970459&permissions=8&integration_type=0&scope=applications.commands+bot';
+const BOT_INVITE_BASE_URL = DISCORD_BOT_INVITE_URL;
 
 export const Dashboard = () => {
   const params = useParams<{ guildId?: string }>();

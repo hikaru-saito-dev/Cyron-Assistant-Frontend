@@ -3,15 +3,14 @@ import type { MouseEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { api } from '../lib/api';
+import { DISCORD_BOT_INVITE_URL } from '../lib/config';
 
 async function fetchGuilds(): Promise<Guild[]> {
   const res = await api.get<Guild[]>('/guilds');
   return res.data;
 }
 
-const BOT_INVITE_BASE_URL =
-  import.meta.env.VITE_DISCORD_BOT_INVITE_URL ??
-  'https://discord.com/oauth2/authorize?client_id=1473403672086970459&permissions=8&integration_type=0&scope=applications.commands+bot';
+const BOT_INVITE_BASE_URL = DISCORD_BOT_INVITE_URL;
 
 export const GuildList = () => {
   const { data: guilds, isLoading, isError } = useQuery({
