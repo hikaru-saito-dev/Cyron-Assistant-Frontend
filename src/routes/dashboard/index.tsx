@@ -31,7 +31,9 @@ export const Dashboard = () => {
   useEffect(() => {
     if (!isError || hasShownGuildError.current) return;
     hasShownGuildError.current = true;
-    alert.error('Failed to load servers. Please refresh the page.');
+    alert.error(
+      'Failed to load servers. Log out, sign in again with Discord, then refresh. If the problem persists, the API may be unreachable.',
+    );
   }, [alert, isError]);
 
   const selectedGuild =
@@ -104,7 +106,7 @@ export const Dashboard = () => {
       {isError && !isLoading && (
         <p className="text-sm text-red-600 flex items-center gap-2">
           <FaServer className="text-red-400" />
-          Failed to load servers. Please refresh the page.
+          Failed to load servers. Log out, sign in again with Discord, then refresh.
         </p>
       )}
 

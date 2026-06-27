@@ -8,6 +8,7 @@ interface Panel {
   button_emoji: string | null;
   welcome_message: string | null;
   ai_context_id: string | null;
+  ai_auto_reply: boolean;
   // General
   is_enabled: boolean;
   support_role_ids: number[] | null;

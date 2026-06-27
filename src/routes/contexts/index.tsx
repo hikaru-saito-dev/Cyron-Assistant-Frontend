@@ -24,6 +24,7 @@ export function Contexts() {
   const [tab, setTab] = useState<Tab>("instructions");
   const [instructions, setInstructions] = useState("");
   const [generalInfo, setGeneralInfo] = useState("");
+  const [linkedPanelIds, setLinkedPanelIds] = useState<string[]>([]);
   const [newCtxName, setNewCtxName] = useState("");
   const [creating, setCreating] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -37,6 +38,18 @@ export function Contexts() {
   const { data: knowledge = [], isLoading: knowledgeLoading } = useQuery({
     queryKey: ["knowledge", guildId],
     queryFn: () => guildService.fetchKnowledge(guildId!),
+    enabled: !!guildId,
+  });
+
+  const { data: aiEnabledPanels = [] } = useQuery({
+    queryKey: ["panels-ai-enabled", guildId],
+    queryFn: () => guildService.fetchAiEnabledPanels(guildId!),
+    enabled: !!guildId,
+  });
+
+  const { data: allPanels = [] } = useQuery({
+    queryKey: ["panels", guildId],
+    queryFn: () => guildService.fetchPanels(guildId!),
     enabled: !!guildId,
   });
 
@@ -54,17 +67,33 @@ export function Contexts() {
     }
   }, [selected?.id]);
 
+  useEffect(() => {
+    if (!selected) {
+      setLinkedPanelIds([]);
+      return;
+    }
+    setLinkedPanelIds(
+      allPanels.filter((p) => p.ai_context_id === selected.id).map((p) => p.id),
+    );
+  }, [selected?.id, allPanels]);
+
   const invalidate = () =>
     qc.invalidateQueries({ queryKey: ["contexts", guildId] });
+
+  const invalidatePanels = () =>
+    qc.invalidateQueries({ queryKey: ["panels", guildId] });
 
   const updateMut = useMutation({
     mutationFn: (payload: {
       name: string;
       instructions?: string;
       general_info?: string;
+      linked_panel_ids?: string[];
     }) => guildService.updateContext(guildId!, selected!.id, payload),
     onSuccess: () => {
       invalidate();
+      invalidatePanels();
+      qc.invalidateQueries({ queryKey: ["panels-ai-enabled", guildId] });
       showToast("Saved.");
     },
   });
@@ -99,7 +128,26 @@ export function Contexts() {
       name: selected.name,
       instructions,
       general_info: generalInfo,
+      linked_panel_ids: linkedPanelIds,
     });
+  }
+
+  function handleSaveLinkedPanels() {
+    if (!selected) return;
+    updateMut.mutate({
+      name: selected.name,
+      instructions,
+      general_info: generalInfo,
+      linked_panel_ids: linkedPanelIds,
+    });
+  }
+
+  function toggleLinkedPanel(panelId: string) {
+    setLinkedPanelIds((prev) =>
+      prev.includes(panelId)
+        ? prev.filter((id) => id !== panelId)
+        : [...prev, panelId],
+    );
   }
 
   const contextKnowledge = knowledge.filter(
@@ -277,6 +325,45 @@ export function Contexts() {
                 section="knowledge"
               />
             ))}
+
+          <div className="mt-6 pt-4 border-t border-slate-200 space-y-3">
+            <div>
+              <p className="text-sm font-medium text-slate-800">Linked Panels</p>
+              <p className="text-xs text-slate-500 mt-1">
+                Panels with AI Auto-Reply enabled. Linking assigns this context to those panels.
+              </p>
+            </div>
+            {aiEnabledPanels.length === 0 ? (
+              <p className="text-xs text-slate-400">
+                No eligible panels. Enable AI Auto-Reply on a panel first.
+              </p>
+            ) : (
+              <div className="space-y-2 rounded-xl border border-slate-200 p-3 max-h-40 overflow-y-auto">
+                {aiEnabledPanels.map((p) => (
+                  <label
+                    key={p.id}
+                    className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={linkedPanelIds.includes(p.id)}
+                      onChange={() => toggleLinkedPanel(p.id)}
+                      className="rounded border-slate-300 text-sky-600 focus:ring-sky-400"
+                    />
+                    {p.name}
+                  </label>
+                ))}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={handleSaveLinkedPanels}
+              disabled={updateMut.isPending}
+              className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-50"
+            >
+              Save Linked Panels
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex-1 flex items-center justify-center text-slate-400 text-sm">

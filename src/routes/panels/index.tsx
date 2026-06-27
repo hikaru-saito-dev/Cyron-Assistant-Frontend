@@ -12,6 +12,7 @@ const DEFAULT_SCHEDULE = Object.fromEntries(
 const EMPTY: Omit<Panel, 'id' | 'guild_id'> = {
   name: '', bot_id: null, ticket_category_name: 'Tickets',
   button_text: 'Open Ticket', button_emoji: null, welcome_message: null, ai_context_id: null,
+  ai_auto_reply: false,
   is_enabled: true, support_role_ids: null, overflow_category_ids: null,
   threading_mode: false, save_transcripts: true,
   channel_name_format: '{panel.name}-{ticket.number}',
@@ -222,6 +223,7 @@ export function Panels() {
                 </Field>
                 <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 px-3">
                   <Toggle label="Panel Enabled" checked={form.is_enabled} onChange={(v) => set('is_enabled', v)} />
+                  <Toggle label="AI Auto-Reply" checked={form.ai_auto_reply} onChange={(v) => set('ai_auto_reply', v)} hint="When enabled, the bot replies in tickets using the linked AI context" />
                   <Toggle label="Claiming Enabled" checked={form.claiming_enabled} onChange={(v) => set('claiming_enabled', v)} />
                   <Toggle label="Users Can Close" checked={form.users_can_close} onChange={(v) => set('users_can_close', v)} hint="Allow ticket creator to close their own ticket" />
                   <Toggle label="Save Transcripts" checked={form.save_transcripts} onChange={(v) => set('save_transcripts', v)} />

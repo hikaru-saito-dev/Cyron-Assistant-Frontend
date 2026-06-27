@@ -136,6 +136,12 @@ export const guildService = {
     const res = await api.get<Panel[]>(`/guilds/${guildId}/panels`);
     return res.data;
   },
+  async fetchAiEnabledPanels(guildId: string) {
+    const res = await api.get<Pick<Panel, "id" | "name" | "ai_context_id">[]>(
+      `/guilds/${guildId}/panels/ai-enabled`,
+    );
+    return res.data;
+  },
   async createPanel(guildId: string, payload: Omit<Panel, "id" | "guild_id">) {
     const res = await api.post<Panel>(`/guilds/${guildId}/panels`, payload);
     return res.data;
@@ -173,7 +179,12 @@ export const guildService = {
   async updateContext(
     guildId: string,
     contextId: string,
-    payload: { name: string; instructions?: string; general_info?: string },
+    payload: {
+      name: string;
+      instructions?: string;
+      general_info?: string;
+      linked_panel_ids?: string[];
+    },
   ) {
     const res = await api.put<AIContext>(
       `/guilds/${guildId}/contexts/${contextId}`,
