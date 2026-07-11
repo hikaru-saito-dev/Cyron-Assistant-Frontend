@@ -129,6 +129,10 @@ export const guildService = {
     return res.data;
   },
 
+  async refreshChannels(guildId: string): Promise<void> {
+    await api.post(`/guilds/${guildId}/channels/refresh`);
+  },
+
   async sendPanelToChannel(guildId: string, panelId: string, channelId: string): Promise<void> {
     await api.post(`/guilds/${guildId}/panels/${panelId}/send`, { channel_id: parseInt(channelId) });
   },

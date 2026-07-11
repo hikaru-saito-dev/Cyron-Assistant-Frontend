@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { guildService } from '../../services/guildService';
@@ -121,11 +121,41 @@ export function Panels() {
 
   const panelContexts = contexts.filter((c) => c.id !== generalRules?.id);
 
-  const { data: channels = [] } = useQuery({
+  const { data: channels = [], refetch: refetchChannels, isFetching: channelsFetching } = useQuery({
     queryKey: ['channels', guildId],
     queryFn: () => guildService.fetchChannels(guildId!),
     enabled: !!guildId,
   });
+
+  const [syncingChannels, setSyncingChannels] = useState(false);
+
+  useEffect(() => {
+    if (!sendingPanel || !guildId) return;
+
+    let cancelled = false;
+
+    async function syncAndLoadChannels() {
+      setSyncingChannels(true);
+      try {
+        await guildService.refreshChannels(guildId!);
+        for (let attempt = 0; attempt < 6; attempt++) {
+          if (cancelled) return;
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          const result = await refetchChannels();
+          if ((result.data?.length ?? 0) > 0) break;
+        }
+      } catch {
+        // Best-effort — user can retry manually
+      } finally {
+        if (!cancelled) setSyncingChannels(false);
+      }
+    }
+
+    void syncAndLoadChannels();
+    return () => {
+      cancelled = true;
+    };
+  }, [sendingPanel, guildId, refetchChannels]);
 
   const invalidate = () => qc.invalidateQueries({ queryKey: ['panels', guildId] });
   const createMut = useMutation({ mutationFn: (p: typeof EMPTY) => guildService.createPanel(guildId!, p), onSuccess: invalidate });
@@ -501,15 +531,40 @@ export function Panels() {
             <select
               value={selectedChannel}
               onChange={(e) => setSelectedChannel(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-slate-800 dark:border-slate-700"
+              disabled={syncingChannels || channelsFetching}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-slate-800 dark:border-slate-700 disabled:opacity-60"
             >
-              <option value="">Select a channel…</option>
+              <option value="">
+                {syncingChannels || channelsFetching
+                  ? 'Syncing channels from Discord…'
+                  : 'Select a channel…'}
+              </option>
               {(channels as {id: string; name: string}[]).map((ch) => (
                 <option key={ch.id} value={ch.id}>#{ch.name}</option>
               ))}
             </select>
-            {channels.length === 0 && (
-              <p className="text-xs text-amber-500">No channels found. Make sure the bot is online and restart it to sync channels.</p>
+            {channels.length === 0 && !syncingChannels && !channelsFetching && (
+              <div className="space-y-2">
+                <p className="text-xs text-amber-500">
+                  No channels found. Make sure the bot is online and has permission to view/send in text channels.
+                </p>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setSyncingChannels(true);
+                    try {
+                      await guildService.refreshChannels(guildId!);
+                      await new Promise((r) => setTimeout(r, 2000));
+                      await refetchChannels();
+                    } finally {
+                      setSyncingChannels(false);
+                    }
+                  }}
+                  className="text-xs font-medium text-violet-600 hover:underline dark:text-violet-400"
+                >
+                  Retry channel sync
+                </button>
+              </div>
             )}
             <div className="flex gap-2 justify-end">
               <button onClick={() => setSendingPanel(null)} className="rounded-xl border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50">Cancel</button>
