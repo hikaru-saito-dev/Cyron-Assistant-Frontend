@@ -12,12 +12,14 @@ import { NotFound } from './routes/NotFound';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AppLayout } from './components/layout/AppLayout';
 import { Home } from './routes/home';
+import { Docs } from './routes/docs';
 
 export default function App() {
   return (
     <div className="min-h-screen bg-bg-base text-text-primary">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/docs" element={<Docs />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />

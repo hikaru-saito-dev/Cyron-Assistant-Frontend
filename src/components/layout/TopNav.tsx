@@ -67,7 +67,8 @@ export const TopNav = ({ currentGuildName }: TopNavProps) => {
                 to={to}
                 className={clsx(
                   'px-3 py-2 rounded text-sm font-semibold',
-                  location.pathname === to
+                  (location.pathname === to ||
+                    (to === '/docs' && location.pathname.startsWith('/docs')))
                     ? (theme === 'dark' ? 'text-primary' : 'bg-sky-100 text-primary')
                     : (theme === 'dark' ? 'text-slate-300 hover:text-sky-200' : 'text-slate-600 hover:text-sky-900')
                 )}
