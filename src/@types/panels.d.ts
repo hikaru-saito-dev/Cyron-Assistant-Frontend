@@ -122,6 +122,7 @@ interface AiDiscoveryScanResult {
     selling: ClassifiedChannel[];
   };
   role_candidates: RoleCandidate[];
+  guild_roles: RoleCandidate[];
   panels_found: PanelSummary[];
   description_draft: string | null;
   partnership_detected: boolean;

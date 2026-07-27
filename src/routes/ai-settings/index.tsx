@@ -1,21 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaRobot } from "react-icons/fa";
 import { guildService } from "../../services/guildService";
 import { GeneralRulesEditor } from "../../components/ai-settings/GeneralRulesEditor";
 import { Phase0Welcome } from "../../components/ai-settings/Phase0Welcome";
 import { ScanProgress } from "../../components/ai-settings/ScanProgress";
+import { AiSetupWizard } from "../../components/ai-settings/wizard/AiSetupWizard";
+import {
+  clearWizardState,
+  loadWizardState,
+} from "../../components/ai-settings/wizard/storage";
 import { PageLoader } from "../../components/ui/Skeleton";
 
-type ViewMode = "welcome" | "scanning" | "editor";
+type ViewMode = "welcome" | "scanning" | "wizard" | "editor";
 
 export function AiSettings() {
   const { guildId } = useParams<{ guildId: string }>();
+  const qc = useQueryClient();
   const [viewMode, setViewMode] = useState<ViewMode | null>(null);
   const [scanResult, setScanResult] = useState<AiDiscoveryScanResult | null>(
     null,
   );
+
+  const { data: guild } = useQuery({
+    queryKey: ["guild", guildId],
+    queryFn: () => guildService.fetchGuild(guildId!),
+    enabled: !!guildId,
+  });
 
   const { data: generalRules, isLoading: generalLoading } = useQuery({
     queryKey: ["general-rules", guildId],
@@ -28,6 +40,17 @@ export function AiSettings() {
     queryFn: () => guildService.fetchKnowledge(guildId!),
     enabled: !!guildId,
   });
+
+  // Resume unfinished wizard
+  useEffect(() => {
+    if (!guildId || generalLoading) return;
+    if (generalRules?.enabled) return;
+    const saved = loadWizardState(guildId);
+    if (saved?.scan && saved.step) {
+      setScanResult(saved.scan);
+      setViewMode("wizard");
+    }
+  }, [guildId, generalLoading, generalRules?.enabled]);
 
   const effectiveView: ViewMode = (() => {
     if (viewMode) return viewMode;
@@ -42,14 +65,15 @@ export function AiSettings() {
     try {
       const result = await guildService.runAiDiscoveryScan(guildId);
       setScanResult(result);
+      setViewMode("wizard");
     } catch {
       setScanResult(null);
-    } finally {
       setViewMode("editor");
     }
   }
 
   function handleSkip() {
+    if (guildId) clearWizardState(guildId);
     setViewMode("editor");
   }
 
@@ -86,38 +110,41 @@ export function AiSettings() {
 
         {effectiveView === "scanning" && <ScanProgress active />}
 
+        {effectiveView === "wizard" && (
+          <AiSetupWizard
+            guildId={guildId}
+            guildName={guild?.name || "your server"}
+            initialScan={scanResult}
+            onExitManual={() => {
+              setViewMode("editor");
+            }}
+            onCancelToWelcome={() => {
+              clearWizardState(guildId);
+              setScanResult(null);
+              setViewMode("welcome");
+            }}
+            onActivated={() => {
+              void qc.invalidateQueries({ queryKey: ["general-rules", guildId] });
+              void qc.invalidateQueries({ queryKey: ["knowledge", guildId] });
+              setViewMode("editor");
+            }}
+          />
+        )}
+
         {effectiveView === "editor" && (
           <>
-            {scanResult && (
-              <div className="mb-6 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-4 py-3.5 dark:border-indigo-500/30 dark:bg-indigo-500/10">
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="font-sans text-sm font-semibold text-indigo-900 dark:text-indigo-200">
-                    Server scan complete
-                  </p>
-                  <span className="rounded-full bg-indigo-200/80 px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-indigo-800 dark:bg-indigo-500/30 dark:text-indigo-200">
-                    {scanResult.confidence_tier} · {Math.round((scanResult.confidence ?? 0) * 100)}%
-                  </span>
-                </div>
-                <p className="mt-1 font-sans text-xs text-indigo-800/80 dark:text-indigo-300/80">
-                  {scanResult.summary}
+            {!generalRules?.enabled && (
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-4 py-3 dark:border-indigo-500/30 dark:bg-indigo-500/10">
+                <p className="font-sans text-xs text-indigo-800 dark:text-indigo-300">
+                  Prefer the guided setup?
                 </p>
-                {scanResult.proposed_category && (
-                  <p className="mt-1 font-sans text-xs font-medium text-indigo-700 dark:text-indigo-300">
-                    Proposed: {scanResult.proposed_category.replace("_", " ")}
-                  </p>
-                )}
-                {(scanResult.rationale?.length ?? 0) > 0 && (
-                  <ul className="mt-2 space-y-0.5 font-sans text-xs text-indigo-700/90 dark:text-indigo-300/70">
-                    {scanResult.rationale.slice(0, 5).map((s) => (
-                      <li key={s}>• {s}</li>
-                    ))}
-                  </ul>
-                )}
-                {scanResult.classified_channels?.ticket_history?.length > 0 && (
-                  <p className="mt-2 font-sans text-xs text-indigo-600 dark:text-indigo-400">
-                    Found {scanResult.classified_channels.ticket_history.length} closed ticket channel(s) for future extraction.
-                  </p>
-                )}
+                <button
+                  type="button"
+                  onClick={() => setViewMode("welcome")}
+                  className="rounded-xl bg-indigo-600 px-3 py-1.5 font-sans text-xs font-semibold text-white"
+                >
+                  Open wizard
+                </button>
               </div>
             )}
 
