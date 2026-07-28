@@ -130,6 +130,13 @@ export const guildService = {
     return res.data;
   },
 
+  async fetchRoles(guildId: string): Promise<{ id: string; name: string }[]> {
+    const res = await api.get<{ id: string; name: string }[]>(
+      `/guilds/${guildId}/roles`,
+    );
+    return Array.isArray(res.data) ? res.data : [];
+  },
+
   async refreshChannels(guildId: string): Promise<void> {
     await api.post(`/guilds/${guildId}/channels/refresh`);
   },
@@ -215,7 +222,12 @@ export const guildService = {
   },
   async updateGeneralRules(
     guildId: string,
-    payload: { instructions?: string; general_info?: string; enabled?: boolean },
+    payload: {
+      instructions?: string;
+      general_info?: string;
+      enabled?: boolean;
+      settings?: Partial<AiGeneralSettings> | AiGeneralSettings;
+    },
   ): Promise<GeneralRules> {
     const res = await api.put<GeneralRules>(`/guilds/${guildId}/contexts/general`, payload);
     return res.data;
@@ -245,6 +257,17 @@ export const guildService = {
   ): Promise<CompileOutput> {
     const res = await api.post<CompileOutput>(
       `/guilds/${guildId}/contexts/general/compile`,
+      payload,
+    );
+    return res.data;
+  },
+
+  async quickTestGeneralRules(
+    guildId: string,
+    payload: QuickTestInput,
+  ): Promise<QuickTestOutput> {
+    const res = await api.post<QuickTestOutput>(
+      `/guilds/${guildId}/contexts/general/quick-test`,
       payload,
     );
     return res.data;

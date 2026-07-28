@@ -1,3 +1,15 @@
+import {
+  emptyCommunity,
+  emptyOther,
+  emptySaas,
+  emptySelling,
+  type CommunityData,
+  type LinkableChannel,
+  type OtherData,
+  type SaasData,
+  type SellingData,
+} from "./categoryTypes";
+
 export type WizardCategory = "selling" | "saas" | "community" | "other";
 
 export type WizardStepId =
@@ -8,7 +20,10 @@ export type WizardStepId =
   | "tone_language"
   | "never_say"
   | "escalation"
-  | "summary";
+  | "category_specific"
+  | "channels"
+  | "summary"
+  | "live_test";
 
 export type TonePreset = "Professional" | "Friendly" | "Casual" | "Formal";
 
@@ -37,13 +52,19 @@ export type WizardAnswers = {
   escalationRoleIds: string[];
   escalationRoleSuggestedIds: string[];
   escalationUsers: string[];
-  // Phase 3 sources
   previousBot: string;
   transcriptChannelIds: string[];
   ticketChannelIds: string[];
   htmlFiles: { name: string; content: string }[];
   sourcesSkipped: boolean;
   extractedProblems: { problem: string; solution: string; frequency: number }[];
+  // Step 6
+  selling: SellingData;
+  saas: SaasData;
+  community: CommunityData;
+  other: OtherData;
+  // Step 7
+  linkableChannels: LinkableChannel[];
 };
 
 export type WizardState = {
@@ -64,7 +85,10 @@ export const WIZARD_STEPS: { id: WizardStepId; label: string }[] = [
   { id: "tone_language", label: "Tone" },
   { id: "never_say", label: "Never say" },
   { id: "escalation", label: "Escalate" },
+  { id: "category_specific", label: "Category Qs" },
+  { id: "channels", label: "Channels" },
   { id: "summary", label: "Summary" },
+  { id: "live_test", label: "Live test" },
 ];
 
 export const CATEGORY_META: Record<
@@ -113,6 +137,11 @@ export function createEmptyAnswers(): WizardAnswers {
     htmlFiles: [],
     sourcesSkipped: false,
     extractedProblems: [],
+    selling: emptySelling(),
+    saas: emptySaas(),
+    community: emptyCommunity(),
+    other: emptyOther(),
+    linkableChannels: [],
   };
 }
 

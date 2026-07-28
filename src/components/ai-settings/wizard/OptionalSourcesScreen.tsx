@@ -139,11 +139,13 @@ export function OptionalSourcesScreen({
       <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/50">
         <p className="font-sans text-xs text-slate-600 dark:text-slate-300">
           <strong>Privacy:</strong> I only read to extract recurring problems
-          and solutions. User names and personal data never end up in the rules.
+          and solutions. Mentions and personal IDs are stripped before any AI
+          call. User names never end up in the rules.
         </p>
         <p className="mt-1.5 font-sans text-xs text-slate-500 dark:text-slate-400">
           You don&apos;t need all your tickets — about ten are enough to find
-          patterns.
+          patterns. If extraction fails, you can continue and fill problems
+          manually.
         </p>
       </div>
 

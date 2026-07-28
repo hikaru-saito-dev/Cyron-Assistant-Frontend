@@ -291,9 +291,8 @@ export function Contexts() {
             Complete AI Settings first
           </h2>
           <p className="mx-auto mt-2 max-w-md font-sans text-sm text-slate-500 dark:text-slate-400">
-            General Rules is the foundation every panel context builds on.
-            Configure and activate General Rules in AI Settings to unlock panel
-            contexts.
+            Complete AI Settings first — General Rules is the foundation every
+            panel context builds on.
           </p>
           <Link
             to={`/guilds/${guildId}/ai-settings`}

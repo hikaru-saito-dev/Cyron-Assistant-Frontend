@@ -8,13 +8,17 @@ import { StepServer } from "./steps/StepServer";
 import { StepToneLanguage } from "./steps/StepToneLanguage";
 import { StepNeverSay } from "./steps/StepNeverSay";
 import { StepEscalation } from "./steps/StepEscalation";
+import { StepCategorySpecific } from "./steps/StepCategorySpecific";
+import { StepChannels } from "./steps/StepChannels";
 import { SummaryScreen } from "./SummaryScreen";
+import { LiveTestScreen } from "./LiveTestScreen";
 import {
   applyCategoryToAnswers,
   answersToCompileInput,
   clearWizardState,
   collectUnreviewed,
   loadWizardState,
+  mergeExtractedProblems,
   saveWizardState,
 } from "./storage";
 import {
@@ -57,6 +61,7 @@ export function AiSetupWizard({
   );
   const [compiling, setCompiling] = useState(false);
   const [extracting, setExtracting] = useState(false);
+  const [activating, setActivating] = useState(false);
 
   const { data: channels = [] } = useQuery({
     queryKey: ["channels", guildId],
@@ -64,7 +69,6 @@ export function AiSetupWizard({
     enabled: !!guildId,
   });
 
-  // Keep scan from parent if we didn't have saved state
   useEffect(() => {
     if (!scan && initialScan) setScan(initialScan);
   }, [initialScan, scan]);
@@ -98,7 +102,12 @@ export function AiSetupWizard({
   function patchAnswers(partial: Partial<WizardAnswers>) {
     setAnswers((prev) => {
       const next = { ...prev, ...partial };
-      persist({ answers: next });
+      if (compiled) {
+        setCompiled(null);
+        persist({ answers: next, compiled: null });
+      } else {
+        persist({ answers: next });
+      }
       return next;
     });
   }
@@ -114,7 +123,6 @@ export function AiSetupWizard({
   function confirmCategory() {
     const cat = answers.category;
     if (!cat) return;
-    // Recompute proposals when confirming (in case scan arrived late)
     setAnswers((prev) => {
       const next = applyCategoryToAnswers(
         { ...prev, categoryConfirmed: true },
@@ -137,7 +145,11 @@ export function AiSetupWizard({
         max_problems: 5,
       });
       if (res.problems?.length) {
-        patchAnswers({ extractedProblems: res.problems });
+        setAnswers((prev) => {
+          const next = mergeExtractedProblems(prev, res.problems);
+          persist({ answers: next });
+          return next;
+        });
       }
     } catch {
       /* non-blocking */
@@ -162,9 +174,18 @@ export function AiSetupWizard({
         onActivated();
       }
     } catch {
-      /* show nothing extra — user can retry */
+      /* retry */
     } finally {
       setCompiling(false);
+    }
+  }
+
+  async function activateFromLiveTest() {
+    setActivating(true);
+    try {
+      await runCompile(true);
+    } finally {
+      setActivating(false);
     }
   }
 
@@ -284,8 +305,49 @@ export function AiSetupWizard({
         answers={answers}
         guildRoles={guildRoles}
         onChange={patchAnswers}
-        onContinue={() => go("summary")}
+        onContinue={() => go("category_specific")}
         onBack={() => go("never_say")}
+        onEscapeManual={onExitManual}
+      />
+    );
+  }
+
+  if (step === "category_specific") {
+    return (
+      <StepCategorySpecific
+        answers={answers}
+        guildRoles={guildRoles}
+        channels={channels}
+        onChange={patchAnswers}
+        onContinue={() => go("channels")}
+        onBack={() => go("escalation")}
+        onEscapeManual={onExitManual}
+      />
+    );
+  }
+
+  if (step === "channels") {
+    return (
+      <StepChannels
+        answers={answers}
+        channels={channels}
+        onChange={patchAnswers}
+        onContinue={() => go("summary")}
+        onBack={() => go("category_specific")}
+        onEscapeManual={onExitManual}
+      />
+    );
+  }
+
+  if (step === "live_test" && compiled) {
+    return (
+      <LiveTestScreen
+        guildId={guildId}
+        answers={answers}
+        compiled={compiled}
+        activating={activating || compiling}
+        onActivate={activateFromLiveTest}
+        onBack={() => go("summary")}
         onEscapeManual={onExitManual}
       />
     );
@@ -297,8 +359,9 @@ export function AiSetupWizard({
       compiled={compiled}
       compiling={compiling}
       unreviewed={unreviewed}
-      onCompile={runCompile}
-      onBack={() => go("escalation")}
+      onCompile={() => runCompile(false)}
+      onContinueToLiveTest={() => go("live_test")}
+      onBack={() => go("channels")}
       onEditStep={(s) => go(s)}
       onEscapeManual={onExitManual}
     />

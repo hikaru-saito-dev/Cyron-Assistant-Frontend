@@ -5,6 +5,7 @@ import type {
   WizardState,
 } from "./types";
 import { createEmptyAnswers, newRuleId } from "./types";
+import { buildCategoryCompileExtras, seedCategoryFromScan } from "./compileMapper";
 
 const PREFIX = "cyron_ai_wizard:";
 
@@ -116,7 +117,6 @@ export function buildNeverProposals(
     ];
   }
 
-  // other / low confidence — universal only
   return [
     {
       id: newRuleId(),
@@ -203,6 +203,12 @@ export function applyCategoryToAnswers(
     }
   }
 
+  const seeded = seedCategoryFromScan(
+    category,
+    scan,
+    answers.extractedProblems,
+  );
+
   return {
     ...answers,
     category,
@@ -216,6 +222,7 @@ export function applyCategoryToAnswers(
     serverDescription,
     serverDescriptionSuggested,
     serverDescriptionWhy,
+    ...seeded,
   };
 }
 
@@ -224,6 +231,15 @@ export function answersToCompileInput(
   activate = false,
   roleNameById?: Record<string, string>,
 ): CompileInput {
+  const extras = buildCategoryCompileExtras(answers, roleNameById);
+  const linkable = answers.linkableChannels
+    .filter((c) => c.channelId)
+    .map((c) => {
+      const purpose =
+        c.purpose === "Other" ? c.purposeCustom || "Other" : c.purpose;
+      return `${purpose} → <#${c.channelId}>`;
+    });
+
   return {
     category: answers.category ?? "other",
     server_description: answers.serverDescription.trim() || undefined,
@@ -238,10 +254,13 @@ export function answersToCompileInput(
     escalation_roles: answers.escalationRoleIds.map(
       (id) => roleNameById?.[id] || id,
     ),
-    problem_solutions: answers.extractedProblems.map((p) => ({
-      problem: p.problem,
-      solution: p.solution,
-    })),
+    escalation_users: answers.escalationUsers.filter(Boolean),
+    problem_solutions: extras.problem_solutions,
+    general_info_extra: extras.general_info_extra || undefined,
+    payment_info: extras.payment_info || undefined,
+    knowledge_sources: extras.knowledge_sources,
+    instructions_extra: extras.instructions_extra,
+    linkable_channels: linkable,
     activate,
   };
 }
@@ -261,5 +280,77 @@ export function collectUnreviewed(answers: WizardAnswers): string[] {
       items.push(`Escalation: “${r.text}”`);
     }
   }
+  const cat = answers.category;
+  const problems =
+    cat === "selling"
+      ? answers.selling.problems
+      : cat === "saas"
+        ? answers.saas.problems
+        : cat === "other"
+          ? answers.other.problems
+          : [];
+  for (const p of problems) {
+    if (p.suggested && !p.touched) {
+      items.push(`Problem→Solution: “${p.problem}”`);
+    }
+  }
+  for (const c of answers.linkableChannels) {
+    if (c.suggested) {
+      items.push(`Channel: #${c.channelName || c.channelId} (${c.purpose})`);
+    }
+  }
+  const partnership =
+    cat === "selling"
+      ? answers.selling.partnership
+      : cat === "saas"
+        ? answers.saas.partnership
+        : cat === "community"
+          ? answers.community.partnership
+          : cat === "other"
+            ? answers.other.partnership
+            : null;
+  if (partnership?.suggested && partnership.enabled) {
+    items.push("Partnership block (✨ suggested)");
+  }
   return items;
+}
+
+/** Merge extracted transcript problems into the active category branch. */
+export function mergeExtractedProblems(
+  answers: WizardAnswers,
+  extracted: { problem: string; solution: string; frequency: number }[],
+): WizardAnswers {
+  const rows = extracted.slice(0, 5).map((p) => ({
+    id: newRuleId(),
+    problem: p.problem,
+    solution: p.solution,
+    suggested: true,
+    why: "from transcripts",
+    touched: false,
+  }));
+  const next = { ...answers, extractedProblems: extracted };
+  if (!rows.length) return next;
+  if (answers.category === "selling") {
+    next.selling = { ...answers.selling, problems: rows };
+  } else if (answers.category === "saas") {
+    next.saas = { ...answers.saas, problems: rows };
+  } else if (answers.category === "other") {
+    next.other = {
+      ...answers.other,
+      problems:
+        rows.length >= 2
+          ? rows
+          : [
+              ...rows,
+              {
+                id: newRuleId(),
+                problem: "",
+                solution: "",
+                suggested: false,
+                touched: false,
+              },
+            ].slice(0, 2),
+    };
+  }
+  return next;
 }

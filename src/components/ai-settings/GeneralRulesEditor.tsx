@@ -24,6 +24,8 @@ type GeneralRulesEditorProps = {
   knowledge: KnowledgeEntry[];
   knowledgeLoading: boolean;
   showHeader?: boolean;
+  /** Once activated, keep AI on — turn off per panel instead. */
+  lockDisable?: boolean;
   onEnabledChange?: (enabled: boolean) => void;
 };
 
@@ -34,6 +36,7 @@ export function GeneralRulesEditor({
   knowledge,
   knowledgeLoading,
   showHeader = true,
+  lockDisable = false,
   onEnabledChange,
 }: GeneralRulesEditorProps) {
   const qc = useQueryClient();
@@ -69,11 +72,12 @@ export function GeneralRulesEditor({
     updateMut.mutate({
       instructions: grInstructions,
       general_info: grGeneralInfo,
-      enabled: grEnabled,
+      enabled: lockDisable ? true : grEnabled,
     });
   }
 
   function handleToggle(enabled: boolean) {
+    if (lockDisable && !enabled) return;
     setGrEnabled(enabled);
   }
 
@@ -115,18 +119,24 @@ export function GeneralRulesEditor({
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <label className="flex items-center gap-2.5">
-              <span
-                className={`font-sans text-sm font-medium ${
-                  grEnabled
-                    ? "text-emerald-600 dark:text-emerald-400"
-                    : "text-slate-400"
-                }`}
-              >
-                {grEnabled ? "Active" : "Disabled"}
+            {lockDisable ? (
+              <span className="font-sans text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                Active (turn off per panel)
               </span>
-              <ToggleSwitch enabled={grEnabled} onChange={handleToggle} />
-            </label>
+            ) : (
+              <label className="flex items-center gap-2.5">
+                <span
+                  className={`font-sans text-sm font-medium ${
+                    grEnabled
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-slate-400"
+                  }`}
+                >
+                  {grEnabled ? "Active" : "Disabled"}
+                </span>
+                <ToggleSwitch enabled={grEnabled} onChange={handleToggle} />
+              </label>
+            )}
             <PrimaryButton onClick={handleSave} loading={updateMut.isPending}>
               {updateMut.isPending ? "Saving…" : "Save"}
             </PrimaryButton>
@@ -201,13 +211,20 @@ export function GeneralRulesEditor({
         knowledgeLoading ? (
           <SkeletonList count={2} />
         ) : (
-          <KnowledgeTable
-            entries={generalProblems}
-            label="Common problems & solutions (server-wide)"
-            guildId={guildId}
-            contextId={generalRules.id}
-            section="problems"
-          />
+          <>
+            {generalProblems.length === 0 && (
+              <div className="mb-3">
+                <EmptyHint text="No problem→solution pairs yet. Use Add entry below, or Re-run discovery." />
+              </div>
+            )}
+            <KnowledgeTable
+              entries={generalProblems}
+              label="Common problems & solutions (server-wide)"
+              guildId={guildId}
+              contextId={generalRules.id}
+              section="problems"
+            />
+          </>
         )
       )}
 
@@ -215,15 +232,30 @@ export function GeneralRulesEditor({
         knowledgeLoading ? (
           <SkeletonList count={2} />
         ) : (
-          <KnowledgeTable
-            entries={generalKnowledgeEntries}
-            label="General knowledge entries (server-wide)"
-            guildId={guildId}
-            contextId={generalRules.id}
-            section="knowledge"
-          />
+          <>
+            {generalKnowledgeEntries.length === 0 && (
+              <div className="mb-3">
+                <EmptyHint text="No knowledge entries yet. Add docs, channels, or FAQs — or use Re-run discovery." />
+              </div>
+            )}
+            <KnowledgeTable
+              entries={generalKnowledgeEntries}
+              label="General knowledge entries (server-wide)"
+              guildId={guildId}
+              contextId={generalRules.id}
+              section="knowledge"
+            />
+          </>
         )
       )}
+    </div>
+  );
+}
+
+function EmptyHint({ text }: { text: string }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-8 text-center dark:border-slate-700">
+      <p className="font-sans text-sm text-slate-500">{text}</p>
     </div>
   );
 }

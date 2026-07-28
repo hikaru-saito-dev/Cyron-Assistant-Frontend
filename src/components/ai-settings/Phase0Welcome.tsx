@@ -21,6 +21,11 @@ export function Phase0Welcome({ onAnalyze, onSkip }: Phase0WelcomeProps) {
         look at how it&apos;s built — channels, roles and panels — so I only ask
         you the necessary questions.
       </p>
+      <p className="mt-3 font-sans text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+        Privacy: the initial scan only looks at structure (names and panels),
+        not private message content. Transcript reading is optional and always
+        asks for your consent later.
+      </p>
 
       <div className="mt-8 flex flex-col items-center gap-3">
         <button

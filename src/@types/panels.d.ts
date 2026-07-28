@@ -97,6 +97,40 @@ interface GeneralRules {
   instructions: string | null;
   general_info: string | null;
   enabled: boolean;
+  settings?: AiGeneralSettings | null;
+}
+
+interface AiGeneralSettings {
+  escalation_role_ids: string[];
+  escalation_role_names: string[];
+  escalation_user_ids: string[];
+  rude_threshold: string;
+  rude_warning_text: string;
+  outside_hours_behavior: string;
+  outside_hours_message: string;
+  payments: {
+    paypal: boolean;
+    paypalEmail: string;
+    paypalType: string;
+    crypto: boolean;
+    cryptoRows: { id?: string; coin: string; network: string; address: string }[];
+    card: boolean;
+    cardLink: string;
+    bank: boolean;
+    bankHolder: string;
+    bankIban: string;
+    paysafecard: boolean;
+    paysafecardInstructions: string;
+    other: boolean;
+    otherName: string;
+    otherInstructions: string;
+  };
+  linkable_channels: {
+    purpose: string;
+    purposeCustom: string;
+    channelId: string;
+    channelName: string;
+  }[];
 }
 
 interface AiDiscoveryScanResult {
@@ -167,10 +201,13 @@ interface CompileInput {
   never_rules?: string[];
   escalation_rules?: string[];
   escalation_roles?: string[];
+  escalation_users?: string[];
   problem_solutions?: { problem: string; solution: string }[];
   general_info_extra?: string;
   payment_info?: string;
   knowledge_sources?: string[];
+  instructions_extra?: string[];
+  linkable_channels?: string[];
   activate?: boolean;
 }
 
@@ -181,6 +218,21 @@ interface CompileOutput {
   knowledge: { title: string; content: string; section: string }[];
   enabled: boolean;
   context_id: string | null;
+}
+
+interface QuickTestInput {
+  message: string;
+  instructions?: string;
+  general_info?: string;
+  problems?: { problem: string; solution: string }[];
+  knowledge?: { title: string; content: string; section?: string }[];
+  use_saved?: boolean;
+}
+
+interface QuickTestOutput {
+  reply: string;
+  used_saved: boolean;
+  error: string | null;
 }
 
 interface ExtractInput {
