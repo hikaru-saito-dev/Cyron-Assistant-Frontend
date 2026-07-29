@@ -110,7 +110,26 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
         <div className="flex flex-wrap gap-2">
           {roles.length === 0 && (
             <p className="font-sans text-xs text-amber-600">
-              No roles cached yet — run discovery or wait for the bot to sync.
+              No roles cached yet —{" "}
+              <button
+                type="button"
+                className="font-semibold underline"
+                onClick={() => {
+                  void guildService.refreshRoles(guildId).then(() => {
+                    void qc.invalidateQueries({ queryKey: ["roles", guildId] });
+                    setTimeout(
+                      () =>
+                        void qc.invalidateQueries({
+                          queryKey: ["roles", guildId],
+                        }),
+                      2500,
+                    );
+                  });
+                }}
+              >
+                refresh from Discord
+              </button>{" "}
+              (bot must be online).
             </p>
           )}
           {roles.map((r) => {

@@ -405,7 +405,8 @@ export const DOC_SECTIONS: DocSection[] = [
         id: 'ai-settings',
         title: 'AI Settings',
         plan: 'admin',
-        description: 'Legacy guild system prompt and tone controls. Per-panel contexts override most of this; use AI Contexts for primary configuration.',
+        description:
+          'Guided wizard + General Rules editor. After activation: edit Instructions/General Info/Problems/Knowledge, Payments shortcut, linkable channels, rude/out-of-hours settings, Quick Test, re-run discovery, or reconfigure from scratch. Uses OPENAI_MODEL (default gpt-5.4-mini).',
       },
       {
         id: 'embed-settings',

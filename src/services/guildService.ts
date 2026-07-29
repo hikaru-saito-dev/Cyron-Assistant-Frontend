@@ -137,6 +137,10 @@ export const guildService = {
     return Array.isArray(res.data) ? res.data : [];
   },
 
+  async refreshRoles(guildId: string): Promise<void> {
+    await api.post(`/guilds/${guildId}/roles/refresh`);
+  },
+
   async refreshChannels(guildId: string): Promise<void> {
     await api.post(`/guilds/${guildId}/channels/refresh`);
   },
