@@ -1,47 +1,25 @@
-import { motion } from 'framer-motion';
-import { FaQuestionCircle } from 'react-icons/fa';
-import { useApp } from '../../context/AppContext';
+import { useApp } from "../../context/AppContext";
+import { FAQSection as FAQSectionUI } from "../../components/ui/faqsection";
 
-export const FaqSection = () => {
-  const { homeFaqs } = useApp();
+export function FaqSection() {
+  const { homeFaqs, premiumFaqs } = useApp();
+  
+  const allFaqs = [...homeFaqs, ...premiumFaqs];
+  const half = Math.ceil(allFaqs.length / 2);
+  const faqsLeft = allFaqs.slice(0, half);
+  const faqsRight = allFaqs.slice(half);
+
   return (
-    <section className="border-b border-slate-200 bg-white dark:bg-[#0b1120] dark:border-slate-800">
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
-            Frequently asked questions
-          </h2>
-          <p className="mt-3 text-base text-slate-600 max-w-2xl mx-auto">
-            Answers to a few things people usually ask before connecting Cyron Assistant to their Discord
-            server.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {homeFaqs.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm dark:bg-slate-900 dark:border-slate-700"
-              initial={{ opacity: 0, x: idx % 2 === 0 ? -48 : 48 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 0.48,
-                ease: 'easeOut',
-                delay: idx % 2 === 0 ? 0.06 : 0.02,
-              }}
-            >
-              <p className="mb-2 flex items-center font-semibold text-slate-900">
-                <FaQuestionCircle className="mr-2 text-sky-500" />
-                {item.question}
-              </p>
-              <p className="text-slate-600">{item.answer}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className="w-full bg-transparent">
+      <FAQSectionUI
+        title="Platform & Product Support"
+        subtitle="Frequently Asked Questions"
+        description="Everything you need to know about how our platform works, from setup and customization to integrations and updates."
+        buttonLabel="Support →"
+        onButtonClick={() => window.location.href = "mailto:support@cyron.ai"}
+        faqsLeft={faqsLeft}
+        faqsRight={faqsRight}
+      />
+    </div>
   );
-};
-
-
+}

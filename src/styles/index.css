@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Shadcn-compatible CSS variables for themed components ── */
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --primary: #1ab7ef;
+  --secondary: #818cf8;
+  --destructive: #ef4444;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+}
+.dark {
+  --background: #000000;
+  --foreground: #f1f5f9;
+  --primary: #38bdf8;
+  --secondary: #818cf8;
+  --destructive: #ef4444;
+  --muted-foreground: #94a3b8;
+  --border: #1e293b;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
@@ -14,12 +34,12 @@ body {
 }
 
 /* Strip gradients on home page sections + gradient cards in dark mode */
-.dark section,
-.dark .rounded-3xl {
+.dark section:not(.cinematic-footer-wrapper *),
+.dark .rounded-3xl:not(.cinematic-footer-wrapper *) {
   background-image: none !important;
 }
-.dark section {
-  background-color: #0b1120 !important;
+.dark section:not(.cinematic-footer-wrapper *) {
+  background-color: #000000 !important;
   border-color: #1e293b !important;
 }
 /* Re-allow gradient text inside dark sections */
@@ -30,11 +50,11 @@ body {
 .dark .bg-sky-100 { background-color: rgba(14,165,233,0.15) !important; }
 .dark .bg-sky-50  { background-color: rgba(14,165,233,0.08) !important; }
 :root { color-scheme: light; }
-body { background-color: #f1f5f9; color: #0f172a; }
+body { background-color: #ffffff; color: #0f172a; }
 
 /* ── Dark ── */
 .dark { color-scheme: dark; }
-.dark body { background-color: #0b1120; color: #e2e8f0; }
+.dark body { background-color: #000000; color: #e2e8f0; }
 
 /* Surfaces */
 .dark .bg-white,
@@ -43,7 +63,7 @@ body { background-color: #f1f5f9; color: #0f172a; }
 
 .dark .bg-slate-50 { background-color: #0f172a !important; }
 .dark .bg-slate-100 { background-color: #1e293b !important; }
-.dark .bg-bg-base   { background-color: #0b1120 !important; }
+.dark .bg-bg-base   { background-color: #000000 !important; }
 
 /* Borders */
 .dark .border-slate-200,

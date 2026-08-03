@@ -6,6 +6,12 @@ module.exports = {
     extend: {
       colors: {
         primary: '#1ab7ef',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        secondary: 'var(--secondary)',
+        destructive: 'var(--destructive)',
+        'muted-foreground': 'var(--muted-foreground)',
+        border: 'var(--border)',
         bg: {
           base: '#f5f7fb',
           card: '#ffffff',
@@ -28,6 +34,23 @@ module.exports = {
       },
       transitionTimingFunction: {
         smooth: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      borderColor: {
+        border: 'var(--border)',
       },
     },
   },
