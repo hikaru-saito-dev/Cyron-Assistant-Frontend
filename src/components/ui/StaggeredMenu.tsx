@@ -32,7 +32,7 @@ export interface StaggeredMenuProps {
 
 import { useAuth } from '../../hooks/useAuth';
 import { ShinyButton } from './shiny-button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   position = 'right',
@@ -56,8 +56,10 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
 
-  const { isAuthenticated, loginWithDiscord } = useAuth();
+  const { isAuthenticated, loginWithDiscord, user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
 
   const panelRef = useRef<HTMLDivElement | null>(null);
   const preLayersRef = useRef<HTMLDivElement | null>(null);
@@ -426,9 +428,28 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         </div>
 
         <header
-          className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-end p-[2em] bg-transparent pointer-events-none z-20"
+          className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[2em] bg-transparent pointer-events-none z-20"
           aria-label="Main navigation header"
         >
+          {/* User Info (Left Side) */}
+          <div className="flex items-center gap-4 pointer-events-auto">
+            {isAuthenticated && user && isDashboard && (
+              <div className={`flex items-center gap-4 transition-opacity duration-300 ${open ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                {user.avatar_url && (
+                  <img src={user.avatar_url} alt={user.username} className="w-8 h-8 rounded-full border border-white/20" />
+                )}
+                <span className="text-white font-medium">{user.username}</span>
+                <button 
+                  onClick={logout}
+                  className="text-xs font-semibold uppercase tracking-wider text-white bg-white/10 hover:bg-white/20 transition-colors px-4 py-2 rounded-full border border-white/10 backdrop-blur-md"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Menu Toggle (Right Side) */}
           <div className="flex items-center gap-6 pointer-events-auto">
             {!hideLoginButton && (
               <div className={`transition-opacity duration-300 ${open ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
