@@ -15,82 +15,81 @@ export const DashboardHeaderSection = ({
   onAddBot,
 }: HeaderSectionProps) => {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-sky-50 to-indigo-50 p-8 shadow-soft sm:p-10 dark:bg-none dark:bg-slate-900 dark:border-slate-700 dark:[background-image:none]">
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
-            <FaDiscord className="inline text-indigo-500" />
-            Your Discord Servers
-          </h2>
-          <p className="mt-1 text-sm text-slate-600">
-            Manage your Discord servers with AI Ticket Bot.
-          </p>
-        </div>
+    <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 bg-black/40 backdrop-blur-xl overflow-hidden rounded-xl border border-white/10 shadow-2xl">
+        {[
+          {
+            title: 'Total Servers',
+            subtitle: 'All your Discord guilds',
+            value: isLoading ? '—' : stats.total,
+            badge: {
+              color: 'bg-indigo-500/20 text-indigo-300',
+              icon: FaServer,
+              iconColor: 'text-indigo-400',
+              text: 'Servers',
+            },
+            subtext: (
+              <span className="text-gray-400 font-normal">Across all networks</span>
+            ),
+          },
+          {
+            title: 'Bot Installed',
+            subtitle: 'Guilds with active bot',
+            value: isLoading ? '—' : stats.botInstalled,
+            badge: {
+              color: 'bg-emerald-500/20 text-emerald-300',
+              icon: FaRobot,
+              iconColor: 'text-emerald-400',
+              text: 'Active',
+            },
+            subtext: (
+              <span className="text-emerald-400 font-medium">
+                {isLoading ? '—' : Math.round((stats.botInstalled / (stats.total || 1)) * 100)}% <span className="text-gray-400 font-normal">adoption rate</span>
+              </span>
+            ),
+          },
+          {
+            title: 'Active Tickets',
+            subtitle: 'Currently open',
+            value: '-',
+            badge: {
+              color: 'bg-sky-500/20 text-sky-300',
+              icon: FaTicketAlt,
+              iconColor: 'text-sky-400',
+              text: 'Tickets',
+            },
+            subtext: (
+              <span className="text-gray-400 font-normal">Awaiting response</span>
+            ),
+          },
+        ].map((card, i) => (
+          <div
+            key={i}
+            className="flex flex-col h-full space-y-6 justify-between p-6 border-y md:border-x md:border-y-0 border-white/10 last:border-0 first:border-0"
+          >
+            {/* Title & Subtitle */}
+            <div className="space-y-0.5">
+              <div className="text-lg font-semibold text-white">{card.title}</div>
+              <div className="text-sm text-gray-400">{card.subtitle}</div>
+            </div>
 
-        {selectedGuild && (
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-medium text-slate-600 flex items-center gap-1">
-              <FaServer className="text-slate-400" />
-              Selected:
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-900">
-              <span className="h-2 w-2 rounded-full bg-sky-500" />
-              {selectedGuild.name}
-            </span>
-            {selectedGuild.has_bot ? (
-              <Link
-                to={`/guilds/${selectedGuild.id}/settings`}
-                className="rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-sky-700 flex items-center gap-2"
-              >
-                <FaRobot className="text-xs" />
-                Manage Server
-              </Link>
-            ) : (
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-700"
-                onClick={() => onAddBot(selectedGuild.id)}
-              >
-                <FaPlus className="text-xs" />
-                Add bot
-              </button>
-            )}
+            {/* Information */}
+            <div className="flex-1 flex flex-col gap-1.5 justify-between grow">
+              {/* Value & Delta */}
+              <div className="flex items-center gap-2">
+                <span className="text-3xl font-bold tracking-tight text-white">{card.value}</span>
+                <span
+                  className={`${card.badge.color} px-2 py-1 rounded-full text-sm font-medium flex items-center gap-1`}
+                >
+                  <card.badge.icon className={`w-3 h-3 ${card.badge.iconColor}`} />
+                  {card.badge.text}
+                </span>
+              </div>
+              {/* Subtext */}
+              <div className="text-sm">{card.subtext}</div>
+            </div>
           </div>
-        )}
-      </div>
-
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex flex-col gap-1 dark:bg-slate-800 dark:border-slate-700">
-          <div className="flex items-center gap-2">
-            <FaServer className="text-base text-slate-400" />
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 m-0 dark:text-slate-400">
-              Total servers
-            </p>
-          </div>
-          <p className="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
-            {isLoading ? '—' : stats.total}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex flex-col gap-1 dark:bg-slate-800 dark:border-slate-700">
-          <div className="flex items-center gap-2">
-            <FaRobot className="text-base text-slate-400" />
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 m-0 dark:text-slate-400">
-              Bot installed
-            </p>
-          </div>
-          <p className="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">
-            {isLoading ? '—' : stats.botInstalled}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm flex flex-col gap-1 dark:bg-slate-800 dark:border-slate-700">
-          <div className="flex items-center gap-2">
-            <FaTicketAlt className="text-base text-slate-400" />
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 m-0 dark:text-slate-400">
-              Active tickets
-            </p>
-          </div>
-          <p className="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">-</p>
-        </div>
+        ))}
       </div>
     </div>
   );

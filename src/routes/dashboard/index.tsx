@@ -1,4 +1,8 @@
 import { motion } from 'framer-motion';
+import TextBlockAnimation from '../../components/ui/text-block-animation';
+
+import { AppleSpotlight } from '../../components/ui/apple-spotlight';
+import { FaSearch, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -68,29 +72,51 @@ export const Dashboard = () => {
   };
 
   return (
-    <motion.section
+    <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.2, ease: 'easeOut' }}
       className="space-y-8"
     >
-      <DashboardHeaderSection
-        selectedGuild={selectedGuild}
-        stats={stats}
-        isLoading={isLoading}
-        onAddBot={handleAddBot}
-      />
+      <div className="space-y-3">
+        <div className="flex flex-col items-start text-left">
+          <TextBlockAnimation
+            blockColor="#0433FF"
+            animateOnScroll={false}
+            delay={0.1}
+            duration={0.7}
+          >
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+              Overview
+            </h1>
+          </TextBlockAnimation>
+        </div>
 
-      <DashboardFiltersSection
-        query={query}
-        filter={filter}
-        onQueryChange={setQuery}
-        onFilterChange={setFilter}
-        onReset={() => {
-          setQuery('');
-          setFilter('all');
-        }}
+        <DashboardHeaderSection
+          selectedGuild={selectedGuild}
+          stats={stats}
+          isLoading={isLoading}
+          onAddBot={handleAddBot}
+        />
+      </div>
+
+      <AppleSpotlight 
+        inline={true} 
+        searchQuery={query}
+        onSearchQueryChange={setQuery}
+        shortcuts={[
+          {
+            label: 'Installed Servers',
+            icon: <FaCheckCircle size={24} />,
+            onClick: () => setFilter('installed')
+          },
+          {
+            label: 'Uninstalled Servers',
+            icon: <FaTimesCircle size={24} />,
+            onClick: () => setFilter('uninstalled')
+          }
+        ]}
       />
 
       {isLoading && (
@@ -135,6 +161,6 @@ export const Dashboard = () => {
           onAddBot={handleAddBot}
         />
       )}
-    </motion.section>
+    </motion.div>
   );
 };
