@@ -27,6 +27,7 @@ export interface StaggeredMenuProps {
   closeOnClickAway?: boolean;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
+  hideLoginButton?: boolean;
 }
 
 import { useAuth } from '../../hooks/useAuth';
@@ -49,7 +50,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   isFixed = false,
   closeOnClickAway = true,
   onMenuOpen,
-  onMenuClose
+  onMenuClose,
+  hideLoginButton = false,
 }: StaggeredMenuProps) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
@@ -428,20 +430,22 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           aria-label="Main navigation header"
         >
           <div className="flex items-center gap-6 pointer-events-auto">
-            <div className={`transition-opacity duration-300 ${open ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-              <ShinyButton
-                className="!py-2 !px-5 !text-[14px]"
-                onClick={() => {
-                  if (isAuthenticated) {
-                    navigate('/dashboard');
-                  } else {
-                    loginWithDiscord();
-                  }
-                }}
-              >
-                {isAuthenticated ? 'Dashboard' : 'Login with Discord'}
-              </ShinyButton>
-            </div>
+            {!hideLoginButton && (
+              <div className={`transition-opacity duration-300 ${open ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                <ShinyButton
+                  className="!py-2 !px-5 !text-[14px]"
+                  onClick={() => {
+                    if (isAuthenticated) {
+                      navigate('/dashboard');
+                    } else {
+                      loginWithDiscord();
+                    }
+                  }}
+                >
+                  {isAuthenticated ? 'Dashboard' : 'Login with Discord'}
+                </ShinyButton>
+              </div>
+            )}
             
             <button
               ref={toggleBtnRef}

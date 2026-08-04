@@ -219,7 +219,17 @@ const MarqueeItem = () => (
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-export function CinematicFooter() {
+export interface CinematicFooterProps {
+  heading?: string;
+  actionLabel?: string;
+  onActionClick?: () => void;
+}
+
+export function CinematicFooter({
+  heading = "Ready to begin?",
+  actionLabel,
+  onActionClick
+}: CinematicFooterProps = {}) {
   const { isAuthenticated, loginWithDiscord } = useAuth();
   const navigate = useNavigate();
 
@@ -333,7 +343,7 @@ export function CinematicFooter() {
               ref={headingRef}
               className="text-5xl md:text-8xl font-black footer-text-glow tracking-tighter mb-12 text-center"
             >
-              Ready to begin?
+              {heading}
             </h2>
 
             {/* Interactive Magnetic Pills Layout */}
@@ -342,16 +352,16 @@ export function CinematicFooter() {
               <div className="flex flex-wrap justify-center gap-4 w-full">
                 <MagneticButton 
                   as="button" 
-                  onClick={() => {
+                  onClick={onActionClick || (() => {
                     if (isAuthenticated) {
                       navigate("/dashboard");
                     } else {
                       loginWithDiscord();
                     }
-                  }}
+                  })}
                   className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group"
                 >
-                  {isAuthenticated ? "Dashboard" : "Start Now"}
+                  {actionLabel || (isAuthenticated ? "Dashboard" : "Start Now")}
                 </MagneticButton>
 
                 <MagneticButton as="a" href="mailto:support@cyron.ai" className="footer-glass-pill px-10 py-5 rounded-full text-foreground font-bold text-sm md:text-base flex items-center gap-3 group">

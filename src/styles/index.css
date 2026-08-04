@@ -90,6 +90,9 @@ body { background-color: #ffffff; color: #0f172a; }
   border-color: #334155 !important;
   color: #f1f5f9 !important;
 }
+.dark input.transparent-input {
+  background-color: transparent !important;
+}
 .dark input::placeholder,
 .dark textarea::placeholder { color: #64748b !important; }
 
