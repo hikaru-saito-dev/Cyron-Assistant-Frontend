@@ -406,7 +406,7 @@ export const DOC_SECTIONS: DocSection[] = [
         title: 'AI Settings',
         plan: 'admin',
         description:
-          'Guided wizard + General Rules editor. After activation: edit Instructions/General Info/Problems/Knowledge, Payments shortcut, linkable channels, rude/out-of-hours settings, Quick Test, re-run discovery, or reconfigure from scratch. Uses OPENAI_MODEL (default gpt-5.4-mini).',
+          'Guided wizard + General Rules editor. After activation: edit Instructions/General Info/Problems/Knowledge, Payments shortcut, linkable channels, rude/out-of-hours settings, Quick Test, re-run discovery, or reconfigure from scratch. Chat model is set via OPENAI_MODEL (or AI_MODEL) in the backend environment.',
       },
       {
         id: 'embed-settings',
