@@ -96,27 +96,25 @@ export function AiSettings() {
   const isActive = !!generalRules?.enabled;
 
   return (
-    <div className="space-y-6 px-1 sm:px-0">
-      <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-indigo-50 to-violet-50 p-5 shadow-soft sm:p-8 dark:border-slate-700 dark:bg-none dark:bg-slate-900">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="flex items-center gap-2.5 font-display text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
-              <FaRobot className="text-indigo-500" />
-              AI Settings
-            </h1>
-            <p className="mt-1 font-sans text-sm text-slate-600 dark:text-slate-400">
-              Configure General Rules and server-wide AI behavior.
-            </p>
-          </div>
-          {isActive && (
-            <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 font-sans text-xs font-semibold text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300">
-              AI active — AI Contexts unlocked
-            </span>
-          )}
+    <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
+        <div>
+          <h1 className="flex items-center gap-2.5 text-2xl font-bold tracking-tight text-white">
+            <FaRobot className="text-[#0433FF]" />
+            AI Settings
+          </h1>
+          <p className="mt-1 text-[14px] text-slate-400">
+            Configure General Rules and server-wide AI behavior.
+          </p>
         </div>
+        {isActive && (
+          <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-[13px] font-semibold text-emerald-400">
+            AI active — AI Contexts unlocked
+          </span>
+        )}
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-7 dark:border-slate-700 dark:bg-slate-900">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
         {effectiveView === "welcome" && (
           <Phase0Welcome onAnalyze={handleAnalyze} onSkip={handleSkip} />
         )}
@@ -145,22 +143,22 @@ export function AiSettings() {
         )}
 
         {effectiveView === "editor" && (
-          <div className="space-y-6">
-            <div className="rounded-xl border border-slate-100 bg-slate-50/80 px-3 py-2 sm:hidden dark:border-slate-800 dark:bg-slate-800/40">
-              <p className="font-sans text-[11px] text-slate-500">
+          <div className="space-y-8">
+            <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 sm:hidden">
+              <p className="text-[12px] text-slate-400">
                 Scroll for Payments, General Rules, and Quick Test. Edits go live
                 on save.
               </p>
             </div>
             {!isActive && (
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-4 py-3 dark:border-indigo-500/30 dark:bg-indigo-500/10">
-                <p className="font-sans text-xs text-indigo-800 dark:text-indigo-300">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#0433FF]/30 bg-[#0433FF]/10 px-5 py-4">
+                <p className="text-[14px] font-semibold text-[#0433FF]">
                   Prefer the guided setup?
                 </p>
                 <button
                   type="button"
                   onClick={() => setViewMode("welcome")}
-                  className="rounded-xl bg-indigo-600 px-3 py-1.5 font-sans text-xs font-semibold text-white"
+                  className="rounded-xl bg-[#0433FF] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20"
                 >
                   Open wizard
                 </button>
@@ -210,11 +208,11 @@ export function AiSettings() {
               <QuickTestPanel guildId={guildId} enabled />
             )}
 
-            <p className="border-t border-slate-100 pt-4 font-sans text-xs text-slate-400 dark:border-slate-800">
+            <p className="border-t border-white/10 pt-5 text-[13px] text-slate-500">
               Advanced:{" "}
               <Link
                 to={`/guilds/${guildId}/settings`}
-                className="font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+                className="font-medium text-[#0433FF] hover:underline"
               >
                 Legacy system prompt &amp; knowledge settings
               </Link>
