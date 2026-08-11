@@ -1,31 +1,64 @@
-import { motion } from 'framer-motion';
-import TextBlockAnimation from '../../components/ui/text-block-animation';
-
-import { AppleSpotlight } from '../../components/ui/apple-spotlight';
-import { FaSearch, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useAlert } from 'react-alert';
+import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../lib/api';
 import { DISCORD_BOT_INVITE_URL } from '../../lib/config';
-import { FaServer } from 'react-icons/fa';
+import { useAlert } from 'react-alert';
+import { useParams, useNavigate } from 'react-router-dom';
 import { DashboardHeaderSection } from './HeaderSection';
-import { DashboardFiltersSection } from './FiltersSection';
-import { DashboardEmptyState } from './EmptyState';
 import { DashboardGuildGrid } from './GuildGrid';
+import {
+  Search,
+  LayoutDashboard,
+  Settings,
+  LogOut,
+  ChevronDown,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Command,
+  X,
+  Home,
+  Server,
+  BookOpen,
+  RefreshCcw,
+  BarChart2,
+  FolderClosed,
+  Users,
+  Database,
+  FileText,
+  FileEdit,
+  MoreHorizontal
+} from 'lucide-react';
 
-async function fetchGuilds(): Promise<Guild[]> {
-  const res = await api.get<Guild[]>('/guilds');
-  return res.data;
-}
+type SidebarItem = {
+  id: string;
+  title: string;
+  icon: React.ElementType;
+  route?: string; // if set, navigates to this route instead of staying in dashboard
+};
+
+const sidebarItems: SidebarItem[] = [
+  { id: 'servers', title: 'Your Servers', icon: Server },
+  { id: 'home', title: 'Home', icon: Home, route: '/' },
+  { id: 'docs', title: 'Docs', icon: BookOpen, route: '/docs' },
+];
+
 
 export const Dashboard = () => {
+  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(true);
+  const [activeId, setActiveId] = useState('servers');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
+
   const params = useParams<{ guildId?: string }>();
   const alert = useAlert();
   const { data: guilds, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ['guilds'],
-    queryFn: fetchGuilds,
+    queryFn: async () => {
+      const res = await api.get<any[]>('/guilds');
+      return res.data;
+    },
   });
 
   const hasShownGuildError = useRef(false);
@@ -37,32 +70,15 @@ export const Dashboard = () => {
     );
   }, [alert, isError]);
 
-  const selectedGuild =
-    guilds?.find((g) => String(g.id) === params.guildId) ?? null;
+  const displayGuilds = guilds || [];
 
-  const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState<'all' | 'installed' | 'uninstalled'>('all');
+  const selectedGuild = displayGuilds?.find((g: any) => String(g.id) === params.guildId) ?? null;
 
   const stats = useMemo(() => {
-    const total = guilds?.length ?? 0;
-    const botInstalled = guilds?.filter((g) => !!g.has_bot).length ?? 0;
+    const total = displayGuilds?.length ?? 0;
+    const botInstalled = displayGuilds?.filter((g: any) => !!g.has_bot).length ?? 0;
     return { total, botInstalled };
-  }, [guilds]);
-
-  const filteredGuilds = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const list = guilds ?? [];
-    return list.filter((g) => {
-      const matchesQuery = !q || g.name.toLowerCase().includes(q);
-      const matchesFilter =
-        filter === 'all'
-          ? true
-          : filter === 'installed'
-            ? !!g.has_bot
-            : !g.has_bot;
-      return matchesQuery && matchesFilter;
-    });
-  }, [guilds, query, filter]);
+  }, [displayGuilds]);
 
   const handleAddBot = (guildId: string | number) => {
     const url = `${DISCORD_BOT_INVITE_URL}&guild_id=${String(
@@ -71,96 +87,165 @@ export const Dashboard = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const activeItem = sidebarItems.find(i => i.id === activeId);
+  const activeTitle = activeItem ? activeItem.title : 'Dashboard';
+
+  const handleSelect = (id: string) => {
+    const item = sidebarItems.find(i => i.id === id);
+    if (item?.route) {
+      navigate(item.route);
+      return;
+    }
+    setActiveId(id);
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.2, ease: 'easeOut' }}
-      className="space-y-8"
-    >
-      <div className="space-y-3">
-        <div className="flex flex-col items-start text-left">
-          <TextBlockAnimation
-            blockColor="#0433FF"
-            animateOnScroll={false}
-            delay={0.1}
-            duration={0.7}
-          >
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Overview
-            </h1>
-          </TextBlockAnimation>
+    <div className="flex flex-col w-full h-screen bg-[#050505] text-slate-200">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(4,51,255,0.15),rgba(255,255,255,0))] pointer-events-none" />
+      <div className="relative w-full h-full flex overflow-hidden z-10">
+
+
+        <div
+          className={`h-full transition-all duration-500 ease-out shrink-0 overflow-hidden ${isOpen ? 'w-[260px] opacity-100' : 'w-0 opacity-0 border-none'
+            }`}
+        >
+
+          <div className="flex flex-col w-[260px] h-full bg-[#111111] border-r border-white/5 font-sans z-20 shrink-0">
+            {/* Header */}
+            <div className="flex items-center gap-3 px-6 h-16 border-b border-white/5 shrink-0">
+              {user?.avatar_url ? (
+                <img src={user.avatar_url} alt={user.username} className="w-6 h-6 rounded-full shrink-0 object-cover" />
+              ) : (
+                <div className="w-6 h-6 rounded-full border border-white/20 bg-white/10 flex items-center justify-center shrink-0">
+                  <span className="text-[10px] text-white font-medium">{user?.username?.[0]?.toUpperCase() || '?'}</span>
+                </div>
+              )}
+              <span className="text-[14px] font-medium text-white tracking-tight truncate">{user?.username || 'User'}</span>
+            </div>
+
+            {/* Nav Items */}
+            <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-8">
+              {/* Main Navigation */}
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-col">
+                  {sidebarItems.map(item => {
+                    const isActive = activeId === item.id && !item.route;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleSelect(item.id)}
+                        className={`group flex items-center gap-3 px-6 py-2.5 transition-colors ${
+                          isActive ? 'text-white' : 'text-slate-200 hover:text-white'
+                        }`}
+                      >
+                        <item.icon className={`w-[18px] h-[18px] transition-colors ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-300'}`} strokeWidth={1.5} />
+                        <span className="text-[14px] font-medium">{item.title}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* System Section */}
+              <div className="flex flex-col gap-1 mt-auto">
+                <div className="flex flex-col">
+                  <button 
+                    onClick={() => navigate('/')}
+                    className="group flex items-center gap-3 px-6 py-2.5 text-slate-200 hover:text-red-400 transition-colors"
+                  >
+                    <LogOut className="w-[18px] h-[18px] text-slate-400 group-hover:text-red-400 transition-colors" strokeWidth={1.5} />
+                    <span className="text-[14px] font-medium">Log out</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <DashboardHeaderSection
-          selectedGuild={selectedGuild}
-          stats={stats}
-          isLoading={isLoading}
-          onAddBot={handleAddBot}
-        />
+
+        <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 bg-transparent">
+
+
+          <div className="h-16 border-b border-white/5 flex items-center px-6 justify-between bg-white/[0.02] backdrop-blur-md shrink-0">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-1.5 rounded-md text-slate-400 hover:bg-white/5 hover:text-white transition-colors"
+              >
+                {isOpen ? <PanelLeftClose className="w-[18px] h-[18px]" strokeWidth={1.5} /> : <PanelLeftOpen className="w-[18px] h-[18px]" strokeWidth={1.5} />}
+              </button>
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <span className="font-medium text-white truncate">{activeTitle}</span>
+              </div>
+            </div>
+
+
+          </div>
+
+
+          <div className="p-6 md:p-8 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] space-y-8">
+            <DashboardHeaderSection
+              selectedGuild={selectedGuild}
+              stats={stats}
+              isLoading={isLoading}
+              onAddBot={handleAddBot}
+            />
+
+            <div className="w-full flex flex-col pt-4">
+              <div className="px-2 flex items-center justify-between mb-4">
+                <h2 className="text-[17px] font-bold text-white tracking-tight">Your Servers</h2>
+                <span className="text-[13px] font-medium text-slate-400">{isLoading ? '' : `${(displayGuilds as any[]).length} servers`}</span>
+              </div>
+              {isLoading ? (
+                <div className="flex items-center justify-center py-16">
+                  <div className="w-6 h-6 border-2 border-white/10 border-t-[#0433FF] rounded-full animate-spin" />
+                </div>
+              ) : (
+                <DashboardGuildGrid
+                  guilds={displayGuilds as any}
+                  activeGuildId={params.guildId}
+                  onAddBot={handleAddBot}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+
+
+        {isSearchOpen && (
+          <div className="absolute inset-0 z-50 flex items-start justify-center pt-[15vh] bg-background/40 backdrop-blur-sm px-4">
+            <div className="absolute inset-0" onClick={() => setIsSearchOpen(false)} />
+            <div className="relative w-full max-w-xl bg-card border border-border/50 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+              <div className="flex items-center px-4 border-b border-border/50">
+                <Search className="w-[18px] h-[18px] text-muted-foreground/70 mr-3 shrink-0" strokeWidth={1.5} />
+                <input
+                  autoFocus
+                  className="flex-1 bg-transparent py-4 outline-none text-[14px] text-foreground placeholder:text-muted-foreground/50"
+                  placeholder="Search projects, docs, or actions..."
+                />
+                <kbd
+                  onClick={() => setIsSearchOpen(false)}
+                  className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 ml-2 text-[10px] font-medium font-mono text-muted-foreground/70 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 rounded-[4px] cursor-pointer hover:text-foreground hover:bg-black/10 dark:hover:bg-white/20 transition-colors"
+                >
+                  ESC
+                </kbd>
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="ml-3 p-1 rounded-md text-muted-foreground/70 hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground transition-colors"
+                >
+                  <X className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                </button>
+              </div>
+              <div className="p-2 py-8 flex flex-col items-center justify-center">
+                <Command className="w-6 h-6 text-muted-foreground/30 mb-2" strokeWidth={1.5} />
+                <p className="text-[13px] text-muted-foreground font-medium">Type a command or search...</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      <AppleSpotlight 
-        inline={true} 
-        searchQuery={query}
-        onSearchQueryChange={setQuery}
-        shortcuts={[
-          {
-            label: 'Installed Servers',
-            icon: <FaCheckCircle size={24} />,
-            onClick: () => setFilter('installed')
-          },
-          {
-            label: 'Uninstalled Servers',
-            icon: <FaTimesCircle size={24} />,
-            onClick: () => setFilter('uninstalled')
-          }
-        ]}
-      />
-
-      {isLoading && (
-        <p className="text-sm text-slate-600 flex items-center gap-2">
-          <FaServer className="text-slate-400" />
-          Loading your servers…
-        </p>
-      )}
-
-      {isError && !isLoading && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          <p className="flex items-center gap-2 font-medium">
-            <FaServer className="text-red-400" />
-            Failed to load servers.
-          </p>
-          <p className="mt-1 text-red-600">
-            Try again below. If the problem continues, log out and sign in with Discord
-            again to refresh your server list.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              hasShownGuildError.current = false;
-              void refetch();
-            }}
-            disabled={isFetching}
-            className="mt-3 rounded-lg bg-red-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-700 disabled:opacity-60"
-          >
-            {isFetching ? 'Retrying…' : 'Retry'}
-          </button>
-        </div>
-      )}
-
-      {!isLoading && !isError && filteredGuilds.length === 0 && (
-        <DashboardEmptyState />
-      )}
-
-      {!isLoading && !isError && filteredGuilds.length > 0 && (
-        <DashboardGuildGrid
-          guilds={filteredGuilds}
-          activeGuildId={params.guildId}
-          onAddBot={handleAddBot}
-        />
-      )}
-    </motion.div>
+    </div>
   );
 };
+
+export default Dashboard;

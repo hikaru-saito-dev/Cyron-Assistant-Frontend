@@ -89,10 +89,10 @@ export const Settings = () => {
       <motion.section
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-primary/5 via-white to-purple-50 px-6 py-12 text-center shadow-soft"
+        className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-16 text-center"
       >
-        <h2 className="text-lg font-semibold tracking-tight">Select a server</h2>
-        <p className="mt-2 max-w-md text-sm text-text-muted">
+        <h2 className="text-xl font-bold tracking-tight text-white">Select a server</h2>
+        <p className="mt-2 max-w-md text-[14px] text-slate-400 leading-relaxed">
           Choose a server from the sidebar to manage AI settings, embed color, and usage.
         </p>
       </motion.section>
@@ -104,9 +104,9 @@ export const Settings = () => {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="rounded-xl bg-white p-6 shadow-soft"
+        className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center"
       >
-        <p className="text-sm text-red-500">Failed to load guild. Please refresh the page.</p>
+        <p className="text-[14px] font-semibold text-red-400">Failed to load guild. Please refresh the page.</p>
       </motion.section>
     );
   }
@@ -164,7 +164,7 @@ export const Settings = () => {
 
           {view === 'knowledge' && (
             <KnowledgeTab
-              knowledge={knowledge}
+              knowledge={knowledge || []}
               knowledgeLoading={knowledgeLoading}
               knowledgeError={knowledgeError}
               openCreateModal={openCreateModal}

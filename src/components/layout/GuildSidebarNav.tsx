@@ -1,7 +1,4 @@
-import { useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import clsx from 'clsx';
-import { useApp } from '../../context/AppContext';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import {
   FaBook,
   FaRobot,
@@ -10,10 +7,9 @@ import {
   FaServer,
   FaLayerGroup,
   FaBrain,
-  FaBars,
-  FaTimes,
   FaTicketAlt,
   FaCog,
+  FaChevronLeft
 } from 'react-icons/fa';
 
 type Tab = {
@@ -38,19 +34,19 @@ const sections: Section[] = [
         id: 'panels',
         label: 'Panels',
         to: (id: string) => `/guilds/${id}/panels`,
-        icon: <FaLayerGroup className="mr-2 w-4 h-4" />,
+        icon: <FaLayerGroup className="w-[16px] h-[16px]" />,
       },
       {
         id: 'contexts',
         label: 'AI Contexts',
         to: (id: string) => `/guilds/${id}/contexts`,
-        icon: <FaBrain className="mr-2 w-4 h-4" />,
+        icon: <FaBrain className="w-[16px] h-[16px]" />,
       },
       {
         id: 'knowledge',
         label: 'Knowledge',
         to: (id: string) => `/guilds/${id}/knowledge`,
-        icon: <FaBook className="mr-2 w-4 h-4" />,
+        icon: <FaBook className="w-[16px] h-[16px]" />,
       },
     ],
   },
@@ -62,37 +58,35 @@ const sections: Section[] = [
         id: 'ai-settings',
         label: 'AI Settings',
         to: (id: string) => `/guilds/${id}/ai-settings`,
-        icon: <FaRobot className="mr-2 w-4 h-4" />,
+        icon: <FaRobot className="w-[16px] h-[16px]" />,
       },
       {
         id: 'embed-customization',
         label: 'Embed Customization',
         to: (id: string) => `/guilds/${id}/embed-customization`,
-        icon: <FaPalette className="mr-2 w-4 h-4" />,
+        icon: <FaPalette className="w-[16px] h-[16px]" />,
       },
       {
         id: 'close-settings',
         label: 'Close Settings',
         to: (id: string) => `/guilds/${id}/close-settings`,
-        icon: <FaCog className="mr-2 w-4 h-4" />,
+        icon: <FaCog className="w-[16px] h-[16px]" />,
       },
       {
         id: 'usage-analytics',
         label: 'Usage Analytics',
         to: (id: string) => `/guilds/${id}/usage-analytics`,
-        icon: <FaChartLine className="mr-2 w-4 h-4" />,
+        icon: <FaChartLine className="w-[16px] h-[16px]" />,
       },
       {
         id: 'tickets',
         label: 'Ticket Management',
         to: (id: string) => `/guilds/${id}/tickets`,
-        icon: <FaTicketAlt className="mr-2 w-4 h-4" />,
+        icon: <FaTicketAlt className="w-[16px] h-[16px]" />,
       },
     ],
   },
 ];
-
-const allTabs = sections.flatMap((s) => s.tabs);
 
 type GuildSidebarNavProps = {
   guild?: Guild | null;
@@ -101,157 +95,63 @@ type GuildSidebarNavProps = {
 export const GuildSidebarNav = ({ guild }: GuildSidebarNavProps) => {
   const { guildId } = useParams<{ guildId?: string }>();
   const location = useLocation();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme } = useApp();
+  const navigate = useNavigate();
 
   if (!guildId) return null;
 
-  const displayName = (() => {
-    const name = guild?.name?.trim() || 'Server';
-    const MAX = 16;
-    return name.length > MAX ? `${name.slice(0, MAX)}…` : name;
-  })();
-
-  const planLabel = (() => {
-    const p = (guild?.plan ?? 'free').toLowerCase();
-    if (p === 'business') return 'Business plan';
-    if (p === 'pro') return 'Pro plan';
-    return 'Free plan';
-  })();
-
-  const NavLinks = ({ onClick }: { onClick?: () => void }) => (
-    <nav className="space-y-4">
-      {sections.map((section) => (
-        <div key={section.id}>
-          <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-            {section.label}
-          </p>
-          <div className="space-y-1">
-            {section.tabs.map((tab) => {
-              const target = tab.to(guildId);
-              const isActive = location.pathname.startsWith(target);
-              return (
-                <Link
-                  key={tab.id}
-                  to={target}
-                  onClick={onClick}
-                  className={clsx(
-                    'flex items-center rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors',
-                    isActive
-                      ? theme === 'dark'
-                        ? 'bg-sky-900/40 text-sky-300 border border-sky-800'
-                        : 'bg-sky-50 text-sky-700 border border-sky-200'
-                      : theme === 'dark'
-                        ? 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
-                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
-                  )}
-                >
-                  {tab.icon}
-                  {tab.label}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </nav>
-  );
-
+  const displayName = guild?.name?.trim() || 'Server';
+  
   return (
-    <>
-      {/* Desktop sidebar — original styling preserved */}
-      <aside className={clsx(
-        'hidden w-56 flex-shrink-0 rounded-2xl border px-3 py-4 text-sm shadow-sm md:block sticky top-20 self-start',
-        theme === 'dark'
-          ? 'border-slate-700 bg-slate-900 text-slate-200'
-          : 'border-slate-200 bg-white text-slate-800'
-      )}>
-        <div className={clsx(
-          'mb-4 px-1',
-        )}>
-          <div className={clsx(
-            'flex items-center gap-2 rounded-xl border px-2.5 py-2',
-            theme === 'dark' ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-white'
-          )}>
-            {guild?.icon_url ? (
-              <span className="inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
-                <img
-                  src={guild.icon_url}
-                  alt={guild.name ?? 'Server icon'}
-                  className="h-full w-full object-cover"
-                />
-              </span>
-            ) : (
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-600">
-                <FaServer className="h-4 w-4" />
-              </span>
-            )}
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-slate-900">{displayName}</p>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">{planLabel}</p>
-            </div>
-          </div>
-        </div>
-        <NavLinks />
-      </aside>
-
-      {/* Mobile top bar */}
-      <div className={clsx(
-        'md:hidden fixed top-[49px] left-0 right-0 z-20 flex items-center justify-between border-b px-4 py-2 backdrop-blur-sm',
-        theme === 'dark' ? 'border-slate-700 bg-slate-900/95' : 'border-slate-200 bg-white/95'
-      )}>
-        <span className="text-sm font-semibold text-slate-800 truncate max-w-[160px]">{displayName}</span>
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600"
+    <div className="flex flex-col w-[260px] h-full bg-[#111111] border-r border-white/5 font-sans z-20 shrink-0">
+      
+      {/* Back to Dashboard & Logo */}
+      <div className="flex flex-col shrink-0">
+        <button 
+          onClick={() => navigate('/dashboard')}
+          className="flex items-center gap-2 px-6 h-12 text-[12px] font-medium text-slate-400 hover:text-white transition-colors group border-b border-white/5"
         >
-          <FaBars className="h-3.5 w-3.5" />
-          Menu
+          <FaChevronLeft className="w-2.5 h-2.5 transition-transform group-hover:-translate-x-0.5" /> Back to Dashboard
         </button>
+        <div className="flex items-center gap-3 px-6 h-16 border-b border-white/5 shrink-0">
+          {guild?.icon_url ? (
+            <img src={guild.icon_url} alt={displayName} className="w-6 h-6 rounded-full shrink-0 object-cover" />
+          ) : (
+            <div className="w-6 h-6 rounded-full border border-white/20 bg-white/10 flex items-center justify-center shrink-0">
+              <span className="text-[10px] text-white font-medium">{displayName?.[0]?.toUpperCase() || '?'}</span>
+            </div>
+          )}
+          <span className="text-[14px] font-medium text-white tracking-tight truncate">{displayName}</span>
+        </div>
       </div>
 
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="md:hidden fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
-          <div className={clsx(
-            'relative ml-auto w-64 max-w-[85vw] h-full shadow-xl px-4 py-5 overflow-y-auto',
-            theme === 'dark' ? 'bg-slate-900' : 'bg-white'
-          )}>
-            <div className="flex items-center justify-between mb-5 border-b border-slate-100 pb-4">
-              <span className="text-sm font-semibold text-slate-900">{displayName}</span>
-              <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100">
-                <FaTimes className="h-4 w-4" />
-              </button>
+      {/* Nav Sections */}
+      <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-8">
+        {sections.map(section => (
+          <div key={section.id} className="flex flex-col gap-1">
+            <div className="flex flex-col">
+              {section.tabs.map(tab => {
+                const target = tab.to(guildId);
+                const isActive = location.pathname.startsWith(target);
+                
+                return (
+                  <Link
+                    key={tab.id}
+                    to={target}
+                    className={`group flex items-center gap-3 px-6 py-2.5 transition-colors ${
+                      isActive ? 'text-white' : 'text-slate-200 hover:text-white'
+                    }`}
+                  >
+                    <span className={`flex items-center justify-center w-[18px] h-[18px] transition-colors ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-300'}`}>
+                      {tab.icon}
+                    </span>
+                    <span className="text-[14px] font-medium">{tab.label}</span>
+                  </Link>
+                )
+              })}
             </div>
-            <NavLinks onClick={() => setMobileOpen(false)} />
           </div>
-        </div>
-      )}
-
-      {/* Mobile bottom quick-nav */}
-      <nav className={clsx(
-        'md:hidden fixed bottom-0 left-0 right-0 z-20 flex border-t backdrop-blur-sm',
-        theme === 'dark' ? 'border-slate-700 bg-slate-900/95' : 'border-slate-200 bg-white/95'
-      )}>
-        {allTabs.slice(0, 5).map((tab) => {
-          const target = tab.to(guildId);
-          const isActive = location.pathname.startsWith(target);
-          return (
-            <Link
-              key={tab.id}
-              to={target}
-              className={[
-                'flex flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-medium transition-colors',
-                isActive ? 'text-sky-600' : 'text-slate-500',
-              ].join(' ')}
-            >
-              <span className="text-base">{tab.icon}</span>
-              {tab.label}
-            </Link>
-          );
-        })}
-      </nav>
-    </>
+        ))}
+      </div>
+    </div>
   );
 };

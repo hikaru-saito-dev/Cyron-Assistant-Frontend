@@ -198,8 +198,9 @@ export interface PricingPlan {
   features: string[];
   description: string;
   buttonText: string;
-  href: string;
+  href?: string;
   isPopular?: boolean;
+  onAction?: () => void;
 }
 
 interface PricingSectionProps {
@@ -432,18 +433,33 @@ function PricingCard({ plan, index }: { plan: PricingPlan; index: number }) {
         </ul>
 
         <div className="mt-auto pt-8">
-          <Link
-            to={plan.href}
-            className={cn(
-              buttonVariants({
-                variant: plan.isPopular ? "default" : "outline",
-                size: "lg",
-              }),
-              "w-full",
-            )}
-          >
-            {plan.buttonText}
-          </Link>
+          {plan.onAction ? (
+            <button
+              onClick={plan.onAction}
+              className={cn(
+                buttonVariants({
+                  variant: plan.isPopular ? "default" : "outline",
+                  size: "lg",
+                }),
+                "w-full",
+              )}
+            >
+              {plan.buttonText}
+            </button>
+          ) : (
+            <Link
+              to={plan.href || "#"}
+              className={cn(
+                buttonVariants({
+                  variant: plan.isPopular ? "default" : "outline",
+                  size: "lg",
+                }),
+                "w-full",
+              )}
+            >
+              {plan.buttonText}
+            </Link>
+          )}
         </div>
       </div>
     </motion.div>

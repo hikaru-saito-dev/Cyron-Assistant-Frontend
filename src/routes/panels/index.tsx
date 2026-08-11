@@ -50,31 +50,31 @@ const TABS: { id: Tab; label: string }[] = [
 
 const Field = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <label className="block">
-    <span className="text-xs font-medium text-slate-600">{label}</span>
-    <div className="mt-1">{children}</div>
+    <span className="text-[13px] font-semibold tracking-wide text-slate-300">{label}</span>
+    <div className="mt-1.5">{children}</div>
   </label>
 );
 
 const Input = ({ value, onChange, placeholder, type = 'text' }: { value: string; onChange: (v: string) => void; placeholder?: string; type?: string }) => (
   <input type={type} value={value} onChange={(e) => onChange(e.target.value)}
     placeholder={placeholder}
-    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400" />
+    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[14px] text-white placeholder-slate-500 focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all" />
 );
 
 const Textarea = ({ value, onChange, placeholder, rows = 3 }: { value: string; onChange: (v: string) => void; placeholder?: string; rows?: number }) => (
   <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={rows}
     placeholder={placeholder}
-    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400" />
+    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[14px] text-white placeholder-slate-500 focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all" />
 );
 
 const Toggle = ({ label, checked, onChange, hint }: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string }) => (
-  <div className="flex items-center justify-between py-2">
+  <div className="flex items-center justify-between py-3">
     <div>
-      <p className="text-sm font-medium text-slate-700">{label}</p>
-      {hint && <p className="text-xs text-slate-400">{hint}</p>}
+      <p className="text-[14px] font-semibold text-slate-200">{label}</p>
+      {hint && <p className="text-[12px] text-slate-400 mt-0.5">{hint}</p>}
     </div>
     <button type="button" onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${checked ? 'bg-sky-600' : 'bg-slate-200'}`}>
+      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${checked ? 'bg-[#0433FF]' : 'bg-white/10'}`}>
       <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
     </button>
   </div>
@@ -82,7 +82,7 @@ const Toggle = ({ label, checked, onChange, hint }: { label: string; checked: bo
 
 const Select = ({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[] }) => (
   <select value={value} onChange={(e) => onChange(e.target.value)}
-    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400">
+    className="w-full rounded-xl border border-white/10 bg-[#0f0f0f] px-4 py-2.5 text-[14px] text-white focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all appearance-none">
     {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
   </select>
 );
@@ -184,32 +184,37 @@ export function Panels() {
   if (isLoading || contextsLoading) return <PageLoader label="Loading panels…" />;
 
   return (
-    <div className="p-4 md:p-6 max-w-4xl">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg md:text-xl font-semibold text-slate-900">Ticket Panels</h2>
-        <button onClick={openCreate} className="rounded-xl bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-700">+ New Panel</button>
+    <div className="p-4 md:p-8 max-w-5xl mx-auto w-full">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Ticket Panels</h2>
+          <p className="text-[14px] text-slate-400 mt-1">Manage your support ticket panels and configurations.</p>
+        </div>
+        <button onClick={openCreate} className="rounded-xl bg-[#0433FF] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20">+ New Panel</button>
       </div>
 
-      {panels.length === 0 && <p className="text-slate-500 text-sm">No panels yet. Create one to get started.</p>}
+      {panels.length === 0 && <p className="text-slate-500 text-[14px]">No panels yet. Create one to get started.</p>}
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {panels.map((p) => {
           const ctx = panelContexts.find((c) => c.id === p.ai_context_id);
           return (
-            <div key={p.id} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+            <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-5 transition-all duration-300 hover:bg-white/[0.04]">
               <div>
-                <div className="flex items-center gap-2">
-                  <p className="font-medium text-slate-900">{p.name}</p>
-                  {!p.is_enabled && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-500">Disabled</span>}
+                <div className="flex items-center gap-3">
+                  <p className="text-[16px] font-bold text-white tracking-tight">{p.name}</p>
+                  {!p.is_enabled && <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-slate-400">Disabled</span>}
                 </div>
-                <p className="text-xs text-slate-500">
-                  Category: {p.ticket_category_name} · Button: {p.button_text} · Context: {ctx?.name ?? '—'}
-                </p>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2">
+                  <p className="text-[13px] text-slate-400 flex items-center gap-1.5"><span className="text-slate-500">Category:</span> <span className="text-slate-300">{p.ticket_category_name}</span></p>
+                  <p className="text-[13px] text-slate-400 flex items-center gap-1.5"><span className="text-slate-500">Button:</span> <span className="text-slate-300">{p.button_text}</span></p>
+                  <p className="text-[13px] text-slate-400 flex items-center gap-1.5"><span className="text-slate-500">Context:</span> <span className="text-[#0433FF] font-medium">{ctx?.name ?? '—'}</span></p>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <button onClick={() => { setSendingPanel(p); setSelectedChannel(''); }} className="rounded-lg border border-indigo-200 px-3 py-1 text-xs text-indigo-600 hover:bg-indigo-50">Send Panel</button>
-                <button onClick={() => openEdit(p)} className="rounded-lg border border-slate-200 px-3 py-1 text-xs hover:bg-slate-50">Edit</button>
-                <button onClick={() => deleteMut.mutate(p.id)} className="rounded-lg border border-red-200 px-3 py-1 text-xs text-red-600 hover:bg-red-50">Delete</button>
+              <div className="flex items-center gap-2">
+                <button onClick={() => { setSendingPanel(p); setSelectedChannel(''); }} className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-2 text-[13px] font-semibold text-indigo-400 hover:bg-indigo-500/20 transition-colors">Send Panel</button>
+                <button onClick={() => openEdit(p)} className="rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-slate-300 hover:bg-white/10 hover:text-white transition-colors">Edit</button>
+                <button onClick={() => deleteMut.mutate(p.id)} className="rounded-xl border border-red-500/30 bg-red-500/10 px-3.5 py-2 text-[13px] font-semibold text-red-400 hover:bg-red-500/20 transition-colors">Delete</button>
               </div>
             </div>
           );
@@ -218,19 +223,19 @@ export function Panels() {
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-0 sm:p-4">
-          <form onSubmit={handleSubmit} className="w-full sm:max-w-2xl rounded-t-2xl sm:rounded-2xl bg-white shadow-xl flex flex-col max-h-[92vh]">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4">
+          <form onSubmit={handleSubmit} className="w-full sm:max-w-2xl rounded-t-2xl sm:rounded-3xl bg-[#0a0a0a] border border-white/10 shadow-2xl flex flex-col max-h-[92vh]">
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-              <h3 className="text-base font-semibold">{editing ? 'Edit Panel' : 'New Panel'}</h3>
-              <button type="button" onClick={() => setOpen(false)} className="text-slate-400 hover:text-slate-600 text-lg">✕</button>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+              <h3 className="text-[16px] font-bold text-white tracking-tight">{editing ? 'Edit Panel' : 'New Panel'}</h3>
+              <button type="button" onClick={() => setOpen(false)} className="text-slate-400 hover:text-white transition-colors">✕</button>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-0.5 overflow-x-auto border-b border-slate-100 px-4 pt-2">
+            <div className="flex gap-2 overflow-x-auto border-b border-white/5 px-6 pt-2 pb-0">
               {TABS.map((t) => (
                 <button key={t.id} type="button" onClick={() => setTab(t.id)}
-                  className={`whitespace-nowrap px-3 py-2 text-xs font-medium border-b-2 transition-colors ${tab === t.id ? 'border-sky-600 text-sky-700' : 'border-transparent text-slate-500 hover:text-slate-700'}`}>
+                  className={`whitespace-nowrap px-4 py-3 text-[13px] font-semibold border-b-2 transition-colors ${tab === t.id ? 'border-[#0433FF] text-[#0433FF]' : 'border-transparent text-slate-400 hover:text-slate-200'}`}>
                   {t.label}
                 </button>
               ))}
@@ -266,7 +271,7 @@ export function Panels() {
                       { value: 'only_claimer', label: 'Only Claimer — removes all other support access' },
                     ]} />
                 </Field>
-                <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 px-3">
+                <div className="divide-y divide-white/5 rounded-2xl border border-white/10 px-4 bg-white/[0.02]">
                   <Toggle label="Panel Enabled" checked={form.is_enabled} onChange={(v) => set('is_enabled', v)} />
                   <Toggle label="Claiming Enabled" checked={form.claiming_enabled} onChange={(v) => set('claiming_enabled', v)} />
                   <Toggle label="Users Can Close" checked={form.users_can_close} onChange={(v) => set('users_can_close', v)} hint="Allow ticket creator to close their own ticket" />
@@ -275,8 +280,8 @@ export function Panels() {
               </>}
 
               {tab === 'ai' && <>
-                <p className="text-xs text-slate-500 mb-2">Configure AI auto-reply behavior for tickets opened from this panel.</p>
-                <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 px-3">
+                <p className="text-[13px] text-slate-400 mb-2">Configure AI auto-reply behavior for tickets opened from this panel.</p>
+                <div className="divide-y divide-white/5 rounded-2xl border border-white/10 px-4 bg-white/[0.02]">
                   <Toggle label="AI Auto-Reply" checked={form.ai_auto_reply} onChange={(v) => set('ai_auto_reply', v)} hint="When enabled, the AI will automatically respond to user messages in tickets" />
                 </div>
                 {form.ai_auto_reply ? (
@@ -293,7 +298,7 @@ export function Panels() {
                             }
                             set('ai_context_id', value || null);
                           }}
-                          className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                          className="flex-1 rounded-xl border border-white/10 bg-[#0f0f0f] px-4 py-2.5 text-[14px] text-white focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all appearance-none"
                         >
                           <option value="">— Select AI Context —</option>
                           {panelContexts.map((c) => (
@@ -304,19 +309,19 @@ export function Panels() {
                         <button
                           type="button"
                           onClick={() => setCreateContextOpen(true)}
-                          className="shrink-0 rounded-xl border border-dashed border-sky-300 px-3 py-2 text-xs font-medium text-sky-700 hover:bg-sky-50"
+                          className="shrink-0 rounded-xl border border-dashed border-[#0433FF]/50 bg-[#0433FF]/5 px-4 py-2 text-[13px] font-semibold text-[#0433FF] hover:bg-[#0433FF]/10 transition-colors"
                         >
-                          + Create new context
+                          + New context
                         </button>
                       </div>
                     </Field>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-[12px] text-slate-400">
                       The AI Context provides instructions and knowledge the bot uses to answer questions.
                       {!form.ai_context_id && " If none is selected, General Rules alone will be used (when enabled)."}
                     </p>
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400 mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <p className="text-[13px] text-slate-400 mt-3 p-4 rounded-xl bg-white/[0.02] border border-white/10">
                     AI is disabled for this panel — tickets work as normal, staff only.
                   </p>
                 )}
@@ -373,12 +378,12 @@ export function Panels() {
                 <Field label="Welcome Footer">
                   <Input value={form.welcome_embed_footer ?? ''} onChange={(v) => set('welcome_embed_footer', v || null)} />
                 </Field>
-                <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 px-3">
+                <div className="divide-y divide-white/5 rounded-2xl border border-white/10 px-4 bg-white/[0.02]">
                   <Toggle label="Ping ticket creator" checked={form.welcome_ping_ticket_creator} onChange={(v) => set('welcome_ping_ticket_creator', v)} />
                   <Toggle label="Ping support roles" checked={form.welcome_ping_support_roles} onChange={(v) => set('welcome_ping_support_roles', v)} />
                   <Toggle label="Pin welcome message" checked={form.auto_pin_welcome} onChange={(v) => set('auto_pin_welcome', v)} />
                 </div>
-                <p className="text-xs font-medium text-slate-600 pt-2">Close Button</p>
+                <p className="text-[13px] font-semibold text-slate-300 pt-2">Close Button</p>
                 <div className="grid grid-cols-3 gap-3">
                   <Field label="Label"><Input value={form.close_button_label ?? 'Close'} onChange={(v) => set('close_button_label', v)} /></Field>
                   <Field label="Emoji"><Input value={form.close_button_emoji ?? '🔒'} onChange={(v) => set('close_button_emoji', v)} /></Field>
@@ -470,12 +475,12 @@ export function Panels() {
             </div>
 
             {/* Footer */}
-            <div className="flex justify-end gap-2 px-5 py-4 border-t border-slate-100">
-              <button type="button" onClick={() => setOpen(false)} className="rounded-xl border border-slate-200 px-4 py-2 text-sm hover:bg-slate-50">Cancel</button>
+            <div className="flex justify-end gap-3 px-6 py-5 border-t border-white/5 bg-[#0a0a0a] rounded-b-3xl">
+              <button type="button" onClick={() => setOpen(false)} className="rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-white/10 transition-colors">Cancel</button>
               <button type="submit" disabled={createMut.isPending || updateMut.isPending}
-                className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-700 disabled:opacity-60">
+                className="inline-flex items-center justify-center min-w-[120px] gap-2 rounded-xl bg-[#0433FF] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[#0433FF]/90 disabled:opacity-60 transition-colors shadow-lg shadow-[#0433FF]/20">
                 {(createMut.isPending || updateMut.isPending)
-                  ? <><span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />Saving…</>
+                  ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />Saving…</>
                   : 'Save Panel'}
               </button>
             </div>

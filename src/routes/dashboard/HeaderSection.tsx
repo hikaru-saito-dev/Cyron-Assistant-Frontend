@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { FaDiscord, FaPlus, FaRobot, FaServer, FaTicketAlt } from 'react-icons/fa';
+import { FaRobot, FaServer, FaTicketAlt } from 'react-icons/fa';
+import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 interface HeaderSectionProps {
   selectedGuild: Guild | null;
@@ -14,85 +14,64 @@ export const DashboardHeaderSection = ({
   isLoading,
   onAddBot,
 }: HeaderSectionProps) => {
+  const adoptionRate = isLoading ? 0 : Math.round((stats.botInstalled / (stats.total || 1)) * 100);
+
+  const cards = [
+    {
+      title: 'Total Servers',
+      value: isLoading ? '—' : stats.total,
+      trendValue: '+12.5%',
+      trendText: 'Trending up this month',
+      subText: 'Servers for the last 6 months',
+      isUp: true,
+    },
+    {
+      title: 'Bot Active',
+      value: isLoading ? '—' : stats.botInstalled,
+      trendValue: `${adoptionRate}%`,
+      trendText: 'Strong adoption rate',
+      subText: 'Coverage across all servers',
+      isUp: true,
+    },
+    {
+      title: 'Open Tickets',
+      value: '—',
+      trendValue: '-20%',
+      trendText: 'Down 20% this period',
+      subText: 'Support needs attention',
+      isUp: false,
+    },
+  ];
+
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-1 md:grid-cols-3 bg-black/40 backdrop-blur-xl overflow-hidden rounded-xl border border-white/10 shadow-2xl">
-        {[
-          {
-            title: 'Total Servers',
-            subtitle: 'All your Discord guilds',
-            value: isLoading ? '—' : stats.total,
-            badge: {
-              color: 'bg-indigo-500/20 text-indigo-300',
-              icon: FaServer,
-              iconColor: 'text-indigo-400',
-              text: 'Servers',
-            },
-            subtext: (
-              <span className="text-gray-400 font-normal">Across all networks</span>
-            ),
-          },
-          {
-            title: 'Bot Installed',
-            subtitle: 'Guilds with active bot',
-            value: isLoading ? '—' : stats.botInstalled,
-            badge: {
-              color: 'bg-emerald-500/20 text-emerald-300',
-              icon: FaRobot,
-              iconColor: 'text-emerald-400',
-              text: 'Active',
-            },
-            subtext: (
-              <span className="text-emerald-400 font-medium">
-                {isLoading ? '—' : Math.round((stats.botInstalled / (stats.total || 1)) * 100)}% <span className="text-gray-400 font-normal">adoption rate</span>
-              </span>
-            ),
-          },
-          {
-            title: 'Active Tickets',
-            subtitle: 'Currently open',
-            value: '-',
-            badge: {
-              color: 'bg-sky-500/20 text-sky-300',
-              icon: FaTicketAlt,
-              iconColor: 'text-sky-400',
-              text: 'Tickets',
-            },
-            subtext: (
-              <span className="text-gray-400 font-normal">Awaiting response</span>
-            ),
-          },
-        ].map((card, i) => (
+    <div className="w-full space-y-8">
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {cards.map((card, i) => (
           <div
             key={i}
-            className="flex flex-col h-full space-y-6 justify-between p-6 border-y md:border-x md:border-y-0 border-white/10 last:border-0 first:border-0"
+            className="bg-[#151515] border border-white/[0.05] rounded-xl p-5 flex flex-col"
           >
-            {/* Title & Subtitle */}
-            <div className="space-y-0.5">
-              <div className="text-lg font-semibold text-white">{card.title}</div>
-              <div className="text-sm text-gray-400">{card.subtitle}</div>
-            </div>
-
-            {/* Information */}
-            <div className="flex-1 flex flex-col gap-1.5 justify-between grow">
-              {/* Value & Delta */}
-              <div className="flex items-center gap-2">
-                <span className="text-3xl font-bold tracking-tight text-white">{card.value}</span>
-                <span
-                  className={`${card.badge.color} px-2 py-1 rounded-full text-sm font-medium flex items-center gap-1`}
-                >
-                  <card.badge.icon className={`w-3 h-3 ${card.badge.iconColor}`} />
-                  {card.badge.text}
-                </span>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-slate-400 text-[13px] font-medium">{card.title}</span>
+              <div className="flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full border border-white/10 text-white">
+                {card.isUp ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                {card.trendValue}
               </div>
-              {/* Subtext */}
-              <div className="text-sm">{card.subtext}</div>
             </div>
+            
+            <span className="text-white text-2xl font-semibold tracking-tight mb-4">
+              {card.value}
+            </span>
+            
+            <div className="flex items-center justify-between text-[13px] text-white">
+              <span className="font-medium">{card.trendText}</span>
+              {card.isUp ? <ArrowUpRight className="w-3 h-3 text-white" /> : <ArrowDownRight className="w-3 h-3 text-white" />}
+            </div>
+            <span className="text-slate-500 text-[12px] mt-1">{card.subText}</span>
           </div>
         ))}
       </div>
     </div>
   );
 };
-
-
