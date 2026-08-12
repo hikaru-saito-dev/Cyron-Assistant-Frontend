@@ -9,7 +9,7 @@ import ImpactSection from '../../components/ui/impact-section';
 import Testimonial3 from '../../components/ui/testimonial-section-3';
 import { FaqSection } from './FaqSection';
 import { CinematicFooter } from '../../components/ui/motion-footer';
-import StaggeredMenu from '../../components/ui/StaggeredMenu';
+import { Header } from '../../components/ui/header-2';
 import { motion } from 'framer-motion';
 
 
@@ -33,19 +33,7 @@ export const Home = () => {
 
   return (
     <>
-      <StaggeredMenu
-        position="right"
-        isFixed={true}
-        items={menuItems}
-        socialItems={socialItems}
-        displaySocials
-        displayItemNumbering={true}
-        menuButtonColor="#ffffff"
-        openMenuButtonColor="#111"
-        changeMenuColorOnOpen={true}
-        colors={['#0433FF', '#0221a6']}
-        accentColor="#0433FF"
-      />
+      <Header />
       {/* <TopNav currentGuildName={null} /> */}
       <PageTransition>
         <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-slate-50 dark:bg-none dark:bg-black relative z-10 rounded-b-3xl shadow-2xl">
