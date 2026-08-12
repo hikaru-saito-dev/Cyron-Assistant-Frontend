@@ -2,19 +2,9 @@ import { useCallback, useEffect, useState, useMemo } from 'react';
 import { DOC_SECTIONS } from './docsContent';
 import type { DocSection, DocItem } from './docsContent';
 import { CinematicFooter } from '../../components/ui/motion-footer';
-import StaggeredMenu from '../../components/ui/StaggeredMenu';
+import { Header } from '../../components/ui/header-2';
 import { motion, AnimatePresence } from 'framer-motion';
 import TextBlockAnimation from '../../components/ui/text-block-animation';
-
-const menuItems = [
-  { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-  { label: 'Pricing', ariaLabel: 'Learn about us', link: '/premium' },
-  { label: 'Docs', ariaLabel: 'View our services', link: '/docs' }
-];
-
-const socialItems = [
-  { label: 'YouTube', link: 'https://youtube.com' }
-];
 
 /* ─────────────────── SIDEBAR ─────────────────── */
 
@@ -328,19 +318,7 @@ export function Docs() {
 
   return (
     <>
-      <StaggeredMenu
-        position="right"
-        isFixed={true}
-        items={menuItems}
-        socialItems={socialItems}
-        displaySocials
-        displayItemNumbering={true}
-        menuButtonColor="#ffffff"
-        openMenuButtonColor="#111"
-        changeMenuColorOnOpen={true}
-        colors={['#0433FF', '#0221a6']}
-        accentColor="#0433FF"
-      />
+      <Header />
 
       <div className="min-h-screen bg-black text-white flex relative z-10">
         {/* Subtle top gradient glow */}
