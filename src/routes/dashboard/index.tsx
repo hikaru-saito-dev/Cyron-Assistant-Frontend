@@ -2,6 +2,7 @@ import { useRef, useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAlert } from 'react-alert';
 import { api } from '../../lib/api';
+import { DISCORD_BOT_INVITE_URL } from '../../lib/config';
 import { Header } from '../../components/ui/header-2';
 import AdvancedStats from '../../components/ui/advanced-stats';
 import ProfileSelect from '../../components/ui/3d-profile-selector';
@@ -35,6 +36,12 @@ export const Dashboard = () => {
     return { total, botInstalled, paid, adoptionRate };
   }, [activeGuilds]);
 
+  const handleAddBot = (guildId: string | number) => {
+    const url = `${DISCORD_BOT_INVITE_URL}&guild_id=${String(
+      guildId,
+    )}&disable_guild_select=true`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="min-h-screen bg-black text-slate-200">
@@ -49,7 +56,7 @@ export const Dashboard = () => {
         isLoading={isLoading}
       />
 
-      <ProfileSelect guilds={activeGuilds} />
+      <ProfileSelect guilds={activeGuilds} onAddBot={handleAddBot} />
     </div>
   );
 };

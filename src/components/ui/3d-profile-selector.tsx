@@ -23,6 +23,7 @@ interface Guild {
 
 interface ServerCardsProps {
   guilds: Guild[];
+  onAddBot?: (guildId: string | number) => void;
 }
 
 /* ---------- Motion variants ---------- */
@@ -47,7 +48,7 @@ const cardVariants: Variants = {
 
 /* ---------- Main component ---------- */
 
-export default function ServerCards({ guilds }: ServerCardsProps) {
+export default function ServerCards({ guilds, onAddBot }: ServerCardsProps) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -89,7 +90,7 @@ export default function ServerCards({ guilds }: ServerCardsProps) {
           variants={sectionVariants}
         >
           {guilds.map((guild) => (
-            <TiltCard key={String(guild.id)} guild={guild} />
+            <TiltCard key={String(guild.id)} guild={guild} onAddBot={onAddBot} />
           ))}
         </motion.div>
       </motion.div>
@@ -122,7 +123,7 @@ function Spotlight({
 
 /* ---------- Tilt server card ---------- */
 
-function TiltCard({ guild }: { guild: Guild }) {
+function TiltCard({ guild, onAddBot }: { guild: Guild; onAddBot?: (id: string | number) => void }) {
   const navigate = useNavigate();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -147,6 +148,8 @@ function TiltCard({ guild }: { guild: Guild }) {
   const handleClick = () => {
     if (guild.has_bot) {
       navigate(`/guilds/${guild.id}/settings`);
+    } else if (onAddBot) {
+      onAddBot(guild.id);
     }
   };
 
@@ -156,8 +159,8 @@ function TiltCard({ guild }: { guild: Guild }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      className={`group flex flex-col items-center gap-3 ${guild.has_bot ? "cursor-pointer" : "cursor-default opacity-60"}`}
-      title={guild.has_bot ? `Manage ${guild.name}` : `${guild.name} — bot not installed`}
+      className={`group flex flex-col items-center gap-3 cursor-pointer ${!guild.has_bot ? "opacity-60 hover:opacity-100 transition-opacity duration-300" : ""}`}
+      title={guild.has_bot ? `Manage ${guild.name}` : `Click to add bot to ${guild.name}`}
     >
       {/* Card */}
       <motion.div
