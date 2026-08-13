@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button, buttonVariants } from './Button';
 import { cn } from '../../lib/utils';
 import { MenuToggleIcon } from './menu-toggle-icon';
@@ -22,8 +22,10 @@ export const WordmarkIcon = (props: React.ComponentProps<'svg'>) => (
 export function Header() {
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
-  const { isAuthenticated, loginWithDiscord } = useAuth();
+  const { isAuthenticated, user, loginWithDiscord, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
 
   React.useEffect(() => {
     if (open) {
@@ -35,14 +37,6 @@ export function Header() {
       document.body.style.overflow = '';
     };
   }, [open]);
-
-  const handleAuthAction = () => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    } else {
-      loginWithDiscord();
-    }
-  };
 
   return (
     <header
@@ -57,7 +51,7 @@ export function Header() {
     >
       <nav
         className={cn(
-          'flex h-14 w-full items-center justify-between px-4 md:h-12 md:transition-all md:ease-out',
+          'flex h-16 w-full items-center justify-between px-4 md:h-14 md:transition-all md:ease-out',
           {
             'md:px-2': scrolled,
           },
@@ -84,13 +78,43 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          {/* Sign In styled as ShinyButton */}
-          <ShinyButton
-            onClick={isAuthenticated ? () => navigate('/dashboard') : loginWithDiscord}
-            style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
-          >
-            {isAuthenticated ? 'Dashboard' : 'Sign In'}
-          </ShinyButton>
+          {/* Sign In / User Profile styling */}
+          {isAuthenticated ? (
+            isDashboard ? (
+              <div className="flex items-center gap-3 ml-2">
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full pl-1.5 pr-3 py-1">
+                  {user?.avatar_url ? (
+                    <img src={user.avatar_url} alt={user.username} className="w-6 h-6 rounded-full" />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-white">
+                      {user?.username?.charAt(0).toUpperCase() || '?'}
+                    </div>
+                  )}
+                  <span className="text-sm font-medium text-white">{user?.username}</span>
+                </div>
+                <ShinyButton
+                  onClick={logout}
+                  style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+                >
+                  Sign Out
+                </ShinyButton>
+              </div>
+            ) : (
+              <ShinyButton
+                onClick={() => navigate('/dashboard')}
+                style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+              >
+                Dashboard
+              </ShinyButton>
+            )
+          ) : (
+            <ShinyButton
+              onClick={loginWithDiscord}
+              style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+            >
+              Sign In
+            </ShinyButton>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -128,16 +152,51 @@ export function Header() {
             ))}
           </div>
           <div className="flex flex-col gap-2">
-            <ShinyButton
-              onClick={() => {
-                setOpen(false);
-                if (isAuthenticated) navigate('/dashboard');
-                else loginWithDiscord();
-              }}
-              className="w-full"
-            >
-              {isAuthenticated ? 'Dashboard' : 'Sign In'}
-            </ShinyButton>
+            {isAuthenticated ? (
+              isDashboard ? (
+                <>
+                  <div className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg mb-2">
+                    {user?.avatar_url ? (
+                      <img src={user.avatar_url} alt={user.username} className="w-8 h-8 rounded-full" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-sm font-bold text-white">
+                        {user?.username?.charAt(0).toUpperCase() || '?'}
+                      </div>
+                    )}
+                    <span className="text-sm font-medium text-white">{user?.username}</span>
+                  </div>
+                  <ShinyButton
+                    onClick={() => {
+                      setOpen(false);
+                      logout();
+                    }}
+                    className="w-full"
+                  >
+                    Sign Out
+                  </ShinyButton>
+                </>
+              ) : (
+                <ShinyButton
+                  onClick={() => {
+                    setOpen(false);
+                    navigate('/dashboard');
+                  }}
+                  className="w-full"
+                >
+                  Dashboard
+                </ShinyButton>
+              )
+            ) : (
+              <ShinyButton
+                onClick={() => {
+                  setOpen(false);
+                  loginWithDiscord();
+                }}
+                className="w-full"
+              >
+                Sign In
+              </ShinyButton>
+            )}
           </div>
         </div>
       </div>

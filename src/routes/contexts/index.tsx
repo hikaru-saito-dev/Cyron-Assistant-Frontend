@@ -51,19 +51,19 @@ function TabBar({
   onChange: (tab: Tab) => void;
   accent?: "sky" | "indigo";
 }) {
-  const activeClass = "bg-white/10 text-white shadow-sm";
+  const activeClass = "bg-white text-black shadow-sm";
 
   return (
-    <div className="inline-flex flex-wrap gap-1 rounded-2xl border border-white/10 bg-[#0f0f0f] p-1.5">
+    <div className="inline-flex flex-wrap gap-1 rounded-full border border-white/5 bg-white/[0.02] p-1.5">
       {TABS.map((t) => (
         <button
           key={t.id}
           type="button"
           onClick={() => onChange(t.id)}
-          className={`rounded-xl px-4 py-2 text-[13px] font-semibold transition-all ${
+          className={`rounded-full px-5 py-2 text-[13px] font-medium transition-all ${
             active === t.id
               ? activeClass
-              : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+              : "text-slate-400 hover:text-white hover:bg-white/5"
           }`}
         >
           {t.label}
@@ -120,10 +120,10 @@ function PrimaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className={`inline-flex items-center gap-2 rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 px-6 py-3 text-[14px] font-semibold text-white shadow-lg shadow-[#0433FF]/20 transition-all focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50`}
+      className={`inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 px-5 py-2.5 text-[13px] font-medium text-black shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all disabled:opacity-50`}
     >
       {loading ? (
-        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
       ) : (
         <FaSave className="text-sm" />
       )}
@@ -302,20 +302,20 @@ export function Contexts() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-8"
+      className="space-y-8 max-w-5xl mx-auto pb-12 pt-4 md:pt-0"
     >
-      {/* Page header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-            <FaBrain className="text-[#0433FF]" />
-            AI Contexts
-          </h1>
-          <p className="mt-1 text-[14px] text-slate-400">
-            Shape how your bot thinks — per panel or server-wide.
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between px-4 md:px-0 mb-4">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <h1 className="text-[22px] font-semibold text-white tracking-tight flex items-center gap-2.5">
+              AI Contexts
+            </h1>
+          </div>
+          <p className="text-[14px] text-slate-400 max-w-lg leading-relaxed">
+            Shape how your bot thinks — per panel or server-wide. Add specific instructions, general knowledge, or problem-solution pairs.
           </p>
         </div>
-        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-2.5 text-[14px]">
+        <div className="flex items-center gap-2 rounded-full border border-white/5 bg-white/[0.02] px-4 py-2 text-[13px] shadow-sm shrink-0">
           <FaLayerGroup className="text-slate-400" />
           <span className="font-medium text-slate-300">
             {contexts.filter((c) => c.id !== generalRules?.id).length} panel
@@ -326,10 +326,10 @@ export function Contexts() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-start px-4 md:px-0">
         {/* Sidebar */}
         <aside className="w-full shrink-0 lg:w-72">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+          <div className="rounded-2xl border border-white/5 bg-white/[0.01] p-5">
             <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.14em] text-slate-500">
               Contexts
             </p>
@@ -411,7 +411,7 @@ export function Contexts() {
 
         {/* Main panel */}
         <main className="min-w-0 flex-1">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+          <div className="rounded-2xl border border-white/5 bg-white/[0.01] p-6 sm:p-8">
             {selected ? (
               <>
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
