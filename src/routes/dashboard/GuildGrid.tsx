@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaPlus, FaServer } from 'react-icons/fa';
 import { ChevronRight, Server } from 'lucide-react';
 
@@ -19,6 +19,8 @@ export const DashboardGuildGrid = ({
   activeGuildId,
   onAddBot,
 }: GuildGridProps) => {
+  const navigate = useNavigate();
+
   if (guilds.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -46,10 +48,19 @@ export const DashboardGuildGrid = ({
         const isActive = String(guild.id) === activeGuildId;
         const plan = planStyles[guild.plan || 'free'] || planStyles.free;
 
+        const handleRowClick = () => {
+          if (guild.has_bot) {
+            navigate(`/guilds/${guild.id}/panels`);
+          } else {
+            onAddBot(guild.id);
+          }
+        };
+
         return (
           <div
             key={guild.id}
-            className={`group grid grid-cols-[1fr_100px_100px_140px] gap-4 items-center px-5 py-4 transition-all duration-300 rounded-[14px] mb-3 bg-[#111111] border border-white/[0.04] hover:bg-[#161616] ${
+            onClick={handleRowClick}
+            className={`group grid grid-cols-[1fr_100px_100px_140px] gap-4 items-center px-5 py-4 transition-all duration-300 rounded-[14px] mb-3 bg-[#111111] border border-white/[0.04] hover:bg-[#161616] cursor-pointer ${
               isActive ? 'border-[#0433FF]/20 shadow-[0_0_15px_rgba(4,51,255,0.05)]' : ''
             }`}
           >
@@ -102,18 +113,25 @@ export const DashboardGuildGrid = ({
             {/* Action */}
             <div className="flex justify-end">
               {guild.has_bot ? (
-                <Link
-                  to={`/guilds/${guild.id}/settings`}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/guilds/${guild.id}/panels`);
+                  }}
                   className="inline-flex items-center gap-2 rounded-lg bg-[#1a1d24] border border-white/5 px-4 py-2 text-[13px] font-semibold text-slate-200 transition-all duration-300 hover:bg-[#252830] hover:text-white group/btn"
                 >
                   Manage
                   <ChevronRight className="w-[14px] h-[14px] text-slate-400 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:text-white" strokeWidth={2.5} />
-                </Link>
+                </button>
               ) : (
                 <button
                   type="button"
                   className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-transparent px-4 py-2 text-[13px] font-semibold text-slate-400 transition-all duration-300 hover:bg-white/5 hover:text-white"
-                  onClick={() => onAddBot(guild.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAddBot(guild.id);
+                  }}
                 >
                   <FaPlus className="text-[10px]" />
                   Add Bot

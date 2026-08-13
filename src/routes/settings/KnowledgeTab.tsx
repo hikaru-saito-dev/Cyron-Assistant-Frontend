@@ -54,140 +54,141 @@ export const KnowledgeTab = ({
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -8 }}
     transition={{ duration: 0.2 }}
-    className="space-y-4"
+    className="space-y-8 max-w-5xl mx-auto pb-12"
   >
-    {/* Capacity bar */}
-    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-slate-300">Knowledge capacity</span>
+    {/* Header */}
+    <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <h2 className="text-[22px] font-semibold text-white tracking-tight">
+            Knowledge Base
+          </h2>
           {knowledgeLoading && <Loader />}
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <span
-            className={`font-mono text-[13px] ${usageRatio > 0.8 ? "text-amber-500" : "text-slate-400"}`}
-          >
-            {totalChars.toLocaleString()} / {maxChars.toLocaleString()} chars
+        <p className="text-[14px] text-slate-400 max-w-lg leading-relaxed">
+          Train your AI by adding general knowledge or specific problem-solution pairs. It uses this context to answer queries accurately.
+        </p>
+        
+        {/* Subtle Capacity Indicator */}
+        <div className="pt-2 flex items-center gap-3">
+          <div className="h-1.5 w-32 rounded-full bg-white/5 overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${usageRatio * 100}%` }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className={`h-full rounded-full ${usageRatio > 0.8 ? "bg-amber-400" : "bg-white"}`}
+            />
+          </div>
+          <span className={`font-mono text-[12px] ${usageRatio > 0.8 ? "text-amber-400" : "text-slate-500"}`}>
+            {(totalChars / 1000).toFixed(1)}k / {(maxChars / 1000).toFixed(1)}k chars
           </span>
-          <button
-            onClick={openCreateModal}
-            disabled={knowledgeLoading}
-            className="rounded-xl bg-[#0433FF] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20 disabled:opacity-50"
-          >
-            New Knowledge
-          </button>
-          <button
-            type="button"
-            onClick={openProblemModal}
-            disabled={knowledgeLoading}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-[13px] font-semibold text-slate-300 hover:bg-white/10 hover:text-white transition-colors disabled:opacity-50"
-          >
-            New Problem
-          </button>
         </div>
       </div>
-      <div className="mt-4 h-2 w-full rounded-full bg-white/5 overflow-hidden border border-white/10">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${usageRatio * 100}%` }}
-          transition={{ duration: 0.3 }}
-          className={`h-full rounded-full ${usageRatio > 0.8 ? "bg-gradient-to-r from-amber-400 to-red-500" : "bg-[#0433FF]"}`}
-        />
+      
+      <div className="flex items-center gap-3 shrink-0">
+        <button
+          type="button"
+          onClick={openProblemModal}
+          disabled={knowledgeLoading}
+          className="rounded-full border border-white/10 bg-transparent px-5 py-2 text-[13px] font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-all disabled:opacity-50"
+        >
+          Add Problem
+        </button>
+        <button
+          onClick={openCreateModal}
+          disabled={knowledgeLoading}
+          className="rounded-full bg-white px-5 py-2 text-[13px] font-medium text-black hover:bg-slate-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] disabled:opacity-50"
+        >
+          Add Knowledge
+        </button>
       </div>
     </div>
 
     {/* Upgrade banner */}
     {showUpgradeBanner && (
-      <div className="flex flex-col gap-4 rounded-2xl border border-[#0433FF]/30 bg-[#0433FF]/10 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-2xl border border-[#0433FF]/30 bg-[#0433FF]/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="font-bold text-white">
+          <p className="font-semibold text-white">
             Reached knowledge capacity for {planLabel} plan.
           </p>
           <p className="mt-1 text-slate-400">Upgrade to add more entries.</p>
         </div>
-        <button className="w-full sm:w-auto rounded-xl bg-[#0433FF] px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20">
+        <button className="w-full sm:w-auto rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-colors">
           Upgrade plan
         </button>
       </div>
     )}
 
     {/* Entries */}
-    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+    <div className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
       {knowledgeLoading && (
-        <div className="space-y-3">
+        <div className="divide-y divide-white/5">
           {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="h-16 animate-pulse rounded-xl bg-white/5"
-            />
+            <div key={i} className="p-5">
+              <div className="h-12 animate-pulse rounded-lg bg-white/5" />
+            </div>
           ))}
         </div>
       )}
       {knowledgeError && !knowledgeLoading && (
-        <p className="text-[14px] text-red-400">Failed to load. Please refresh.</p>
+        <div className="p-8 text-center text-[14px] text-red-400">Failed to load. Please refresh.</div>
       )}
       {!knowledgeLoading && !knowledgeError && knowledge.length === 0 && (
-        <div className="flex flex-col items-center gap-4 py-12 text-center">
-          <h3 className="text-[16px] font-bold text-white">No knowledge entries yet</h3>
+        <div className="flex flex-col items-center gap-3 py-16 text-center">
+          <h3 className="text-[16px] font-semibold text-white">No knowledge entries yet</h3>
           <p className="max-w-sm text-[14px] text-slate-400">
             Add your first entry to teach the AI about your support topics.
           </p>
-          <button onClick={openCreateModal} className="mt-2 rounded-xl bg-[#0433FF] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20">
+          <button onClick={openCreateModal} className="mt-4 rounded-full bg-white px-5 py-2 text-[13px] font-medium text-black hover:bg-slate-200 transition-all">
             Add your first entry
           </button>
         </div>
       )}
       {!knowledgeLoading && !knowledgeError && knowledge.length > 0 && (
-        <div className="space-y-3">
+        <div className="divide-y divide-white/5">
           {knowledge.map((entry) => {
             const chars = entryChars(entry);
-            const preview = (entry.main_content ?? entry.content ?? "").slice(
-              0,
-              120,
-            );
+            const preview = (entry.main_content ?? entry.content ?? "").slice(0, 120);
             return (
               <motion.div
                 key={entry.id}
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-xl border border-white/10 bg-white/5 p-4 text-[13px] transition-colors hover:bg-white/10"
+                className="group flex flex-col gap-4 p-5 transition-colors hover:bg-white/[0.02] sm:flex-row sm:items-center sm:justify-between"
               >
-                {/* Mobile: stacked */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-bold text-white truncate text-[15px]">
-                      {entry.title || "Untitled"}
-                    </p>
-                    <p className="mt-1 text-slate-400 line-clamp-2 leading-relaxed">
-                      {preview}
-                    </p>
-                    <div className="mt-2.5 flex flex-wrap items-center gap-3">
-                      <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
-                        {templateBadge(entry.template_type)}
-                      </span>
-                      <span className="font-mono text-[11px] text-slate-500">
-                        {chars.toLocaleString()} chars
-                      </span>
-                      <span className="hidden sm:inline text-[11px] text-slate-500">
-                        {new Date(entry.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
+                <div className="min-w-0 flex-1 pr-4">
+                  <p className="font-semibold text-white truncate text-[15px]">
+                    {entry.title || "Untitled"}
+                  </p>
+                  <p className="mt-1 text-[13px] text-slate-400 line-clamp-1">
+                    {preview}
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[11px] font-medium text-slate-300">
+                      {templateBadge(entry.template_type)}
+                    </span>
+                    <span className="font-mono text-[11px] text-slate-500">
+                      {(chars / 1000).toFixed(1)}k chars
+                    </span>
+                    <span className="text-[11px] text-slate-500">
+                      {new Date(entry.created_at).toLocaleDateString()}
+                    </span>
                   </div>
-                  <div className="flex flex-shrink-0 gap-2">
-                    <button
-                      onClick={() => openEditModal(entry)}
-                      className="rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-[12px] font-semibold text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteKnowledge(entry)}
-                      disabled={deleteKnowledgePending}
-                      className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-[12px] font-semibold text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                </div>
+                <div className="flex shrink-0 items-center gap-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={() => openEditModal(entry)}
+                    className="rounded-full bg-white/5 px-4 py-1.5 text-[12px] font-medium text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteKnowledge(entry)}
+                    disabled={deleteKnowledgePending}
+                    className="rounded-full bg-red-500/10 px-4 py-1.5 text-[12px] font-medium text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
+                  >
+                    Delete
+                  </button>
                 </div>
               </motion.div>
             );

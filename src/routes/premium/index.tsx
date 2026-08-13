@@ -16,7 +16,7 @@ export const Premium = () => {
     <>
       <Header />
       <PageTransition>
-        <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-slate-50 dark:bg-none dark:bg-black relative z-10 rounded-b-3xl shadow-2xl">
+        <div className="min-h-screen bg-black relative z-10 rounded-b-3xl shadow-2xl">
           <TextRevealHero />
           <FUIBentoGridDark />
           <PricingPlansDemo />
