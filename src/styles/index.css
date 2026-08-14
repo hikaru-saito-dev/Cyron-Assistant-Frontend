@@ -95,6 +95,8 @@ body { background-color: #ffffff; color: #0f172a; }
 }
 .dark input::placeholder,
 .dark textarea::placeholder { color: #64748b !important; }
+.dark input.force-black-text { color: #000000 !important; }
+.dark input.force-black-text::placeholder { color: #000000 !important; }
 
 /* Hover states */
 .dark .hover\:bg-slate-50:hover,
