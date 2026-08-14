@@ -5,11 +5,21 @@ import { ChevronLeft } from 'lucide-react';
 import { Tabs } from '../ui/vercel-tabs';
 import { api } from '../../lib/api';
 import { AnimatedOutlet } from '../motion/AnimatedOutlet';
+import { ShinyButton } from '../ui/shiny-button';
 
 async function fetchGuilds(): Promise<Guild[]> {
   const res = await api.get<Guild[]>('/guilds');
   return res.data;
 }
+
+import {
+  Sidebar001,
+  Sidebar001Content,
+  Sidebar001Header,
+  Sidebar001Item,
+  Sidebar001Section,
+  Sidebar001Footer,
+} from '../ui/sidebar-001';
 
 export const AppLayout = () => {
   const params = useParams<{ guildId?: string }>();
@@ -38,15 +48,35 @@ export const AppLayout = () => {
     return 'panels'; // default
   })();
 
-  const tabsList = [
-    { id: 'panels', label: 'Panels' },
-    { id: 'contexts', label: 'AI Contexts' },
-    { id: 'knowledge', label: 'Knowledge' },
-    { id: 'ai-settings', label: 'AI Settings' },
-    { id: 'embed-customization', label: 'Embed Customization' },
-    { id: 'close-settings', label: 'Close Settings' },
-    { id: 'usage-analytics', label: 'Usage Analytics' },
-    { id: 'tickets', label: 'Ticket Management' },
+  const sidebarGroups = [
+    {
+      title: "Workspace",
+      items: [
+        { id: 'panels', label: 'Panels' },
+        { id: 'tickets', label: 'Ticket Management' },
+      ]
+    },
+    {
+      title: "AI Management",
+      items: [
+        { id: 'contexts', label: 'AI Contexts' },
+        { id: 'knowledge', label: 'Knowledge' },
+        { id: 'ai-settings', label: 'AI Settings' },
+      ]
+    },
+    {
+      title: "Insights",
+      items: [
+        { id: 'usage-analytics', label: 'Usage Analytics' },
+      ]
+    },
+    {
+      title: "Configuration",
+      items: [
+        { id: 'embed-customization', label: 'Embed Customization' },
+        { id: 'close-settings', label: 'Close Settings' },
+      ]
+    }
   ];
 
   const handleTabChange = (tabId: string) => {
@@ -54,25 +84,24 @@ export const AppLayout = () => {
   };
 
   const displayName = selectedGuild?.name?.trim() || 'Server';
+  const isFreePlan = !selectedGuild?.plan || selectedGuild?.plan === 'free';
 
   return (
     <div className="relative isolate bg-black text-slate-200">
       {params.guildId ? (
-        // Guild Settings Layout with Top Navigation
-        <div className="flex flex-col w-full h-screen overflow-hidden">
-          
-          <div className="relative w-full flex flex-col h-full z-10 overflow-hidden">
-            {/* Top Header & Navigation */}
-            <header className="bg-white/[0.02] backdrop-blur-md shrink-0">
-              <div className="flex items-center justify-between px-6 py-4">
+        // Guild Settings Layout with Sidebar on Left
+        <div className="flex w-full h-screen overflow-hidden">
+          {/* Sidebar Navigation */}
+          <Sidebar001 defaultWidth={260} className="border-r border-white/10">
+            <Sidebar001Header>
+              <div className="flex flex-col gap-4">
                 <button 
                   onClick={() => navigate('/dashboard')}
                   className="flex items-center gap-2 text-[13px] font-medium text-slate-400 hover:text-white transition-colors group"
                 >
                   <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" /> 
-                  Back to Dashboard
+                  Back
                 </button>
-                
                 <div className="flex items-center gap-3">
                   {selectedGuild?.icon_url ? (
                     <img src={selectedGuild.icon_url} alt={displayName} className="w-8 h-8 rounded-full shrink-0 object-cover" />
@@ -81,27 +110,58 @@ export const AppLayout = () => {
                       <span className="text-[12px] text-white font-medium">{displayName?.[0]?.toUpperCase() || '?'}</span>
                     </div>
                   )}
-                  <span className="text-[16px] font-medium text-white tracking-tight">{displayName}</span>
+                  <span className="text-[16px] font-medium text-white tracking-tight truncate">{displayName}</span>
                 </div>
-                
-                <div className="w-24"></div> {/* Spacer for centering */}
               </div>
+            </Sidebar001Header>
+            <Sidebar001Content>
+              <Sidebar001Section>
+                <div className="flex flex-col gap-6 mt-2">
+                  {sidebarGroups.map((group, idx) => (
+                    <div key={idx} className="flex flex-col">
+                      <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 px-2">
+                        {group.title}
+                      </h4>
+                      <div className="flex flex-col gap-1.5">
+                        {group.items.map((tab) => (
+                          <Sidebar001Item
+                            key={tab.id}
+                            href={`/guilds/${params.guildId}/${tab.id}`}
+                            label={tab.label}
+                            isActive={activeTabId === tab.id}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleTabChange(tab.id);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Sidebar001Section>
+            </Sidebar001Content>
+            <Sidebar001Footer>
+              <div className="flex flex-col gap-1.5">
+                <div className="text-center">
+                  <a href="mailto:support@cyron.ai" className="text-xs text-slate-400 hover:text-white transition-colors">
+                    Need help ?
+                  </a>
+                </div>
+                <ShinyButton
+                  onClick={() => navigate('/premium')}
+                  style={{ width: '100%', padding: '0.6rem 1.1rem', fontSize: '0.85rem', lineHeight: '1.4' }}
+                >
+                  {isFreePlan ? 'Upgrade Plan' : 'Upgrade'}
+                </ShinyButton>
+              </div>
+            </Sidebar001Footer>
+          </Sidebar001>
 
-              {/* Navigation Tabs */}
-              <div className="px-6 py-2 flex justify-center">
-                <Tabs 
-                  tabs={tabsList} 
-                  activeTab={activeTabId} 
-                  onTabChange={handleTabChange} 
-                />
-              </div>
-            </header>
-            
-            {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto p-4 md:p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
-              <AnimatedOutlet />
-            </main>
-          </div>
+          {/* Main Content Area */}
+          <main className="flex-1 overflow-y-auto p-4 md:p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
+            <AnimatedOutlet />
+          </main>
         </div>
       ) : (
         // Other routes (Dashboard, etc.) render as normal full screen

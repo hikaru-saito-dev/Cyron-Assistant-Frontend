@@ -80,33 +80,33 @@ export function Header() {
           ))}
           {/* Sign In / User Profile styling */}
           {isAuthenticated ? (
-            isDashboard ? (
-              <div className="flex items-center gap-3 ml-2">
-                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full pl-1.5 pr-3 py-1">
-                  {user?.avatar_url ? (
-                    <img src={user.avatar_url} alt={user.username} className="w-6 h-6 rounded-full" />
-                  ) : (
-                    <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-white">
-                      {user?.username?.charAt(0).toUpperCase() || '?'}
-                    </div>
-                  )}
-                  <span className="text-sm font-medium text-white">{user?.username}</span>
-                </div>
+            <div className="flex items-center gap-3 ml-2">
+              <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full pl-1.5 pr-3 py-1">
+                {user?.avatar_url ? (
+                  <img src={user.avatar_url} alt={user.username} className="w-6 h-6 rounded-full object-cover" />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-white">
+                    {user?.username?.charAt(0).toUpperCase() || '?'}
+                  </div>
+                )}
+                <span className="text-sm font-medium text-white">{user?.username}</span>
+              </div>
+              {isDashboard ? (
                 <ShinyButton
                   onClick={logout}
                   style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
                 >
                   Sign Out
                 </ShinyButton>
-              </div>
-            ) : (
-              <ShinyButton
-                onClick={() => navigate('/dashboard')}
-                style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
-              >
-                Dashboard
-              </ShinyButton>
-            )
+              ) : (
+                <ShinyButton
+                  onClick={() => navigate('/dashboard')}
+                  style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+                >
+                  Dashboard
+                </ShinyButton>
+              )}
+            </div>
           ) : (
             <ShinyButton
               onClick={loginWithDiscord}
