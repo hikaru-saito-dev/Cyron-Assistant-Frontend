@@ -8,19 +8,20 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex min-h-screen items-center justify-center">
-  //       <Loader />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/" replace />;
-  // }
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
 
   return <>{children}</>;
 };
