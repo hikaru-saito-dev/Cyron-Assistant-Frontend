@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronLeft } from 'lucide-react';
+import { 
+  ChevronLeft,
+  LayoutDashboard,
+  Ticket,
+  BrainCircuit,
+  BookOpen,
+  Settings2,
+  Activity,
+  Paintbrush,
+  LogOut
+} from 'lucide-react';
 import { Tabs } from '../ui/vercel-tabs';
 import { api } from '../../lib/api';
 import { AnimatedOutlet } from '../motion/AnimatedOutlet';
@@ -52,29 +62,29 @@ export const AppLayout = () => {
     {
       title: "Workspace",
       items: [
-        { id: 'panels', label: 'Panels' },
-        { id: 'tickets', label: 'Ticket Management' },
+        { id: 'panels', label: 'Panels', icon: <LayoutDashboard className="w-4 h-4" /> },
+        { id: 'tickets', label: 'Ticket Management', icon: <Ticket className="w-4 h-4" /> },
       ]
     },
     {
       title: "AI Management",
       items: [
-        { id: 'contexts', label: 'AI Contexts' },
-        { id: 'knowledge', label: 'Knowledge' },
-        { id: 'ai-settings', label: 'AI Settings' },
+        { id: 'contexts', label: 'AI Contexts', icon: <BrainCircuit className="w-4 h-4" /> },
+        { id: 'knowledge', label: 'Knowledge', icon: <BookOpen className="w-4 h-4" /> },
+        { id: 'ai-settings', label: 'AI Settings', icon: <Settings2 className="w-4 h-4" /> },
       ]
     },
     {
       title: "Insights",
       items: [
-        { id: 'usage-analytics', label: 'Usage Analytics' },
+        { id: 'usage-analytics', label: 'Usage Analytics', icon: <Activity className="w-4 h-4" /> },
       ]
     },
     {
       title: "Configuration",
       items: [
-        { id: 'embed-customization', label: 'Embed Customization' },
-        { id: 'close-settings', label: 'Close Settings' },
+        { id: 'embed-customization', label: 'Embed Customization', icon: <Paintbrush className="w-4 h-4" /> },
+        { id: 'close-settings', label: 'Close Settings', icon: <LogOut className="w-4 h-4" /> },
       ]
     }
   ];
@@ -87,7 +97,7 @@ export const AppLayout = () => {
   const isFreePlan = !selectedGuild?.plan || selectedGuild?.plan === 'free';
 
   return (
-    <div className="relative isolate bg-black text-slate-200">
+    <div className="relative isolate bg-transparent text-slate-200 min-h-screen">
       {params.guildId ? (
         // Guild Settings Layout with Sidebar on Left
         <div className="flex w-full h-screen overflow-hidden">
@@ -95,11 +105,11 @@ export const AppLayout = () => {
           <Sidebar001 defaultWidth={260} className="border-r border-white/10">
             <Sidebar001Header>
               <div className="flex flex-col gap-4">
-                <button 
+                <button
                   onClick={() => navigate('/dashboard')}
                   className="flex items-center gap-2 text-[13px] font-medium text-slate-400 hover:text-white transition-colors group"
                 >
-                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" /> 
+                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
                   Back
                 </button>
                 <div className="flex items-center gap-3">
@@ -116,18 +126,21 @@ export const AppLayout = () => {
             </Sidebar001Header>
             <Sidebar001Content>
               <Sidebar001Section>
-                <div className="flex flex-col gap-6 mt-2">
+                <div className="flex flex-col mt-2">
                   {sidebarGroups.map((group, idx) => (
-                    <div key={idx} className="flex flex-col">
-                      <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 px-2">
-                        {group.title}
-                      </h4>
-                      <div className="flex flex-col gap-1.5">
+                    <div key={idx} className="flex flex-col mb-6">
+                      {group.title && (
+                        <h4 className="px-4 mb-2 text-xs font-semibold text-white/50 tracking-wide">
+                          {group.title}
+                        </h4>
+                      )}
+                      <div className="flex flex-col gap-0.5">
                         {group.items.map((tab) => (
                           <Sidebar001Item
                             key={tab.id}
                             href={`/guilds/${params.guildId}/${tab.id}`}
                             label={tab.label}
+                            icon={tab.icon}
                             isActive={activeTabId === tab.id}
                             onClick={(e) => {
                               e.preventDefault();

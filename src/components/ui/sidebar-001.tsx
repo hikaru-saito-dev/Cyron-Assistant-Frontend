@@ -175,6 +175,7 @@ function HoverHighlight() {
 export interface Sidebar001ItemProps {
   href: string;
   label: React.ReactNode;
+  icon?: React.ReactNode;
   isActive: boolean;
   isNew?: boolean;
   className?: string;
@@ -184,80 +185,40 @@ export interface Sidebar001ItemProps {
 export const Sidebar001Item = memo(function Sidebar001Item({
   href,
   label,
+  icon,
   isActive,
   isNew,
   className,
   onClick,
 }: Sidebar001ItemProps) {
-  const { hovered, setHovered, containerRef } = useContext(HoverContext);
-  const isHovered = hovered === href;
   const itemRef = useScrollToActive(isActive);
 
-  const opacity = isActive
-    ? 1
-    : hovered !== null
-      ? isHovered
-        ? 1
-        : 0.3
-      : 0.55;
-  const x = isActive ? 8 : isHovered ? 6 : 0;
-
   return (
-    <div className="relative">
-      {isActive && (
-        <motion.span
-          layoutId="sb001-active-bar"
-          className="pointer-events-none absolute z-10 left-[4px] top-1/2 h-[1.8px] -translate-y-1/2 rounded-full bg-red-500"
-          animate={{ width: 23 }}
-          transition={{ type: "spring", stiffness: 800, damping: 40 }}
-        />
-      )}
-
-      <motion.span
-        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 h-px bg-white/50"
-        animate={{ width: isActive ? 0 : isHovered ? 26 : 18 }}
-        transition={{ type: "spring", stiffness: 600, damping: 30 }}
-      />
-      <motion.span className="pointer-events-none absolute w-[13px] left-0 top-1/4 h-px bg-white/30" />
-      <motion.span className="pointer-events-none absolute w-[16px] left-0 top-0 h-px bg-white/30" />
-      <motion.span className="pointer-events-none absolute w-[13px] left-0 top-3/4 h-px bg-white/30" />
-
-      <motion.div
-        ref={itemRef}
-        animate={{ opacity, x }}
-        transition={{ type: "spring", stiffness: 700, damping: 30 }}
-        style={{ transformOrigin: "left center" }}
+    <div className="relative px-2 py-0.5">
+      <a
+        ref={itemRef as any}
+        href={href}
+        onClick={onClick}
+        className={cn(
+          "relative flex items-center gap-3 px-3 py-2 text-[14px] font-medium rounded-lg transition-colors",
+          isActive
+            ? "bg-white/10 text-white"
+            : "text-white/60 hover:text-white hover:bg-white/5",
+          className,
+        )}
       >
-        <a
-          href={href}
-          onClick={onClick}
-          onMouseEnter={() => {
-            const el = itemRef.current;
-            const container = containerRef.current;
-            if (el && container) {
-              const elRect = el.getBoundingClientRect();
-              const containerRect = container.getBoundingClientRect();
-              setHovered(href, {
-                top: elRect.top - containerRect.top,
-                height: elRect.height,
-                left: 25,
-              });
-            } else {
-              setHovered(href);
-            }
-          }}
-          onMouseLeave={() => setHovered(null)}
-          className={cn(
-            "relative flex items-center gap-2 ml-2 pl-4 py-1.5 text-sm select-none text-white",
-            className,
-          )}
-        >
-          <span className="relative z-1 truncate">{label}</span>
-          {isNew && (
-            <span className="size-1.5 rounded-full bg-red-500 shrink-0" />
-          )}
-        </a>
-      </motion.div>
+        {icon && (
+          <span className={cn("shrink-0", isActive ? "text-white" : "text-white/60")}>
+            {icon}
+          </span>
+        )}
+        <span className="relative z-1 truncate">{label}</span>
+        {isNew && (
+          <span className="ml-auto flex size-5 items-center justify-center rounded-full bg-red-500/20 text-[10px] font-medium text-red-500">
+            !
+          </span>
+        )}
+      </a>
     </div>
   );
 });

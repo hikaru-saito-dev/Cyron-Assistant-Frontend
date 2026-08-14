@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import re
 
-const FRAGMENT_SHADER = `
+with open("/Users/Krish/Cyron-Assistant-Frontend/src/components/ui/webgl-background.tsx", "r") as f:
+    content = f.read()
+
+new_shader = """const FRAGMENT_SHADER = `
 // "Flow field" — made with the 21st.dev Shader Builder
 // Packed WebGL1 uniforms (the shader exposes readable u_* aliases as macros):
 //   u_colors[8] (first 4 used)
@@ -277,166 +280,10 @@ void main() {
       gl_FragCoord.xy + vec2(u_seed * 17.0, u_seed * 31.0)) - 0.5) * u_grain;
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
-`;
+`;"""
 
-const VERTEX_SHADER = `
-attribute vec2 position;
-void main() {
-  gl_Position = vec4(position, 0.0, 1.0);
-}
-`;
+content = re.sub(r'const FRAGMENT_SHADER = `.*?`;', new_shader, content, flags=re.DOTALL)
+content = re.sub(r'gl.uniform4f\(uniforms.u_cursor, pointer\[2\], 4\.0, 0\.66, 0\.78\);', r'gl.uniform4f(uniforms.u_cursor, pointer[2], 4.0, 0.66, 0.65);', content)
 
-function compileShader(gl: WebGLRenderingContext, type: number, source: string) {
-  const shader = gl.createShader(type);
-  if (!shader) return null;
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error("Shader compile error:", gl.getShaderInfoLog(shader));
-    gl.deleteShader(shader);
-    return null;
-  }
-  return shader;
-}
-
-export function WebGLBackground() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const gl = canvas.getContext("webgl", { alpha: false, antialias: false, depth: false });
-    if (!gl) return;
-
-    const vs = compileShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
-    const fs = compileShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
-    if (!vs || !fs) return;
-
-    const program = gl.createProgram();
-    if (!program) return;
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
-    gl.linkProgram(program);
-
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program link error:", gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
-
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-
-    const positionLocation = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-    const uniforms = {
-      u_colors: gl.getUniformLocation(program, "u_colors"),
-      u_scene: gl.getUniformLocation(program, "u_scene"),
-      u_shape: gl.getUniformLocation(program, "u_shape"),
-      u_surface: gl.getUniformLocation(program, "u_surface"),
-      u_finish: gl.getUniformLocation(program, "u_finish"),
-      u_transform: gl.getUniformLocation(program, "u_transform"),
-      u_space: gl.getUniformLocation(program, "u_space"),
-      u_cursor: gl.getUniformLocation(program, "u_cursor"),
-    };
-
-    let pointer = [0, 0, 0]; // [x, y, presence]
-
-    const handlePointerMove = (e: PointerEvent) => {
-      pointer[0] = (e.clientX / window.innerWidth) * 2 - 1;
-      pointer[1] = 1 - (e.clientY / window.innerHeight) * 2;
-      pointer[2] = 1;
-    };
-
-    const handlePointerLeave = () => {
-      pointer[2] = 0;
-    };
-
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerout", handlePointerLeave);
-
-    let animationId = 0;
-    let startTime = performance.now();
-    let isVisible = !document.hidden;
-
-    const handleVisibilityChange = () => {
-      isVisible = !document.hidden;
-      if (isVisible) {
-        startTime = performance.now() - (lastRenderTime * 1000);
-        loop(performance.now());
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    let lastRenderTime = 0;
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
-      gl.viewport(0, 0, canvas.width, canvas.height);
-    };
-
-    window.addEventListener("resize", resize);
-    resize();
-
-    const loop = (time: number) => {
-      if (!isVisible) return;
-
-      const t = (time - startTime) / 1000;
-      lastRenderTime = t;
-
-      // Pass the arrays exactly as specified
-      gl.uniform3fv(uniforms.u_colors, new Float32Array([
-        0.008, 0.004, 0.039,
-        0.016, 0.020, 0.180,
-        0.239, 0.173, 0.553,
-        0.569, 0.420, 0.749,
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, 0
-      ]));
-
-      gl.uniform4f(uniforms.u_scene, canvas.width, canvas.height, t * -1.28, 4.0);
-      gl.uniform4f(uniforms.u_shape, 1.48, 0.39, 0.57, 0.24);
-      gl.uniform4f(uniforms.u_surface, 2.11, 1.19, 0.07, 1.54);
-      gl.uniform4f(uniforms.u_finish, 4.63, 0.36, 0.005, 0.02);
-      gl.uniform4f(uniforms.u_transform, 8379.0, 5.01, 0.06, 0.0);
-      gl.uniform4f(uniforms.u_space, -0.02, 0.15, pointer[0], pointer[1]);
-      gl.uniform4f(uniforms.u_cursor, pointer[2], 4.0, 0.66, 0.65);
-
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-      animationId = requestAnimationFrame(loop);
-    };
-
-    loop(performance.now());
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerout", handlePointerLeave);
-      cancelAnimationFrame(animationId);
-      gl.deleteProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
-      gl.deleteBuffer(positionBuffer);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
-    />
-  );
-}
+with open("/Users/Krish/Cyron-Assistant-Frontend/src/components/ui/webgl-background.tsx", "w") as f:
+    f.write(content)
