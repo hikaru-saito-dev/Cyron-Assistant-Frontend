@@ -16,13 +16,7 @@ export const Dashboard = () => {
     queryFn: fetchGuilds,
   });
 
-  const DEMO_GUILDS = [
-    { id: '1', name: 'Cyron HQ',        has_bot: true,  plan: 'business', icon_url: null },
-    { id: '2', name: 'Dev Corner',      has_bot: true,  plan: 'pro',      icon_url: 'https://ik.imagekit.io/kqmrslzuq/21st.dev%20Components/3D%20Profile%20Selector/1.jpg' },
-    { id: '3', name: 'Gaming Lounge',   has_bot: true,  plan: 'free',     icon_url: 'https://ik.imagekit.io/kqmrslzuq/21st.dev%20Components/3D%20Profile%20Selector/2.jpg' },
-    { id: '6', name: 'Night Owls',      has_bot: false, plan: 'free',     icon_url: 'https://ik.imagekit.io/kqmrslzuq/21st.dev%20Components/3D%20Profile%20Selector/3.jpg' },
-    { id: '7', name: 'Study Group',     has_bot: false, plan: 'free',     icon_url: null },
-  ];
+
 
   const handleAddBot = (guildId: string | number) => {
     console.log('Add bot to guild', guildId);
@@ -35,7 +29,7 @@ export const Dashboard = () => {
       <WebGLBackground />
       <div className="relative z-10">
         <Header />
-        <ProfileSelect guilds={DEMO_GUILDS as any[]} onAddBot={handleAddBot} />
+        <ProfileSelect guilds={(guilds as any[]) || []} onAddBot={handleAddBot} />
       </div>
     </div>
   );
