@@ -39,7 +39,7 @@ export function PricingPlansDemo() {
       description: "For serious support teams that want reliable AI coverage with human oversight.",
       buttonText: "Get Started",
       isPopular: true,
-      onAction: () => navigate("/payment"),
+      onAction: (isMonthly: boolean) => navigate(`/payment?plan=pro&billing=${isMonthly ? 'monthly' : 'annual'}`),
     },
     {
       name: "Business",
@@ -56,7 +56,7 @@ export function PricingPlansDemo() {
       ],
       description: "Highest-tier plan for mission-critical communities, SaaS products, and scaled support teams that require rapid SLAs, and holistic control over all AI-enabled ticket handling.",
       buttonText: "Start Business trial",
-      onAction: () => navigate("/payment"),
+      onAction: (isMonthly: boolean) => navigate(`/payment?plan=business&billing=${isMonthly ? 'monthly' : 'annual'}`),
     },
   ];
 

@@ -200,7 +200,7 @@ export interface PricingPlan {
   buttonText: string;
   href?: string;
   isPopular?: boolean;
-  onAction?: () => void;
+  onAction?: (isMonthly: boolean) => void;
 }
 
 interface PricingSectionProps {
@@ -435,7 +435,7 @@ function PricingCard({ plan, index }: { plan: PricingPlan; index: number }) {
         <div className="mt-auto pt-8">
           {plan.onAction ? (
             <button
-              onClick={plan.onAction}
+              onClick={() => plan.onAction!(isMonthly)}
               className={cn(
                 buttonVariants({
                   variant: plan.isPopular ? "default" : "outline",
