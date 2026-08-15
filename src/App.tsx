@@ -23,7 +23,7 @@ export default function App() {
         <Route path="/docs" element={<Docs />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
+        <Route path="/payment" element={<Payment />} />
 
         <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
           <Route path="/dashboard" element={<Dashboard />} />

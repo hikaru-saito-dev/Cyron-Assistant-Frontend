@@ -1,20 +1,27 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
-const FRAGMENT_SHADER = `
-// "Flow field" — made with the 21st.dev Shader Builder
+const vertexShaderSource = `
+  attribute vec2 position;
+  void main() {
+    gl_Position = vec4(position, 0.0, 1.0);
+  }
+`;
+
+const fragmentShaderSource = `
+// "Mesh drift" — made with the 21st.dev Shader Builder
 // Packed WebGL1 uniforms (the shader exposes readable u_* aliases as macros):
 //   u_colors[8] (first 4 used)
-//   vec3(0.008, 0.004, 0.039)
-//   vec3(0.016, 0.020, 0.180)
-//   vec3(0.239, 0.173, 0.553)
-//   vec3(0.569, 0.420, 0.749)
-//   u_scene = vec4(canvas width, canvas height, seconds * -1.28, 4.0)
-//   u_shape = vec4(1.48, 0.39, 0.57, 0.24)
-//   u_surface = vec4(2.11, 1.19, 0.07, 1.54)
-//   u_finish = vec4(4.63, 0.36, 0.005, 0.02)
-//   u_transform = vec4(8379.0, 5.01, 0.06, 0.0)
-//   u_space = vec4(-0.02, 0.15, pointer x, pointer y)
-//   u_cursor = vec4(presence, 4.0, 0.66, 0.65)
+//   vec3(0.000, 0.071, 0.098)
+//   vec3(0.000, 0.373, 0.451)
+//   vec3(0.580, 0.824, 0.741)
+//   vec3(0.914, 0.847, 0.651)
+//   u_scene = vec4(canvas width, canvas height, seconds * -0.73, 4.0)
+//   u_shape = vec4(2.00, 0.54, 0.47, 0.04)
+//   u_surface = vec4(1.54, 1.16, 0.00, 1.00)
+//   u_finish = vec4(0.00, 0.21, 0.002, 0.10)
+//   u_transform = vec4(4012.0, 5.65, 0.12, 0.0)
+//   u_space = vec4(0.11, -0.19, pointer x, pointer y)
+//   u_cursor = vec4(presence, 2.0, 0.65, 0.46)
 
 #ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
@@ -182,10 +189,19 @@ vec3 hueRotate(vec3 col, float a) {
 }
 
 vec3 shade(vec2 uv, vec2 p, float t) {
-  float a = fbm(p * 2.0 + u_seed) * 6.2831;
-  vec2 dir = vec2(cos(a), sin(a));
-  float v = fbm(p * 3.0 + dir * (u_intensity * 2.0) + t * 0.12);
-  return palette(v);
+  vec3 acc = u_colors[0] * 0.15;
+  float total = 0.15;
+  for (int i = 0; i < 8; i++) {
+    if (float(i) >= u_colorCount) break;
+    float fi = float(i);
+    vec2 c = vec2(
+      sin(t * (0.21 + fi * 0.071) + fi * 2.4 + u_seed),
+      cos(t * (0.17 + fi * 0.093) + fi * 1.7)) * (0.45 + u_intensity * 0.35);
+    float w = exp(-dot(p - c, p - c) * 6.0);
+    acc += u_colors[i] * w;
+    total += w;
+  }
+  return acc / total;
 }
 
 void main() {
@@ -279,164 +295,139 @@ void main() {
 }
 `;
 
-const VERTEX_SHADER = `
-attribute vec2 position;
-void main() {
-  gl_Position = vec4(position, 0.0, 1.0);
-}
-`;
-
-function compileShader(gl: WebGLRenderingContext, type: number, source: string) {
-  const shader = gl.createShader(type);
-  if (!shader) return null;
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error("Shader compile error:", gl.getShaderInfoLog(shader));
-    gl.deleteShader(shader);
-    return null;
-  }
-  return shader;
-}
-
 export function WebGLBackground() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    const gl = canvas.getContext("webgl", { alpha: false, antialias: false, depth: false });
+    const gl = canvas.getContext('webgl');
     if (!gl) return;
 
-    const vs = compileShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
-    const fs = compileShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
-    if (!vs || !fs) return;
+    // Compile shaders
+    const compileShader = (type: number, source: string) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    };
+
+    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+    if (!vertexShader || !fragmentShader) return;
 
     const program = gl.createProgram();
     if (!program) return;
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program link error:", gl.getProgramInfoLog(program));
+      console.error('Program linking error:', gl.getProgramInfoLog(program));
       return;
     }
+
     gl.useProgram(program);
 
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    // Fullscreen triangle
+    const vertices = new Float32Array([
+      -1.0, -1.0,
+       3.0, -1.0,
+      -1.0,  3.0
+    ]);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-    const positionLocation = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+    const positionLoc = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(positionLoc);
+    gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
 
-    const uniforms = {
-      u_colors: gl.getUniformLocation(program, "u_colors"),
-      u_scene: gl.getUniformLocation(program, "u_scene"),
-      u_shape: gl.getUniformLocation(program, "u_shape"),
-      u_surface: gl.getUniformLocation(program, "u_surface"),
-      u_finish: gl.getUniformLocation(program, "u_finish"),
-      u_transform: gl.getUniformLocation(program, "u_transform"),
-      u_space: gl.getUniformLocation(program, "u_space"),
-      u_cursor: gl.getUniformLocation(program, "u_cursor"),
-    };
+    // Uniform locations
+    const uColorsLoc = gl.getUniformLocation(program, 'u_colors');
+    const uSceneLoc = gl.getUniformLocation(program, 'u_scene');
+    const uShapeLoc = gl.getUniformLocation(program, 'u_shape');
+    const uSurfaceLoc = gl.getUniformLocation(program, 'u_surface');
+    const uFinishLoc = gl.getUniformLocation(program, 'u_finish');
+    const uTransformLoc = gl.getUniformLocation(program, 'u_transform');
+    const uSpaceLoc = gl.getUniformLocation(program, 'u_space');
+    const uCursorLoc = gl.getUniformLocation(program, 'u_cursor');
 
-    let pointer = [0, 0, 0]; // [x, y, presence]
+    const colors = new Float32Array([
+      0.000, 0.071, 0.098,
+      0.000, 0.373, 0.451,
+      0.580, 0.824, 0.741,
+      0.914, 0.847, 0.651,
+      0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0,
+    ]);
 
-    const handlePointerMove = (e: PointerEvent) => {
-      pointer[0] = (e.clientX / window.innerWidth) * 2 - 1;
-      pointer[1] = 1 - (e.clientY / window.innerHeight) * 2;
-      pointer[2] = 1;
-    };
-
-    const handlePointerLeave = () => {
-      pointer[2] = 0;
-    };
-
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerout", handlePointerLeave);
-
-    let animationId = 0;
-    let startTime = performance.now();
-    let isVisible = !document.hidden;
-
-    const handleVisibilityChange = () => {
-      isVisible = !document.hidden;
-      if (isVisible) {
-        startTime = performance.now() - (lastRenderTime * 1000);
-        loop(performance.now());
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    let lastRenderTime = 0;
+    let animationId: number;
+    const startTime = performance.now();
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
-    window.addEventListener("resize", resize);
+    window.addEventListener('resize', resize);
     resize();
 
-    const loop = (time: number) => {
-      if (!isVisible) return;
-
-      const t = (time - startTime) / 1000;
-      lastRenderTime = t;
-
-      // Pass the arrays exactly as specified
-      gl.uniform3fv(uniforms.u_colors, new Float32Array([
-        0.008, 0.004, 0.039,
-        0.016, 0.020, 0.180,
-        0.239, 0.173, 0.553,
-        0.569, 0.420, 0.749,
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, 0
-      ]));
-
-      gl.uniform4f(uniforms.u_scene, canvas.width, canvas.height, t * -1.28, 4.0);
-      gl.uniform4f(uniforms.u_shape, 1.48, 0.39, 0.57, 0.24);
-      gl.uniform4f(uniforms.u_surface, 2.11, 1.19, 0.07, 1.54);
-      gl.uniform4f(uniforms.u_finish, 4.63, 0.36, 0.005, 0.02);
-      gl.uniform4f(uniforms.u_transform, 8379.0, 5.01, 0.06, 0.0);
-      gl.uniform4f(uniforms.u_space, -0.02, 0.15, pointer[0], pointer[1]);
-      gl.uniform4f(uniforms.u_cursor, pointer[2], 4.0, 0.66, 0.65);
+    const render = () => {
+      if (document.hidden) {
+        animationId = requestAnimationFrame(render);
+        return;
+      }
+      
+      const seconds = (performance.now() - startTime) / 1000;
+      
+      gl.uniform3fv(uColorsLoc, colors);
+      gl.uniform4f(uSceneLoc, canvas.width, canvas.height, seconds * -0.73, 4.0);
+      gl.uniform4f(uShapeLoc, 2.00, 0.54, 0.47, 0.04);
+      gl.uniform4f(uSurfaceLoc, 1.54, 1.16, 0.00, 1.00);
+      gl.uniform4f(uFinishLoc, 0.00, 0.21, 0.002, 0.10);
+      gl.uniform4f(uTransformLoc, 4012.0, 5.65, 0.12, 0.0);
+      gl.uniform4f(uSpaceLoc, 0.11, -0.19, 0.0, 0.0); // pointer x, y = 0
+      gl.uniform4f(uCursorLoc, 0.0, 2.0, 0.65, 0.46); // presence = 0
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      animationId = requestAnimationFrame(loop);
+      animationId = requestAnimationFrame(render);
     };
 
-    loop(performance.now());
+    animationId = requestAnimationFrame(render);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerout", handlePointerLeave);
+      window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationId);
       gl.deleteProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
-      gl.deleteBuffer(positionBuffer);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
+      className="fixed inset-0 w-full h-full pointer-events-none -z-10"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1,
+      }}
     />
   );
 }

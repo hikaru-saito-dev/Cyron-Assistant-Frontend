@@ -2,8 +2,8 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAlert } from 'react-alert';
-import { TopNav } from '../../components/layout/TopNav';
-import { Footer } from '../../components/layout/Footer';
+import { Header } from '../../components/ui/header-2';
+import { CinematicFooter } from '../../components/ui/motion-footer';
 import { PageTransition } from '../../components/motion/PageTransition';
 import { useAuth } from '../../hooks/useAuth';
 import { useApp } from '../../context/AppContext';
@@ -52,9 +52,10 @@ export const Payment = () => {
     rawPlanParam === 'pro' || rawPlanParam === 'business'
       ? rawPlanParam
       : 'pro';
-  const effectivePlanFromUrl: PlanType =
-    planParam === 'pro' && selectedPlan === 'business' ? 'business' : planParam;
-  const [plan, setPlan] = useState<PlanType>(effectivePlanFromUrl);
+  const billingParam = searchParams.get('billing');
+  const isAnnual = billingParam === 'annual';
+
+  const [plan, setPlan] = useState<PlanType>(planParam);
 
   const [formData, setFormData] = useState({
     cardNumber: '',
@@ -86,23 +87,10 @@ export const Payment = () => {
     alert.error('Failed to load your servers. Please refresh and try again.');
   }, [alert, isGuildsError]);
 
-  // Theme is provided globally by AppProvider.
-
   useEffect(() => {
-    // Track which plan user is trying to pay for (global + local page state).
-    setSelectedPlan(plan);
-  }, [plan, setSelectedPlan]);
-
-  useEffect(() => {
-    // If something else updates the selected plan (e.g., PricingPlans click), reflect it here.
-    if (selectedPlan === plan) return;
-    if (selectedPlan === 'pro' || selectedPlan === 'business') {
-      setPlan(selectedPlan);
-    } else {
-      // Fallback: treat any other value (e.g. 'free') as Pro for checkout.
-      setPlan('pro');
-    }
-  }, [selectedPlan, plan]);
+    // Scroll to top when navigating to this page
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (loading) return;
@@ -110,6 +98,11 @@ export const Payment = () => {
       navigate('/premium', { replace: true });
     }
   }, [isAuthenticated, loading, navigate]);
+
+  useEffect(() => {
+    // Track which plan user is trying to pay for (global + local page state).
+    setSelectedPlan(plan);
+  }, [plan, setSelectedPlan]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -177,7 +170,7 @@ export const Payment = () => {
       setIsProcessing(false);
       // In a real app, you would call your payment API here and include the selectedGuildId.
       // For now, redirect to dashboard with success message and selected guild for future use.
-      navigate(`/dashboard?payment=success&guildId=${encodeURIComponent(selectedGuildId)}`, {
+      navigate(`/dashboard?payment=success&guildId=${encodeURIComponent(selectedGuildId)}&plan=${encodeURIComponent(plan)}`, {
         replace: true,
       });
     }, 2000);
@@ -200,11 +193,11 @@ export const Payment = () => {
   if (loading) {
     return (
       <>
-        <TopNav currentGuildName={null} />
+        <Header />
         <div className="flex min-h-[70vh] items-center justify-center text-slate-600">
           Loading checkout…
         </div>
-        <Footer />
+        <CinematicFooter />
       </>
     );
   }
@@ -218,7 +211,7 @@ export const Payment = () => {
 
   return (
     <>
-      <TopNav currentGuildName={selectedGuild?.name ?? null} />
+      <Header />
       <PageTransition>
         <div
           className={
@@ -273,10 +266,10 @@ export const Payment = () => {
                     </p>
                     <div className="mt-4 flex items-end gap-2">
                       <p className={clsx('text-4xl font-semibold', headingText)}>
-                        {planData?.priceLabel ?? ''}
+                        {isAnnual ? (plan === 'business' ? '$200' : '$90') : (planData?.priceLabel ?? '')}
                       </p>
                       <p className={clsx('mb-1 text-sm', isDark ? accent.color : accent.darkColor)}>
-                        {planData?.priceSubLabel ?? ''}
+                        {isAnnual ? '/ year' : (planData?.priceSubLabel ?? '')}
                       </p>
                     </div>
                   </div>
@@ -598,7 +591,7 @@ export const Payment = () => {
                         ) : (
                           <>
                             <FaLock className="h-4 w-4" />
-                            Complete payment
+                            Pay {isAnnual ? (plan === 'business' ? '$200' : '$90') : (planData?.priceLabel ?? '')}
                           </>
                         )}
                       </button>
@@ -614,7 +607,7 @@ export const Payment = () => {
           </div>
         </div>
       </PageTransition>
-      <Footer />
+      <CinematicFooter />
     </>
   );
 };

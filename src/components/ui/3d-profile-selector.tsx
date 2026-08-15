@@ -4,14 +4,11 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useSpring,
-  useTransform,
   type Variants,
   type MotionValue,
 } from "framer-motion";
-import { Plus, RefreshCw } from "lucide-react";
+import { Plus, RefreshCw, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import ProfileCard from "@/components/ui/profile-card";
 /* ---------- Types ---------- */
 
 function SearchIcon() {
@@ -27,7 +24,7 @@ function SearchBar({ value, onChange }: { value: string; onChange: (val: string)
   return (
     <div style={{ width: 420, maxWidth: "100%", height: 50, borderRadius: 64, overflow: "hidden", position: "relative", fontFamily: "system-ui, -apple-system, sans-serif" }}>
       <div
-        className="bg-[#E63946]/70 backdrop-blur-lg border border-white/20 shadow"
+        className="bg-white/10 backdrop-blur-lg border border-white/20 shadow"
         style={{
           position: "absolute",
           inset: 0,
@@ -36,7 +33,7 @@ function SearchBar({ value, onChange }: { value: string; onChange: (val: string)
           alignItems: "center",
           padding: "0 13px",
           gap: 10,
-          color: "#000000",
+          color: "#ffffff",
         }}
       >
         <SearchIcon />
@@ -47,14 +44,14 @@ function SearchBar({ value, onChange }: { value: string; onChange: (val: string)
           onChange={(e) => onChange(e.target.value)}
           autoComplete="off"
           spellCheck="false"
-          className="transparent-input force-black-text bg-transparent border-0 ring-0 outline-none focus:ring-0 focus:border-0 focus:outline-none"
+          className="transparent-input bg-transparent border-0 ring-0 outline-none focus:ring-0 focus:border-0 focus:outline-none placeholder:text-white/50"
           style={{
             background: "transparent",
             border: "none",
             outline: "none",
             fontSize: 16,
             lineHeight: "20px",
-            color: "#000000",
+            color: "#ffffff",
             width: "100%",
             boxShadow: "none"
           }}
@@ -139,39 +136,32 @@ export default function ProfileSelect({ guilds = [], onAddBot }: ServerCardsProp
 
   return (
     <div
-      className="relative min-h-screen w-full overflow-hidden bg-transparent text-neutral-50 selection:bg-white/20 pb-20"
+      className="relative w-full text-neutral-50 selection:bg-white/20 mt-8"
       onMouseMove={handleMouseMove}
     >
       <motion.div
-        className="relative z-10 flex flex-col items-center pt-24 px-4"
+        className="relative z-10 flex flex-col w-full"
         variants={sectionVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.h1
-          className="mb-8 text-center text-5xl font-bold tracking-tighter sm:text-7xl"
-          variants={titleVariants}
-        >
-          Select your server
-        </motion.h1>
 
         <motion.div
           variants={titleVariants}
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             gap: 12,
-            width: "auto",
+            width: "100%",
             maxWidth: "100%",
-            margin: "0 auto",
             marginBottom: "3rem"
           }}
         >
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
           <button
             onClick={() => window.location.reload()}
-            className="bg-[#E63946]/70 backdrop-blur-lg border border-white/20 shadow hover:bg-[#E63946]/90 transition-colors"
+            className="bg-white/10 backdrop-blur-lg border border-white/20 shadow hover:bg-white/20 transition-colors"
             style={{
               display: "flex",
               alignItems: "center",
@@ -188,17 +178,20 @@ export default function ProfileSelect({ guilds = [], onAddBot }: ServerCardsProp
           </button>
         </motion.div>
 
+
         {/* Bot Installed Section */}
         {installedServers.length > 0 && (
-          <div className="w-full max-w-6xl mb-16">
-            <motion.h2
-              className="mb-8 text-2xl font-semibold text-neutral-300 ml-4 md:ml-12"
-              variants={subtitleVariants}
-            >
-              Bot installed
-            </motion.h2>
+          <div className="w-full mb-16">
+            <motion.div variants={subtitleVariants} className="mb-6">
+              <h2 className="text-2xl font-semibold text-neutral-300">
+                Bot installed
+              </h2>
+              <p className="text-sm font-medium text-neutral-500 mt-1">
+                Click to open the dashboard.
+              </p>
+            </motion.div>
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 justify-items-center perspective-[1000px] w-full max-w-[1200px] mx-auto"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-start w-full"
               variants={{
                 hidden: {},
                 visible: {
@@ -207,13 +200,9 @@ export default function ProfileSelect({ guilds = [], onAddBot }: ServerCardsProp
               }}
             >
               {installedServers.map((guild) => (
-                <ProfileCard
+                <HorizontalProfileCard
                   key={String(guild.id)}
-                  name={guild.name}
-                  email={String(guild.id)}
-                  avatarSrc={guild.icon_url || undefined}
-                  glowText={guild.plan && guild.plan.toLowerCase() !== "free" ? guild.plan : undefined}
-                  isInstalled={true}
+                  guild={guild}
                   onManage={() => navigate(`/guilds/${guild.id}/settings`)}
                 />
               ))}
@@ -223,15 +212,17 @@ export default function ProfileSelect({ guilds = [], onAddBot }: ServerCardsProp
 
         {/* Non Installed Section */}
         {nonInstalledServers.length > 0 && (
-          <div className="w-full max-w-6xl">
-            <motion.h2
-              className="mb-8 text-2xl font-semibold text-neutral-400 ml-4 md:ml-12"
-              variants={subtitleVariants}
-            >
-              Non installed servers
-            </motion.h2>
+          <div className="w-full">
+            <motion.div variants={subtitleVariants} className="mb-6">
+              <h2 className="text-2xl font-semibold text-neutral-400">
+                Non installed servers
+              </h2>
+              <p className="text-sm font-medium text-neutral-500 mt-1">
+                Click to add the bot to these servers.
+              </p>
+            </motion.div>
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 justify-items-center perspective-[1000px] w-full max-w-[1200px] mx-auto"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-start w-full"
               variants={{
                 hidden: {},
                 visible: {
@@ -240,12 +231,10 @@ export default function ProfileSelect({ guilds = [], onAddBot }: ServerCardsProp
               }}
             >
               {nonInstalledServers.map((guild) => (
-                <ProfileCard
+                <HorizontalProfileCard
                   key={String(guild.id)}
-                  name={guild.name}
-                  email={String(guild.id)}
-                  avatarSrc={guild.icon_url || undefined}
-                  onAddBot={() => onAddBot?.(guild.id)}
+                  guild={guild}
+                  onAddBot={onAddBot}
                 />
               ))}
             </motion.div>
@@ -279,95 +268,64 @@ function Spotlight({
   );
 }
 
-/* ---------- Tilt server card ---------- */
+/* ---------- Horizontal Profile card ---------- */
 
-function TiltCard({ guild, onAddBot }: { guild: Guild; onAddBot?: (id: string | number) => void }) {
+function HorizontalProfileCard({ guild, onAddBot, onManage }: { guild: Guild; onAddBot?: (id: string | number) => void; onManage?: () => void }) {
   const navigate = useNavigate();
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
 
-  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 30 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const xPct = mouseX / rect.width - 0.5;
-    const yPct = mouseY / rect.height - 0.5;
-
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (guild.has_bot) {
-      navigate(`/guilds/${guild.id}/settings`);
+      if (onManage) onManage();
+      else navigate(`/guilds/${guild.id}/settings`);
     } else if (onAddBot) {
       onAddBot(guild.id);
     }
   };
 
   return (
-    <motion.div variants={cardVariants} className="flex flex-col items-center gap-4">
-      <motion.div
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className={`group relative h-40 w-40 sm:h-52 sm:w-52 ${guild.has_bot ? "cursor-pointer" : "cursor-pointer opacity-70 hover:opacity-100 transition-opacity"
-          }`}
-      >
-        {/* Image layer */}
-        <div
-          style={{ transform: "translateZ(30px)" }}
-          className={`absolute inset-0 overflow-hidden rounded-4xl bg-neutral-900 shadow-2xl transition-shadow duration-500 group-hover:shadow-[0_0_50px_-10px_rgba(255,255,255,0.2)] flex items-center justify-center ${!guild.has_bot ? "grayscale-[0.5]" : ""
-            }`}
-        >
-          {guild.icon_url ? (
-            <img
-              src={guild.icon_url}
-              alt={guild.name}
-              className="absolute inset-0 h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-110 group-hover:opacity-100"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-zinc-800 transition-transform duration-500 group-hover:scale-110">
-              <span className="text-5xl sm:text-7xl font-bold text-zinc-400 group-hover:text-zinc-200 select-none">
-                {guild.name.charAt(0).toUpperCase()}
-              </span>
-            </div>
-          )}
+    <motion.div 
+      variants={cardVariants} 
+      onClick={handleClick}
+      className="group relative flex w-full max-w-[400px] h-[120px] overflow-hidden rounded-[20px] bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-[1.02] hover:bg-white/20 hover:border-white/30 cursor-pointer shadow-lg"
+    >
+      {/* Left side: Avatar */}
+      <div className="w-[35%] h-full flex items-center justify-center bg-black/20 border-r-2 border-white/20">
+        {guild.icon_url ? (
+          <img src={guild.icon_url} alt={guild.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        ) : (
+          <span className="text-5xl font-black text-white select-none tracking-tighter">{guild.name.charAt(0).toUpperCase()}</span>
+        )}
+      </div>
+
+      {/* Right side: Name and Plan */}
+      <div className="relative w-[65%] h-full overflow-hidden">
+        {/* Default State */}
+        <div className="absolute inset-0 flex flex-col justify-center px-6 transition-transform duration-300 group-hover:-translate-y-full">
+          <h3 
+            className="line-clamp-2 text-2xl font-bold text-white uppercase tracking-tighter leading-none"
+            style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}
+          >
+            {guild.name}
+          </h3>
+          <p className="mt-2 text-sm font-bold text-white/70 tracking-wide">
+            {guild.plan ? guild.plan.toUpperCase() : (guild.has_bot ? 'FREE' : 'NOT INSTALLED')}
+          </p>
         </div>
 
-        {/* Border glow */}
-        <div
-          style={{ transform: "translateZ(20px)" }}
-          className={`absolute inset-0 rounded-4xl ring-1 ring-inset transition-colors duration-300 ${guild.has_bot
-              ? "ring-white/10 group-hover:ring-white/30"
-              : "ring-white/5 group-hover:ring-white/20"
-            }`}
-        />
-      </motion.div>
-
-      {/* Name and Plan - Now placed underneath the 3D card */}
-      <div className="text-center w-40 sm:w-52 mt-1">
-        <span className="block truncate text-[16px] font-medium text-neutral-200">
-          {guild.name}
-        </span>
-        {guild.plan && guild.plan !== "free" && (
-          <span className="block text-[11px] font-bold uppercase tracking-widest text-amber-400 mt-1">
-            {guild.plan}
+        {/* Hover State */}
+        <div 
+          className="absolute inset-0 flex items-center justify-center translate-y-full transition-transform duration-300 group-hover:translate-y-0"
+          style={{ backgroundColor: '#ffffff' }}
+        >
+          <span 
+            className="font-bold uppercase tracking-tighter text-xl flex items-center gap-2" 
+            style={{ color: '#000000', fontFamily: 'Impact, "Arial Black", sans-serif' }}
+          >
+            {guild.has_bot ? "Manage" : "Add Bot"} 
+            <ArrowRight size={20} strokeWidth={4} color="#000000" />
           </span>
-        )}
+        </div>
       </div>
     </motion.div>
   );
