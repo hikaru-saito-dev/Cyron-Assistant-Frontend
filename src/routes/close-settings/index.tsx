@@ -48,12 +48,12 @@ export function CloseSettings() {
     <div className="space-y-8 max-w-5xl mx-auto pb-12 pt-4 md:pt-0">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between px-4 md:px-0">
         <div className="space-y-2">
-          <h2 className="text-[22px] font-semibold text-white tracking-tight">Close Settings</h2>
+          <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Close Settings</h2>
           <p className="text-[14px] text-slate-400 max-w-lg leading-relaxed">Manage ticket closing behavior, messages, and logs.</p>
         </div>
         <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending}
-          className="shrink-0 rounded-full bg-white px-5 py-2 text-[13px] font-medium text-black hover:bg-slate-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] disabled:opacity-50 inline-flex items-center gap-2">
-          {saveMut.isPending ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />Saving…</> : 'Save Changes'}
+          className="shrink-0 rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-lg shadow-[#0433FF]/20 disabled:opacity-50 inline-flex items-center gap-2">
+          {saveMut.isPending ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />Saving…</> : 'Save Changes'}
         </button>
       </div>
 
@@ -69,25 +69,25 @@ export function CloseSettings() {
               <label className="block space-y-2">
                 <span className="text-[13px] font-medium text-white">Title</span>
                 <input value={form.close_embed_title ?? ''} onChange={e => set('close_embed_title', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all" placeholder="Ticket Closed" />
+                  className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#0433FF] focus:ring-1 focus:ring-[#0433FF] transition-all" placeholder="Ticket Closed" />
               </label>
               <label className="block space-y-2">
                 <span className="text-[13px] font-medium text-white">Default Close Reason</span>
                 <input value={form.default_close_reason ?? ''} onChange={e => set('default_close_reason', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all"
+                  className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#0433FF] focus:ring-1 focus:ring-[#0433FF] transition-all"
                   placeholder="No further action required." />
               </label>
             </div>
             <label className="block space-y-2">
               <span className="text-[13px] font-medium text-white">Description</span>
               <textarea value={form.close_embed_description ?? ''} onChange={e => set('close_embed_description', e.target.value)} rows={3}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all resize-y"
+                className="w-full rounded-xl border border-white/10 !bg-white px-4 py-3 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#0433FF] focus:ring-1 focus:ring-[#0433FF] transition-all resize-y"
                 placeholder="Your ticket has been closed by {ticket.closer.mention}." />
             </label>
             <label className="block space-y-2">
               <span className="text-[13px] font-medium text-white">Footer</span>
               <input value={form.close_embed_footer ?? ''} onChange={e => set('close_embed_footer', e.target.value || null)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all" />
+                className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#0433FF] focus:ring-1 focus:ring-[#0433FF] transition-all" />
             </label>
           </div>
         </div>

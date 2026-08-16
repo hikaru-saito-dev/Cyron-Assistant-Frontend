@@ -99,7 +99,7 @@ export function AiSettings() {
     <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
         <div>
-          <h1 className="flex items-center gap-2.5 text-2xl font-bold tracking-tight text-white">
+          <h1 className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
             <FaRobot className="text-[#0433FF]" />
             AI Settings
           </h1>
