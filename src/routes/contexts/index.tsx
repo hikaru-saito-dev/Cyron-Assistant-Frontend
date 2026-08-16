@@ -307,7 +307,8 @@ export function Contexts() {
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between px-4 md:px-0 mb-4">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h1 className="text-[22px] font-semibold text-white tracking-tight flex items-center gap-2.5">
+            <h1 className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
+              <FaLayerGroup className="text-[#0433FF]" />
               AI Contexts
             </h1>
           </div>

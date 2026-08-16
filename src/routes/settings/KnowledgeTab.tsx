@@ -60,7 +60,7 @@ export const KnowledgeTab = ({
     <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
       <div className="space-y-2">
         <div className="flex items-center gap-3">
-          <h2 className="text-[22px] font-semibold text-white tracking-tight">
+          <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
             Knowledge Base
           </h2>
           {knowledgeLoading && <Loader />}

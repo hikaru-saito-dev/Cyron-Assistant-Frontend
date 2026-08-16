@@ -91,7 +91,7 @@ export const Settings = () => {
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-16 text-center"
       >
-        <h2 className="text-xl font-bold tracking-tight text-white">Select a server</h2>
+        <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Select a server</h2>
         <p className="mt-2 max-w-md text-[14px] text-slate-400 leading-relaxed">
           Choose a server from the sidebar to manage AI settings, embed color, and usage.
         </p>

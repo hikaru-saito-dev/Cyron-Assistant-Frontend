@@ -187,7 +187,7 @@ export function Panels() {
     <div className="p-4 md:p-8 max-w-5xl mx-auto w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Ticket Panels</h2>
+          <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Ticket Panels</h2>
           <p className="text-[14px] text-slate-400 mt-1">Manage your support ticket panels and configurations.</p>
         </div>
         <button onClick={openCreate} className="rounded-xl bg-[#0433FF] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20">+ New Panel</button>
