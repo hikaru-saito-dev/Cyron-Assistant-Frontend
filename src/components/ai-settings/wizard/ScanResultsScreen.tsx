@@ -34,7 +34,7 @@ export function ScanResultsScreen({
       }
     >
       <div className="space-y-4">
-        <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 dark:border-indigo-500/30 dark:bg-indigo-500/10">
+        <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 dark:border-indigo-500/30 dark:bg-black">
           <div className="flex flex-wrap items-center gap-2">
             <p className="font-sans text-sm font-semibold text-indigo-900 dark:text-indigo-200">
               {meta.emoji} Likely {meta.label}
@@ -113,7 +113,7 @@ export function ScanResultsScreen({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-3 dark:border-slate-700 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-white px-3 py-3 dark:border-slate-700 dark:bg-black">
       <p className="font-display text-[10px] font-bold uppercase tracking-wider text-slate-400">
         {label}
       </p>
@@ -132,7 +132,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-black">
       <p className="mb-2 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">
         {title}
       </p>

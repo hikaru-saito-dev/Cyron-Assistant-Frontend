@@ -86,7 +86,7 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
   );
 
   return (
-    <section className="space-y-4 rounded-2xl border border-slate-200 p-4 sm:p-5 dark:border-slate-700">
+    <section className="space-y-4 rounded-2xl bg-black p-4 sm:p-5 dark:bg-black">
       <div>
         <h3 className="font-display text-base font-bold text-slate-900 dark:text-white">
           General AI settings
@@ -269,7 +269,7 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
           type="button"
           disabled={saveMut.isPending || !enabled}
           onClick={() => saveMut.mutate()}
-          className="rounded-xl bg-indigo-600 px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
+          className="rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
         >
           {saveMut.isPending ? "Saving…" : "Save general settings"}
         </button>

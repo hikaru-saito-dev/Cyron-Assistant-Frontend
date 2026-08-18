@@ -41,7 +41,7 @@ export function PaymentsShortcut({ guildId, settings, enabled }: Props) {
   if (!enabled) return null;
 
   return (
-    <section className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-4 sm:p-5 dark:border-emerald-500/25 dark:bg-emerald-500/5">
+    <section className="rounded-2xl bg-black p-4 sm:p-5 dark:bg-black">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="flex items-center gap-2 font-display text-base font-bold text-slate-900 dark:text-white">
@@ -70,7 +70,7 @@ export function PaymentsShortcut({ guildId, settings, enabled }: Props) {
               type="button"
               disabled={saveMut.isPending}
               onClick={() => saveMut.mutate()}
-              className="rounded-xl bg-emerald-600 px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
+              className="rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
             >
               {saveMut.isPending ? "Saving…" : "Save payments"}
             </button>

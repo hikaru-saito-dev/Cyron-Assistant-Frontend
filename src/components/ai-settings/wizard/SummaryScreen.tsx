@@ -1,5 +1,6 @@
 import type { WizardAnswers, WizardStepId } from "./types";
 import { WizardNav, WizardShell } from "./WizardShell";
+import { Sparkles } from "lucide-react";
 
 type Props = {
   answers: WizardAnswers;
@@ -52,11 +53,12 @@ export function SummaryScreen({
       }
     >
       {unreviewed.length > 0 && (
-        <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 dark:border-amber-500/30 dark:bg-amber-500/10">
-          <p className="font-sans text-sm font-semibold text-amber-900 dark:text-amber-300">
-            ✨ Suggestions not reviewed
+        <div className="mb-4 rounded-2xl border border-green-200 bg-green-50/80 px-4 py-3 dark:border-green-500/30 dark:bg-green-500/10">
+          <p className="flex items-center gap-1.5 font-sans text-sm font-semibold text-green-900 dark:text-green-300">
+            <Sparkles className="h-4 w-4" />
+            Suggestions not reviewed
           </p>
-          <ul className="mt-1 space-y-0.5 font-sans text-xs text-amber-800/80 dark:text-amber-400/80">
+          <ul className="mt-1 space-y-0.5 font-sans text-xs text-slate-800 dark:text-white">
             {unreviewed.slice(0, 12).map((u) => (
               <li key={u}>• {u}</li>
             ))}
