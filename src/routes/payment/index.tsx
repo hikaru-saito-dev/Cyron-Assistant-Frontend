@@ -180,7 +180,7 @@ export const Payment = () => {
   const accent = ACCENT[plan];
   const isDark = theme === 'dark';
   const summarySurface = isDark
-    ? 'bg-slate-900/60 border-slate-800'
+    ? 'bg-slate-900/60 border-[#0433FF]'
     : `${accent.bgColor} ${accent.borderColor}`;
   const formSurface = isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-white border-slate-200';
   const headingText = isDark ? 'text-slate-100' : 'text-slate-900';
@@ -216,7 +216,7 @@ export const Payment = () => {
         <div
           className={
             theme === 'dark'
-              ? 'min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900'
+              ? 'min-h-screen bg-black'
               : 'min-h-screen bg-gradient-to-b from-sky-50 via-white to-slate-50'
           }
         >
@@ -558,10 +558,10 @@ export const Payment = () => {
                         type="submit"
                         disabled={isProcessing}
                         className={clsx(
-                          'flex w-full items-center justify-center gap-2 rounded-full bg-sky-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-sky-500/40 transition',
+                          'flex w-full items-center justify-center gap-2 rounded-full bg-[#0433FF] hover:bg-[#0433FF]/90 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#0433FF]/40 transition',
                           isProcessing
                             ? 'cursor-not-allowed opacity-70'
-                            : 'hover:bg-sky-700'
+                            : ''
                         )}
                       >
                         {isProcessing ? (
@@ -590,7 +590,7 @@ export const Payment = () => {
                           </>
                         ) : (
                           <>
-                            <FaLock className="h-4 w-4" />
+                            <FaCreditCard className="h-4 w-4" />
                             Pay {isAnnual ? (plan === 'business' ? '$200' : '$90') : (planData?.priceLabel ?? '')}
                           </>
                         )}

@@ -96,7 +96,7 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
   if (!enabled) return null;
 
   return (
-    <section className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+    <section className="rounded-2xl bg-black p-4 dark:bg-black">
       <h3 className="flex items-center gap-2 font-display text-sm font-bold text-slate-900 dark:text-white">
         <FaLink className="text-indigo-500" />
         Linkable channels
@@ -179,7 +179,7 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
           type="button"
           disabled={saveMut.isPending}
           onClick={() => saveMut.mutate()}
-          className="rounded-xl bg-indigo-600 px-3 py-1.5 font-sans text-xs font-semibold text-white disabled:opacity-50"
+          className="rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 transition-colors px-3 py-1.5 font-sans text-xs font-semibold text-white disabled:opacity-50"
         >
           {saveMut.isPending ? "Saving…" : "Save channels"}
         </button>

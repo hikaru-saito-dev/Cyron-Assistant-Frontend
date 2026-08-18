@@ -36,7 +36,7 @@ export function QuickTestPanel({ guildId, enabled }: Props) {
   }
 
   return (
-    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-800/40">
+    <div className="mt-6 rounded-2xl bg-black p-4 dark:bg-black">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="flex items-center gap-2 font-display text-sm font-bold text-slate-900 dark:text-white">
@@ -69,7 +69,7 @@ export function QuickTestPanel({ guildId, enabled }: Props) {
             type="button"
             disabled={loading || !question.trim()}
             onClick={() => void run()}
-            className="rounded-xl bg-indigo-600 px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
+            className="rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
           >
             {loading ? "Testing…" : "Test reply"}
           </button>

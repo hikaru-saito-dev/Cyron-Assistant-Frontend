@@ -169,7 +169,7 @@ export function OptionalSourcesScreen({
               onClick={() => onChange({ previousBot: b.id })}
               className={`rounded-xl px-3 py-1.5 font-sans text-xs font-semibold transition ${
                 answers.previousBot === b.id
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-[#0433FF] text-white"
                   : "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300"
               }`}
             >

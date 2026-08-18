@@ -67,7 +67,7 @@ export function CategoryConfirmScreen({
       ) : (
         <div className="mb-5 rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 dark:border-indigo-500/30 dark:bg-indigo-500/10">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-indigo-600 px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-white">
+            <span className="rounded-full bg-[#0433FF] px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-white">
               my guess
             </span>
             <span className="font-sans text-sm font-semibold text-indigo-900 dark:text-indigo-200">

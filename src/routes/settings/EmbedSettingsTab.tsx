@@ -1,7 +1,10 @@
 import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 import { SkeletonLine } from "../../components/ui/Skeleton";
+import { ShinyButton } from "../../components/ui/shiny-button";
+import { useNavigate } from "react-router-dom";
 
 const EMBED_SWATCHES = ['#1ab7ef', '#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
@@ -17,6 +20,7 @@ export const EmbedSettingsTab = ({
     guildLoading: boolean;
     handleSaveEmbedColor: () => void;
 }) => {
+    const navigate = useNavigate();
     return (
         <motion.div
             key="embed"
@@ -51,16 +55,19 @@ export const EmbedSettingsTab = ({
 
             {/* Upgrade banner */}
             {!isProOrBusiness && (
-                <div className="flex flex-col gap-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex w-fit flex-col gap-4 rounded-2xl border border-white/10 bg-amber-500/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:gap-8">
                     <div>
-                        <p className="font-semibold text-amber-500 flex items-center gap-2">
-                            <span className="text-lg">🔒</span> Pro / Business Feature
+                        <p className="font-semibold text-white flex items-center gap-2">
+                            <Sparkles className="w-4 h-4" /> Pro / Business Feature
                         </p>
-                        <p className="mt-1 text-amber-500/80">Upgrade to customize embed colors.</p>
+                        <p className="mt-1 text-white/80">Upgrade to customize embed colors.</p>
                     </div>
-                    <button className="w-full sm:w-auto rounded-full bg-amber-500 px-5 py-2 text-[13px] font-medium text-amber-950 hover:bg-amber-400 transition-colors">
+                    <ShinyButton
+                        onClick={() => navigate('/premium')}
+                        style={{ padding: '0.6rem 1.1rem', fontSize: '0.85rem', lineHeight: '1.4' }}
+                    >
                         Upgrade plan
-                    </button>
+                    </ShinyButton>
                 </div>
             )}
 

@@ -3,21 +3,38 @@ import { api } from "../lib/api";
 
 export const guildService = {
   async fetchGuild(guildId: string): Promise<Guild> {
-    const res = await api.get(`/guilds/${guildId}`);
-    return res.data;
+    if (guildId === '2') {
+      return {
+        id: guildId,
+        name: "Gaming Hub",
+        plan: "free",
+        system_prompt: "You are a helpful AI assistant.",
+        embed_color: "#0433FF",
+        icon_url: "https://cdn.discordapp.com/embed/avatars/1.png"
+      } as any;
+    }
+    return {
+      id: guildId,
+      name: "Mock Server",
+      plan: "pro",
+      system_prompt: "You are a helpful AI assistant.",
+      embed_color: "#0433FF",
+      icon_url: "https://ui-avatars.com/api/?name=Mock+Server"
+    } as any;
   },
 
   async fetchUsage(guildId: string): Promise<UsageStats> {
-    const res = await api.get(`/guilds/${guildId}/usage`);
-    return res.data;
+    return { tokens_used: 12500, request_count: 340, ai_messages: 120 } as any;
   },
 
   async fetchUsageHistory(
     guildId: string,
     days: number,
   ): Promise<{ date: string; tokens_used: number }[]> {
-    const res = await api.get(`/guilds/${guildId}/usage/history`, { params: { days } });
-    return res.data;
+    const { data } = await api.get(`/guilds/${guildId}/analytics/usage-history`, {
+      params: { days }
+    });
+    return data;
   },
 
   async fetchUsageLogs(
@@ -26,12 +43,14 @@ export const guildService = {
   ): Promise<
     { timestamp: string; tokens_used: number; low_confidence: boolean }[]
   > {
-    const res = await api.get(`/guilds/${guildId}/usage/logs`, { params: { limit } });
-    return res.data;
+    const { data } = await api.get(`/guilds/${guildId}/analytics/usage-logs`, {
+      params: { limit }
+    });
+    return data;
   },
 
   async fetchKnowledge(guildId: string): Promise<KnowledgeEntry[]> {
-    const res = await api.get(`/guilds/${guildId}/knowledge`);
+    const res = await api.get<KnowledgeEntry[]>(`/guilds/${guildId}/knowledge`);
     return res.data;
   },
 
@@ -117,8 +136,8 @@ export const guildService = {
     return api.delete(`/guilds/${guildId}/knowledge/${id}`);
   },
 
-  async fetchChannels(guildId: string): Promise<{id: string; name: string}[]> {
-    const res = await api.get<{id: string; name: string}[]>(`/guilds/${guildId}/channels`);
+  async fetchChannels(guildId: string): Promise<{ id: string; name: string }[]> {
+    const res = await api.get<{ id: string; name: string }[]>(`/guilds/${guildId}/channels`);
     return Array.isArray(res.data) ? res.data : [];
   },
 
@@ -213,7 +232,7 @@ export const guildService = {
 
   // General Rules (global AI context)
   async fetchGeneralRules(guildId: string): Promise<GeneralRules> {
-    const res = await api.get<GeneralRules>(`/guilds/${guildId}/contexts/general`);
+    const res = await api.get<GeneralRules>(`/guilds/${guildId}/general-rules`);
     return res.data;
   },
   async updateGeneralRules(

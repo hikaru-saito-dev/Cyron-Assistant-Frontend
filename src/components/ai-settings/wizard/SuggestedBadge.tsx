@@ -1,7 +1,10 @@
+import { Sparkles } from "lucide-react";
+
 export function SuggestedBadge({ why }: { why?: string }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 font-sans text-[10px] font-semibold text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
-      ✨ suggested{why ? ` · ${why}` : ""}
+    <span className="inline-flex items-center gap-1 rounded-full border border-green-200 bg-green-50 px-2 py-0.5 font-sans text-[10px] font-semibold text-green-800 dark:border-green-500/30 dark:bg-green-500/10 dark:text-green-400">
+      <Sparkles className="h-2.5 w-2.5" />
+      suggested{why ? ` · ${why}` : ""}
     </span>
   );
 }

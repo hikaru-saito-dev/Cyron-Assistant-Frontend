@@ -4,6 +4,7 @@ import {
   type WizardAnswers,
 } from "../types";
 import { WizardNav, WizardShell } from "../WizardShell";
+import { LanguageSelectorDropdown } from "../../../ui/language-selector-dropdown";
 
 type Props = {
   answers: WizardAnswers;
@@ -64,7 +65,7 @@ export function StepToneLanguage({
                 onClick={() => setTone(t)}
                 className={`rounded-xl px-3.5 py-2 font-sans text-sm font-semibold transition ${
                   answers.tone === t
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-[#0433FF] text-white"
                     : "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300"
                 }`}
               >
@@ -125,35 +126,21 @@ export function StepToneLanguage({
 
           {answers.languageMode === "fixed" ? (
             <div className="mt-3">
-              <label className="font-sans text-xs text-slate-500">Language</label>
-              <select
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-sans text-sm dark:border-slate-600 dark:bg-slate-800"
+              <label className="font-sans text-xs text-slate-500 mb-1 block">Language</label>
+              <LanguageSelectorDropdown
                 value={answers.fixedLanguage}
-                onChange={(e) => onChange({ fixedLanguage: e.target.value })}
-              >
-                {FALLBACK_LANGUAGES.map((l) => (
-                  <option key={l} value={l}>
-                    {l}
-                  </option>
-                ))}
-              </select>
+                onChange={(val: string) => onChange({ fixedLanguage: val })}
+              />
             </div>
           ) : (
             <div className="mt-3">
-              <label className="font-sans text-xs text-slate-500">
+              <label className="font-sans text-xs text-slate-500 mb-1 block">
                 Fallback language (if unclear)
               </label>
-              <select
-                className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-sans text-sm dark:border-slate-600 dark:bg-slate-800"
+              <LanguageSelectorDropdown
                 value={answers.fallbackLanguage}
-                onChange={(e) => onChange({ fallbackLanguage: e.target.value })}
-              >
-                {FALLBACK_LANGUAGES.map((l) => (
-                  <option key={l} value={l}>
-                    {l}
-                  </option>
-                ))}
-              </select>
+                onChange={(val: string) => onChange({ fallbackLanguage: val })}
+              />
             </div>
           )}
         </section>

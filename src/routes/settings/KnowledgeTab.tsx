@@ -2,6 +2,8 @@ import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { motion } from "framer-motion";
 import { Loader } from "../../components/ui/Loader";
 import { Button } from "../../components/ui/Button";
+import { ShinyButton } from "../../components/ui/shiny-button";
+import { useNavigate } from "react-router-dom";
 
 const entryChars = (entry: KnowledgeEntry) =>
   (entry.title?.length ?? 0) +
@@ -48,7 +50,9 @@ export const KnowledgeTab = ({
   usageRatio: number;
   showUpgradeBanner: boolean;
   planLabel: string;
-}) => (
+}) => {
+  const navigate = useNavigate();
+  return (
   <motion.div
     key="knowledge"
     initial={{ opacity: 0, y: 8 }}
@@ -107,16 +111,19 @@ export const KnowledgeTab = ({
 
     {/* Upgrade banner */}
     {showUpgradeBanner && (
-      <div className="flex flex-col gap-4 rounded-2xl border border-[#0433FF]/30 bg-[#0433FF]/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex w-fit flex-col gap-4 rounded-2xl border border-white/10 bg-[#0433FF]/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:gap-8">
         <div>
           <p className="font-semibold text-white">
             Reached knowledge capacity for {planLabel} plan.
           </p>
           <p className="mt-1 text-slate-400">Upgrade to add more entries.</p>
         </div>
-        <button className="w-full sm:w-auto rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-colors">
+        <ShinyButton
+          onClick={() => navigate('/premium')}
+          style={{ padding: '0.6rem 1.1rem', fontSize: '0.85rem', lineHeight: '1.4' }}
+        >
           Upgrade plan
-        </button>
+        </ShinyButton>
       </div>
     )}
 
@@ -198,4 +205,5 @@ export const KnowledgeTab = ({
       )}
     </motion.div>
   </motion.div>
-);
+  );
+};

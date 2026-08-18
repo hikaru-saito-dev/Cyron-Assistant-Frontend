@@ -61,7 +61,7 @@ export function CloseSettings() {
 
       <div className="space-y-6 px-4 md:px-0">
         {/* Close Message Section */}
-        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/5 bg-black overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Close Message Embed</h3>
             <p className="text-[13px] text-slate-400 mt-1">Sent in the ticket channel before it's deleted. Supports variables: <code className="font-mono bg-white/10 px-1 py-0.5 rounded text-white/80">{'{ticket.closer.mention}'}</code>, <code className="font-mono bg-white/10 px-1 py-0.5 rounded text-white/80">{'{ticket.closeReason}'}</code></p>
@@ -95,7 +95,7 @@ export function CloseSettings() {
         </motion.div>
 
         {/* Toggles */}
-        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="rounded-2xl border border-white/5 bg-black overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Behavior & Logs</h3>
             <p className="text-[13px] text-slate-400 mt-1">Configure actions that happen when a ticket is closed.</p>
@@ -115,7 +115,7 @@ export function CloseSettings() {
         </motion.div>
 
         {/* Rating */}
-        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="rounded-2xl border border-white/5 bg-black overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Rating System</h3>
             <p className="text-[13px] text-slate-400 mt-1">Ask the ticket creator to rate their support experience.</p>
@@ -124,7 +124,7 @@ export function CloseSettings() {
             <Toggle label="Enable Rating System" hint="Prompt user to rate (1–5 stars) after closing"
               checked={!!form.rating_system_enabled} onChange={v => set('rating_system_enabled', v)} />
             {form.rating_system_enabled && (
-              <div className="p-6 md:p-8 bg-white/[0.01]">
+              <div className="p-6 md:p-8 bg-black">
                 <label className="block space-y-2 max-w-md">
                   <span className="text-[13px] font-medium text-white">Rating Log Channel ID</span>
                   <input value={form.rating_log_channel_id ?? ''} onChange={e => set('rating_log_channel_id', e.target.value ? parseInt(e.target.value) : null)}

@@ -51,11 +51,12 @@ export function AiSettings() {
   useEffect(() => {
     if (!guildId || generalLoading) return;
     if (generalRules?.enabled) return;
-    const saved = loadWizardState(guildId);
-    if (saved?.scan && saved.step) {
-      setScanResult(saved.scan);
-      setViewMode("wizard");
-    }
+    // Temporarily disabled resume feature so you can view Phase0Welcome
+    // const saved = loadWizardState(guildId);
+    // if (saved?.scan && saved.step) {
+    //   setScanResult(saved.scan);
+    //   setViewMode("wizard");
+    // }
   }, [guildId, generalLoading, generalRules?.enabled]);
 
   const effectiveView: ViewMode = (() => {
@@ -116,7 +117,7 @@ export function AiSettings() {
         )}
       </div>
 
-      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl bg-black p-6 sm:p-8">
         {effectiveView === "welcome" && (
           <Phase0Welcome onAnalyze={handleAnalyze} onSkip={handleSkip} />
         )}
@@ -210,15 +211,7 @@ export function AiSettings() {
               <QuickTestPanel guildId={guildId} enabled />
             )}
 
-            <p className="border-t border-white/10 pt-5 text-[13px] text-slate-500">
-              Advanced:{" "}
-              <Link
-                to={`/guilds/${guildId}/settings`}
-                className="font-medium text-[#0433FF] hover:underline"
-              >
-                Legacy system prompt &amp; knowledge settings
-              </Link>
-            </p>
+
           </div>
         )}
       </motion.div>

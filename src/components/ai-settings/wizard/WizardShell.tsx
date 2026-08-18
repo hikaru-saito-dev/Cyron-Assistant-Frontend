@@ -38,7 +38,7 @@ export function WizardShell({
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
           <div
-            className="h-full rounded-full bg-indigo-500 transition-all duration-300"
+            className="h-full rounded-full bg-emerald-500 transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -48,7 +48,7 @@ export function WizardShell({
               key={s.id}
               className={`rounded-md px-1.5 py-0.5 font-sans text-[10px] font-medium ${
                 i <= index
-                  ? "text-indigo-600 dark:text-indigo-400"
+                  ? "text-emerald-600 dark:text-emerald-400"
                   : "text-slate-400"
               }`}
             >
@@ -76,7 +76,7 @@ export function WizardShell({
       <div>{children}</div>
 
       {footer && (
-        <div className="flex flex-col-reverse gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
+        <div className="flex flex-col-reverse gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
           {footer}
         </div>
       )}
@@ -126,7 +126,7 @@ export function WizardNav({
           type="button"
           onClick={onNext}
           disabled={nextDisabled}
-          className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center justify-center rounded-xl bg-[#0433FF] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#0433FF]/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {nextLabel}
         </button>
