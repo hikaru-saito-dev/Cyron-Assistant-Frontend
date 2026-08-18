@@ -1,4 +1,3 @@
-// @ts-expect-error react-alert ships without TS types in this repo
 import type { AlertComponentPropsWithStyle } from 'react-alert';
 import { FaCheckCircle, FaExclamationTriangle, FaInfoCircle, FaTimes } from 'react-icons/fa';
 import clsx from 'clsx';

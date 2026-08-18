@@ -67,7 +67,7 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
       const block = lines.length
         ? `${marker}\n${lines.map((l) => `- ${l}`).join("\n")}`
         : "";
-      if (marker in info || info.includes(marker)) {
+      if (info.includes(marker)) {
         const parts = info.split(marker);
         const before = parts[0].trimEnd();
         const rest = parts[1] || "";

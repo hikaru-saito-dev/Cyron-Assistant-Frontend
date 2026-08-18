@@ -9,6 +9,7 @@ import { ShinyButton } from './shiny-button';
 
 const links = [
   { label: 'Home', href: '/' },
+  { label: 'How it Works', href: '/how-it-works' },
   { label: 'Pricing', href: '/premium' },
   { label: 'Docs', href: '/docs' },
 ];

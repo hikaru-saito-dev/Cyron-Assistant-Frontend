@@ -1,12 +1,14 @@
+import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { guildService } from '../../services/guildService';
 import { PageLoader } from '../../components/ui/Skeleton';
+import { motion } from 'framer-motion';
 
-const DAYS = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 const DEFAULT_SCHEDULE = Object.fromEntries(
-  DAYS.map((d) => [d, { enabled: !['saturday','sunday'].includes(d), open: '09:00', close: '18:00' }])
+  DAYS.map((d) => [d, { enabled: !['saturday', 'sunday'].includes(d), open: '09:00', close: '18:00' }])
 );
 
 const EMPTY: Omit<Panel, 'id' | 'guild_id'> = {
@@ -187,15 +189,15 @@ export function Panels() {
     <div className="p-4 md:p-8 max-w-5xl mx-auto w-full">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Ticket Panels</h2>
-          <p className="text-[14px] text-slate-400 mt-1">Manage your support ticket panels and configurations.</p>
+          <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Ticket Panels</TextBlurIn>
+          <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 mt-1">Manage your support ticket panels and configurations.</TextBlurIn>
         </div>
         <button onClick={openCreate} className="rounded-xl bg-[#0433FF] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20">+ New Panel</button>
       </div>
 
       {panels.length === 0 && <p className="text-slate-500 text-[14px]">No panels yet. Create one to get started.</p>}
 
-      <div className="space-y-4">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="space-y-4">
         {panels.map((p) => {
           const ctx = panelContexts.find((c) => c.id === p.ai_context_id);
           return (
@@ -219,7 +221,7 @@ export function Panels() {
             </div>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* Modal */}
       {open && (
@@ -544,7 +546,7 @@ export function Panels() {
                   ? 'Syncing channels from Discord…'
                   : 'Select a channel…'}
               </option>
-              {(channels as {id: string; name: string}[]).map((ch) => (
+              {(channels as { id: string; name: string }[]).map((ch) => (
                 <option key={ch.id} value={ch.id}>#{ch.name}</option>
               ))}
             </select>

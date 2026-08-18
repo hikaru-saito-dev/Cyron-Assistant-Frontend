@@ -1,3 +1,4 @@
+import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -51,7 +52,7 @@ function TabBar({
   onChange: (tab: Tab) => void;
   accent?: "sky" | "indigo";
 }) {
-  const activeClass = "bg-white text-black shadow-sm";
+  const activeClass = "bg-[#0433FF] text-white shadow-sm shadow-[#0433FF]/20";
 
   return (
     <div className="inline-flex flex-wrap gap-1 rounded-full border border-white/5 bg-white/[0.02] p-1.5">
@@ -60,11 +61,10 @@ function TabBar({
           key={t.id}
           type="button"
           onClick={() => onChange(t.id)}
-          className={`rounded-full px-5 py-2 text-[13px] font-medium transition-all ${
-            active === t.id
+          className={`rounded-full px-5 py-2 text-[13px] font-medium transition-all ${active === t.id
               ? activeClass
               : "text-slate-400 hover:text-white hover:bg-white/5"
-          }`}
+            }`}
         >
           {t.label}
         </button>
@@ -120,10 +120,10 @@ function PrimaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className={`inline-flex items-center gap-2 rounded-full bg-white hover:bg-slate-200 px-5 py-2.5 text-[13px] font-medium text-black shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all disabled:opacity-50`}
+      className={`inline-flex items-center gap-2 rounded-full bg-[#0433FF] hover:bg-[#0433FF]/90 px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_0_15px_rgba(4,51,255,0.2)] transition-all disabled:opacity-50`}
     >
       {loading ? (
-        <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
       ) : (
         <FaSave className="text-sm" />
       )}
@@ -145,14 +145,12 @@ function ToggleSwitch({
       role="switch"
       aria-checked={enabled}
       onClick={() => onChange(!enabled)}
-      className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
-        enabled ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-600"
-      }`}
+      className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${enabled ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-600"
+        }`}
     >
       <span
-        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform ${
-          enabled ? "translate-x-6" : "translate-x-1"
-        }`}
+        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform ${enabled ? "translate-x-6" : "translate-x-1"
+          }`}
       />
     </button>
   );
@@ -312,9 +310,9 @@ export function Contexts() {
               AI Contexts
             </h1>
           </div>
-          <p className="text-[14px] text-slate-400 max-w-lg leading-relaxed">
+          <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 max-w-lg leading-relaxed">
             Shape how your bot thinks — per panel or server-wide. Add specific instructions, general knowledge, or problem-solution pairs.
-          </p>
+          </TextBlurIn>
         </div>
         <div className="flex items-center gap-2 rounded-full border border-white/5 bg-white/[0.02] px-4 py-2 text-[13px] shadow-sm shrink-0">
           <FaLayerGroup className="text-slate-400" />
@@ -329,7 +327,7 @@ export function Contexts() {
 
       <div className="flex flex-col gap-8 lg:flex-row lg:items-start px-4 md:px-0">
         {/* Sidebar */}
-        <aside className="w-full shrink-0 lg:w-72">
+        <motion.aside initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="w-full shrink-0 lg:w-72">
           <div className="rounded-2xl border border-white/5 bg-white/[0.01] p-5">
             <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.14em] text-slate-500">
               Contexts
@@ -345,18 +343,16 @@ export function Contexts() {
                       key={c.id}
                       type="button"
                       onClick={() => setSelectedId(c.id)}
-                      className={`w-full rounded-xl px-4 py-3 text-left transition-all ${
-                        isActive
+                      className={`w-full rounded-xl px-4 py-3 text-left transition-all ${isActive
                           ? "border border-[#0433FF]/30 bg-[#0433FF]/10 shadow-[0_0_15px_rgba(4,51,255,0.1)]"
                           : "border border-transparent hover:bg-white/5"
-                      }`}
+                        }`}
                     >
                       <p
-                        className={`truncate text-[14px] font-bold ${
-                          isActive
+                        className={`truncate text-[14px] font-bold ${isActive
                             ? "text-white"
                             : "text-slate-300"
-                        }`}
+                          }`}
                       >
                         {c.name}
                       </p>
@@ -408,10 +404,10 @@ export function Contexts() {
               </button>
             )}
           </div>
-        </aside>
+        </motion.aside>
 
         {/* Main panel */}
-        <main className="min-w-0 flex-1">
+        <motion.main initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="min-w-0 flex-1">
           <div className="rounded-2xl border border-white/5 bg-white/[0.01] p-6 sm:p-8">
             {selected ? (
               <>
@@ -504,7 +500,7 @@ export function Contexts() {
               </div>
             )}
           </div>
-        </main>
+        </motion.main>
       </div>
 
       <AnimatePresence>

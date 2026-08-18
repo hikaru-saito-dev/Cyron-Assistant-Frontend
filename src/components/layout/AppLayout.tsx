@@ -97,7 +97,12 @@ export const AppLayout = () => {
   const isFreePlan = !selectedGuild?.plan || selectedGuild?.plan === 'free';
 
   return (
-    <div className="relative isolate bg-transparent text-slate-200 min-h-screen">
+    <div className="relative isolate bg-black text-slate-200 min-h-screen">
+      {/* Radial Gradient Background */}
+      <div className="absolute inset-0 h-full w-full pointer-events-none z-[-1]">
+        <div className="absolute inset-0 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#0433FF_100%)]"></div>
+      </div>
+      
       {params.guildId ? (
         // Guild Settings Layout with Sidebar on Left
         <div className="flex w-full h-screen overflow-hidden">

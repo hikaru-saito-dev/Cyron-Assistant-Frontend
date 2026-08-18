@@ -1,3 +1,4 @@
+import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { Header } from '../../components/ui/header-2';
 import ProfileSelect from '../../components/ui/3d-profile-selector';
 import { useQuery } from '@tanstack/react-query';
@@ -50,9 +51,9 @@ export const Dashboard = () => {
         >
           Select Your <span style={{ color: '#0433FF' }}>Server.</span>
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-neutral-400 font-medium max-w-xl leading-relaxed">
+        <TextBlurIn delay={0.2} className="mt-4 text-lg md:text-xl text-neutral-400 font-medium max-w-xl leading-relaxed">
           Select a server to manage its settings or add Cyron Assistant to a new one.
-        </p>
+        </TextBlurIn>
 
         <ProfileSelect guilds={allGuilds} onAddBot={handleAddBot} />
       </main>

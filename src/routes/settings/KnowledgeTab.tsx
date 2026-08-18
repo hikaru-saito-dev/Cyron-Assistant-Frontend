@@ -1,3 +1,4 @@
+import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { motion } from "framer-motion";
 import { Loader } from "../../components/ui/Loader";
 import { Button } from "../../components/ui/Button";
@@ -60,15 +61,15 @@ export const KnowledgeTab = ({
     <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
       <div className="space-y-2">
         <div className="flex items-center gap-3">
-          <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
+          <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
             Knowledge Base
-          </h2>
+          </TextBlurIn>
           {knowledgeLoading && <Loader />}
         </div>
-        <p className="text-[14px] text-slate-400 max-w-lg leading-relaxed">
-          Train your AI by adding general knowledge or specific problem-solution pairs. It uses this context to answer queries accurately.
-        </p>
-        
+        <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 max-w-lg leading-relaxed">
+          Train your AI Assistant with custom knowledge, problems and solutions.
+        </TextBlurIn>
+
         {/* Subtle Capacity Indicator */}
         <div className="pt-2 flex items-center gap-3">
           <div className="h-1.5 w-32 rounded-full bg-white/5 overflow-hidden">
@@ -84,7 +85,7 @@ export const KnowledgeTab = ({
           </span>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-3 shrink-0">
         <button
           type="button"
@@ -97,7 +98,7 @@ export const KnowledgeTab = ({
         <button
           onClick={openCreateModal}
           disabled={knowledgeLoading}
-          className="rounded-full bg-white px-5 py-2 text-[13px] font-medium text-black hover:bg-slate-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] disabled:opacity-50"
+          className="rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-[0_0_15px_rgba(4,51,255,0.2)] disabled:opacity-50"
         >
           Add Knowledge
         </button>
@@ -120,7 +121,7 @@ export const KnowledgeTab = ({
     )}
 
     {/* Entries */}
-    <div className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+    <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
       {knowledgeLoading && (
         <div className="divide-y divide-white/5">
           {[...Array(3)].map((_, i) => (
@@ -139,7 +140,7 @@ export const KnowledgeTab = ({
           <p className="max-w-sm text-[14px] text-slate-400">
             Add your first entry to teach the AI about your support topics.
           </p>
-          <button onClick={openCreateModal} className="mt-4 rounded-full bg-white px-5 py-2 text-[13px] font-medium text-black hover:bg-slate-200 transition-all">
+          <button onClick={openCreateModal} className="mt-4 rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-[0_0_15px_rgba(4,51,255,0.2)]">
             Add your first entry
           </button>
         </div>
@@ -195,6 +196,6 @@ export const KnowledgeTab = ({
           })}
         </div>
       )}
-    </div>
+    </motion.div>
   </motion.div>
 );

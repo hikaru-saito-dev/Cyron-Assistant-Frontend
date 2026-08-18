@@ -31,7 +31,7 @@ export function Phase0Welcome({ onAnalyze, onSkip }: Phase0WelcomeProps) {
         <button
           type="button"
           onClick={onAnalyze}
-          className="inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 sm:w-auto"
+          className="inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-[#0433FF] px-6 py-3 font-sans text-sm font-semibold text-white shadow-sm shadow-[#0433FF]/20 transition hover:bg-[#0433FF]/90 focus:outline-none focus:ring-2 focus:ring-[#0433FF]/30 sm:w-auto"
         >
           <FaSearch className="text-xs" />
           Analyze my server

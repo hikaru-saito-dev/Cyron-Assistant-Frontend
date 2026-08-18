@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// @ts-expect-error react-alert ships without TS types in this repo
 import { positions, Provider as AlertProvider } from "react-alert";
 import App from "./App";
 import "./styles/index.css";
