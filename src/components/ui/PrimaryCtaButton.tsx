@@ -35,6 +35,7 @@ export const PrimaryCtaButton = ({
     'inline-flex items-center justify-center rounded-[10px] bg-sky-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-sky-500/30 transition hover:bg-sky-700';
 
   return (
+    // @ts-expect-error framer-motion type conflict with react-router-dom Link
     <MotionLink
       {...linkProps}
       variants={primaryCtaWave}

@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { guildService } from '../../services/guildService';
 import { PageLoader } from '../../components/ui/Skeleton';
+import { TextBlurIn } from '../../components/ui/text-blur-in';
+import { motion } from 'framer-motion';
 
 const Toggle = ({ label, hint, checked, onChange }: { label: string; hint?: string; checked: boolean; onChange: (v: boolean) => void }) => (
   <div className="flex items-center justify-between py-4 px-6 hover:bg-white/[0.02] transition-colors">
@@ -48,8 +50,8 @@ export function CloseSettings() {
     <div className="space-y-8 max-w-5xl mx-auto pb-12 pt-4 md:pt-0">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between px-4 md:px-0">
         <div className="space-y-2">
-          <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Close Settings</h2>
-          <p className="text-[14px] text-slate-400 max-w-lg leading-relaxed">Manage ticket closing behavior, messages, and logs.</p>
+          <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Close Settings</TextBlurIn>
+          <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 max-w-lg leading-relaxed">Manage ticket closing behavior, messages, and logs.</TextBlurIn>
         </div>
         <button onClick={() => saveMut.mutate()} disabled={saveMut.isPending}
           className="shrink-0 rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-lg shadow-[#0433FF]/20 disabled:opacity-50 inline-flex items-center gap-2">
@@ -59,7 +61,7 @@ export function CloseSettings() {
 
       <div className="space-y-6 px-4 md:px-0">
         {/* Close Message Section */}
-        <div className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Close Message Embed</h3>
             <p className="text-[13px] text-slate-400 mt-1">Sent in the ticket channel before it's deleted. Supports variables: <code className="font-mono bg-white/10 px-1 py-0.5 rounded text-white/80">{'{ticket.closer.mention}'}</code>, <code className="font-mono bg-white/10 px-1 py-0.5 rounded text-white/80">{'{ticket.closeReason}'}</code></p>
@@ -90,10 +92,10 @@ export function CloseSettings() {
                 className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#0433FF] focus:ring-1 focus:ring-[#0433FF] transition-all" />
             </label>
           </div>
-        </div>
+        </motion.div>
 
         {/* Toggles */}
-        <div className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Behavior & Logs</h3>
             <p className="text-[13px] text-slate-400 mt-1">Configure actions that happen when a ticket is closed.</p>
@@ -110,10 +112,10 @@ export function CloseSettings() {
             <Toggle label="Close on user leave" hint="Auto-close open tickets when the creator leaves the server"
               checked={!!form.close_on_user_leave} onChange={v => set('close_on_user_leave', v)} />
           </div>
-        </div>
+        </motion.div>
 
         {/* Rating */}
-        <div className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="rounded-2xl border border-white/5 bg-white/[0.01] overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Rating System</h3>
             <p className="text-[13px] text-slate-400 mt-1">Ask the ticket creator to rate their support experience.</p>
@@ -132,7 +134,7 @@ export function CloseSettings() {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {toast && (

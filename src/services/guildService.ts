@@ -3,12 +3,12 @@ import { api } from "../lib/api";
 
 export const guildService = {
   async fetchGuild(guildId: string): Promise<Guild> {
-    const res = await api.get<Guild>(`/guilds/${guildId}`);
+    const res = await api.get(`/guilds/${guildId}`);
     return res.data;
   },
 
   async fetchUsage(guildId: string): Promise<UsageStats> {
-    const res = await api.get<UsageStats>(`/guilds/${guildId}/usage`);
+    const res = await api.get(`/guilds/${guildId}/usage`);
     return res.data;
   },
 
@@ -16,10 +16,7 @@ export const guildService = {
     guildId: string,
     days: number,
   ): Promise<{ date: string; tokens_used: number }[]> {
-    const res = await api.get<{ date: string; tokens_used: number }[]>(
-      `/guilds/${guildId}/usage/history`,
-      { params: { days } },
-    );
+    const res = await api.get(`/guilds/${guildId}/usage/history`, { params: { days } });
     return res.data;
   },
 
@@ -29,18 +26,13 @@ export const guildService = {
   ): Promise<
     { timestamp: string; tokens_used: number; low_confidence: boolean }[]
   > {
-    const res = await api.get<
-      { timestamp: string; tokens_used: number; low_confidence: boolean }[]
-    >(`/guilds/${guildId}/usage/logs`, { params: { limit } });
+    const res = await api.get(`/guilds/${guildId}/usage/logs`, { params: { limit } });
     return res.data;
   },
 
   async fetchKnowledge(guildId: string): Promise<KnowledgeEntry[]> {
-    const res = await api.get<KnowledgeEntry[] | null>(
-      `/guilds/${guildId}/knowledge`,
-    );
-    // Defend against transient/null payloads so the UI never renders a blank state.
-    return Array.isArray(res.data) ? res.data : [];
+    const res = await api.get(`/guilds/${guildId}/knowledge`);
+    return res.data;
   },
 
   async updateGuild(
@@ -126,8 +118,8 @@ export const guildService = {
   },
 
   async fetchChannels(guildId: string): Promise<{id: string; name: string}[]> {
-    const res = await api.get(`/guilds/${guildId}/channels`);
-    return res.data;
+    const res = await api.get<{id: string; name: string}[]>(`/guilds/${guildId}/channels`);
+    return Array.isArray(res.data) ? res.data : [];
   },
 
   async fetchRoles(guildId: string): Promise<{ id: string; name: string }[]> {
@@ -167,7 +159,7 @@ export const guildService = {
 
   // Panels
   async fetchPanels(guildId: string) {
-    const res = await api.get<Panel[]>(`/guilds/${guildId}/panels`);
+    const res = await api.get(`/guilds/${guildId}/panels`);
     return res.data;
   },
   async createPanel(guildId: string, payload: Omit<Panel, "id" | "guild_id">) {
@@ -191,7 +183,7 @@ export const guildService = {
 
   // AI Contexts
   async fetchContexts(guildId: string) {
-    const res = await api.get<AIContext[]>(`/guilds/${guildId}/contexts`);
+    const res = await api.get(`/guilds/${guildId}/contexts`);
     return res.data;
   },
   async createContext(

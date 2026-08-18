@@ -1,3 +1,6 @@
+import { TextBlurIn } from '../../components/ui/text-blur-in';
+import { CountingNumber } from '../../components/ui/counting-number';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -38,42 +41,43 @@ export function TicketManagement() {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-6">
       <div>
-        <h2 className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Ticket Management</h2>
-        <p className="text-[14px] text-slate-400 mt-1">View and manage support tickets.</p>
+        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Ticket Management</TextBlurIn>
+        <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 mt-1">View and manage support tickets.</TextBlurIn>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="grid grid-cols-2 gap-x-12 gap-y-10 sm:grid-cols-4 bg-white/[0.02] border border-white/10 rounded-2xl p-8">
         {[
           { label: 'Open Queue', value: stats.open_queue ?? 0, sub: null },
           { label: 'Created (7d)', value: stats.created_7d ?? 0, sub: `Today: ${stats.today_created ?? 0}` },
           { label: 'Closed (7d)', value: stats.closed_7d ?? 0, sub: `Today: ${stats.today_closed ?? 0}` },
           { label: 'All-Time', value: stats.all_time ?? 0, sub: `Claimed: ${stats.claimed ?? 0}` },
         ].map(({ label, value, sub }) => (
-          <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
-            <p className="text-[13px] font-semibold tracking-wide text-slate-400">{label}</p>
-            <p className="mt-1.5 text-3xl font-bold text-white">{value}</p>
+          <div key={label} className="text-center">
+            <div className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              <CountingNumber target={value} />
+            </div>
+            <p className="mt-2 text-[13px] font-semibold text-slate-400">{label}</p>
             {sub && <p className="text-[11px] text-slate-500 mt-1">{sub}</p>}
           </div>
         ))}
-      </div>
-
+      </motion.div>
+      
       {/* Filters */}
-      <div className="flex flex-wrap gap-3">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap gap-3">
         <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by channel name…"
           className="rounded-xl border border-white/10 !bg-white px-4 py-2.5 text-[14px] !text-black placeholder-slate-500 focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all w-full sm:w-64" />
         <div className="flex bg-[#0f0f0f] p-1 rounded-xl border border-white/10">
           {['all', 'open', 'closed'].map((s) => (
             <button key={s} onClick={() => { setStatus(s); setPage(1); }}
-              className={`rounded-lg px-4 py-1.5 text-[13px] font-semibold capitalize transition-all ${status === s ? 'bg-white/10 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}>
+              className={`rounded-lg px-4 py-1.5 text-[13px] font-semibold capitalize transition-all ${status === s ? 'bg-[#0433FF] text-white shadow-sm shadow-[#0433FF]/20' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}>
               {s}
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="flex gap-4 items-start">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="flex gap-4 items-start">
         {/* List */}
         <div className="flex-1 min-w-0 space-y-3">
           {tickets.length === 0 && <p className="text-[14px] text-slate-500">No tickets found.</p>}
@@ -143,7 +147,7 @@ export function TicketManagement() {
             ) : null}
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -14,6 +14,7 @@ import { AppLayout } from './components/layout/AppLayout';
 import { Home } from './routes/home';
 import { Docs } from './routes/docs';
 import { AiSettings } from './routes/ai-settings';
+import { HowItWorks } from './routes/how-it-works';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/docs" element={<Docs />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/payment" element={<Payment />} />

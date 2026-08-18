@@ -41,7 +41,7 @@ export function FAQSection({
         <p className="text-muted-foreground max-w-xl mx-auto mb-6">
           {description}
         </p>
-        <Button variant="primary" className="rounded-full !bg-[#0433FF] hover:!bg-[#0433FF]/90" onClick={onButtonClick}>
+        <Button variant="default" className="rounded-full !bg-[#0433FF] hover:!bg-[#0433FF]/90" onClick={onButtonClick}>
           {buttonLabel}
         </Button>
       </div>

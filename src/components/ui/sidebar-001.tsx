@@ -202,7 +202,7 @@ export const Sidebar001Item = memo(function Sidebar001Item({
         className={cn(
           "relative flex items-center gap-3 px-3 py-2 text-[14px] font-medium rounded-lg transition-colors",
           isActive
-            ? "bg-white/10 text-white"
+            ? "bg-[#0433FF]/10 text-white shadow-[inset_3px_0_0_0_#0433FF]"
             : "text-white/60 hover:text-white hover:bg-white/5",
           className,
         )}
@@ -453,7 +453,7 @@ export function Sidebar001({
       <HoverProvider containerRef={containerRef}>
         <aside
           className={cn(
-            "relative flex flex-col h-full shrink-0 bg-black",
+            "relative flex flex-col h-full shrink-0 bg-black/20 backdrop-blur-xl",
             className,
           )}
           style={{ width }}

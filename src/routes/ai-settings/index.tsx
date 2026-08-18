@@ -1,7 +1,9 @@
+import { TextBlurIn } from '../../components/ui/text-blur-in';
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaRobot } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { guildService } from "../../services/guildService";
 import { GeneralRulesEditor } from "../../components/ai-settings/GeneralRulesEditor";
 import { Phase0Welcome } from "../../components/ai-settings/Phase0Welcome";
@@ -99,13 +101,13 @@ export function AiSettings() {
     <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
         <div>
-          <h1 className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
+          <div className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
             <FaRobot className="text-[#0433FF]" />
-            AI Settings
-          </h1>
-          <p className="mt-1 text-[14px] text-slate-400">
+            <TextBlurIn>AI Settings</TextBlurIn>
+          </div>
+          <TextBlurIn delay={0.2} className="mt-1 text-[14px] text-slate-400">
             Configure General Rules and server-wide AI behavior.
-          </p>
+          </TextBlurIn>
         </div>
         {isActive && (
           <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-[13px] font-semibold text-emerald-400">
@@ -114,7 +116,7 @@ export function AiSettings() {
         )}
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
         {effectiveView === "welcome" && (
           <Phase0Welcome onAnalyze={handleAnalyze} onSkip={handleSkip} />
         )}
@@ -219,7 +221,7 @@ export function AiSettings() {
             </p>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

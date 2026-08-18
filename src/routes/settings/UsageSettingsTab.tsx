@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Loader } from "../../components/ui/Loader";
 import { useApp } from "../../context/AppContext";
+import { TextBlurIn } from '../../components/ui/text-blur-in';
 
 export const UsageTab = ({
     usage, usageLoading, usageError,
@@ -19,6 +20,11 @@ export const UsageTab = ({
 
     return (
         <motion.div key="usage" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-4">
+            <div>
+                <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Usage Analytics</TextBlurIn>
+                <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 mt-1">Monitor your server's token usage and ticket automation limits.</TextBlurIn>
+            </div>
+
 
             {(usageLoading || historyLoading || logsLoading) && (
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
@@ -36,7 +42,7 @@ export const UsageTab = ({
             {usage && !usageLoading && !usageError && (
                 <>
                     {/* Stats grid — 1 col mobile, 3 col sm+ */}
-                    <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+                    <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                         {[
                             { label: 'Monthly tokens', used: usage.monthly_tokens_used, limit: usage.monthly_tokens_limit },
                             { label: 'Tickets today', used: usage.daily_ticket_count, limit: usage.daily_ticket_limit },
@@ -46,18 +52,18 @@ export const UsageTab = ({
                                 className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                                 <p className="text-[12px] font-bold uppercase tracking-wider text-slate-500">{label}</p>
                                 <p className="mt-2 text-2xl font-bold text-[#0433FF]">
-                                    {used.toLocaleString()} <span className="text-[15px] font-semibold text-slate-400">/ {limit.toLocaleString()}</span>
+                                    {(used || 0).toLocaleString()} <span className="text-[15px] font-semibold text-slate-400">/ {(limit || 0).toLocaleString()}</span>
                                 </p>
                                 <div className="mt-4 h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
-                                    <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(100, (used / limit) * 100)}%` }}
+                                    <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(100, ((used || 0) / (limit || 1)) * 100)}%` }}
                                         transition={{ duration: 0.4 }} className="h-full rounded-full bg-[#0433FF]" />
                                 </div>
                             </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
 
                     {/* Chart */}
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                         <p className="mb-1 text-[15px] font-bold text-white">Token usage (last 7 days)</p>
                         <p className="mb-4 text-[13px] text-slate-400">Daily token usage from live logs.</p>
                         <div className="h-48 w-full">
@@ -78,10 +84,10 @@ export const UsageTab = ({
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Recent activity — card list on mobile, table on sm+ */}
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+                    <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                         <p className="mb-4 text-[15px] font-bold text-white">Recent activity</p>
 
                         {/* Mobile cards */}
@@ -118,7 +124,7 @@ export const UsageTab = ({
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </motion.div>
                 </>
             )}
         </motion.div>
