@@ -13,6 +13,36 @@ export const guildService = {
         icon_url: "https://cdn.discordapp.com/embed/avatars/1.png"
       } as any;
     }
+    if (guildId === '5') {
+      return {
+        id: guildId,
+        name: "Marketing Hub",
+        plan: "free",
+        system_prompt: "You are a helpful AI assistant.",
+        embed_color: "#0433FF",
+        icon_url: "https://cdn.discordapp.com/embed/avatars/2.png"
+      } as any;
+    }
+    if (guildId === '6') {
+      return {
+        id: guildId,
+        name: "Open Source Community",
+        plan: "free",
+        system_prompt: "You are a helpful AI assistant.",
+        embed_color: "#0433FF",
+        icon_url: "https://cdn.discordapp.com/embed/avatars/3.png"
+      } as any;
+    }
+    if (guildId === '7') {
+      return {
+        id: guildId,
+        name: "Friend Group",
+        plan: "free",
+        system_prompt: "You are a helpful AI assistant.",
+        embed_color: "#0433FF",
+        icon_url: "https://cdn.discordapp.com/embed/avatars/4.png"
+      } as any;
+    }
     return {
       id: guildId,
       name: "Mock Server",
