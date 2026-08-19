@@ -91,16 +91,14 @@ export const EmbedSettingsTab = ({
                                             value={embedColor}
                                             onChange={(e) => setEmbedColor(e.target.value)}
                                             className="absolute -inset-2 w-[200%] h-[200%] cursor-pointer opacity-0"
-                                            disabled={!isProOrBusiness}
                                         />
                                     </div>
                                     <input
                                         type="text"
                                         value={embedColor}
                                         onChange={(e) => setEmbedColor(e.target.value)}
-                                        className="w-full max-w-[160px] rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-[13px] text-white outline-none focus:border-white/20 focus:bg-white/10 transition-all disabled:opacity-50"
+                                        className="w-full max-w-[160px] rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-[13px] text-white outline-none focus:border-white/20 focus:bg-white/10 transition-all"
                                         placeholder="#1ab7ef"
-                                        disabled={!isProOrBusiness}
                                     />
                                 </div>
                             </div>
@@ -112,9 +110,8 @@ export const EmbedSettingsTab = ({
                                         <button
                                             key={hex}
                                             type="button"
-                                            onClick={() => isProOrBusiness && setEmbedColor(hex)}
-                                            disabled={!isProOrBusiness}
-                                            className="relative h-10 w-10 rounded-full border border-white/10 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/20 shadow-sm disabled:hover:scale-100 disabled:opacity-50"
+                                            onClick={() => setEmbedColor(hex)}
+                                            className="relative h-10 w-10 rounded-full border border-white/10 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/20 shadow-sm"
                                             style={{ backgroundColor: hex }}
                                             title={hex}
                                         >

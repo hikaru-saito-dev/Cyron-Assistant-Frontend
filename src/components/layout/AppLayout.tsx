@@ -12,6 +12,7 @@ import {
   Paintbrush,
   LogOut
 } from 'lucide-react';
+import { FaDiscord } from 'react-icons/fa';
 import { Tabs } from '../ui/vercel-tabs';
 import { api } from '../../lib/api';
 import { AnimatedOutlet } from '../motion/AnimatedOutlet';
@@ -121,8 +122,8 @@ export const AppLayout = () => {
                   {selectedGuild?.icon_url ? (
                     <img src={selectedGuild.icon_url} alt={displayName} className="w-8 h-8 rounded-full shrink-0 object-cover" />
                   ) : (
-                    <div className="w-8 h-8 rounded-full border border-white/20 bg-white/10 flex items-center justify-center shrink-0">
-                      <span className="text-[12px] text-white font-medium">{displayName?.[0]?.toUpperCase() || '?'}</span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-inner ${selectedGuild?.id && Number(selectedGuild.id) % 2 !== 0 ? 'bg-red-500' : 'bg-yellow-500'}`}>
+                      <FaDiscord className="w-6 h-6 text-white drop-shadow-sm" />
                     </div>
                   )}
                   <span className="text-[16px] font-medium text-white tracking-tight truncate">{displayName}</span>

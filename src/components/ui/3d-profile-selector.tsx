@@ -4,11 +4,12 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  type Variants,
-  type MotionValue,
+  Variants,
+  MotionValue,
 } from "framer-motion";
 import { Plus, RefreshCw, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { FaDiscord } from "react-icons/fa";
 /* ---------- Types ---------- */
 
 function SearchIcon() {
@@ -294,7 +295,9 @@ function HorizontalProfileCard({ guild, onAddBot, onManage }: { guild: Guild; on
         {guild.icon_url ? (
           <img src={guild.icon_url} alt={guild.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
         ) : (
-          <span className="text-5xl font-black text-white select-none tracking-tighter">{guild.name.charAt(0).toUpperCase()}</span>
+          <div className={`w-full h-full flex items-center justify-center ${parseInt(String(guild.id)) % 2 !== 0 ? 'bg-red-500' : 'bg-yellow-500'}`}>
+            <FaDiscord className="w-20 h-20 text-white drop-shadow-sm" />
+          </div>
         )}
       </div>
 
