@@ -17,14 +17,14 @@ export const Dashboard = () => {
   const newlyPurchasedGuildId = searchParams.get('guildId');
   const newlyPurchasedPlan = searchParams.get('plan');
 
-  const { data: guilds, isLoading } = useQuery({
+  const { data: rawGuilds = [], isLoading } = useQuery({
     queryKey: ['guilds'],
-    queryFn: fetchGuilds,
+    queryFn: fetchGuilds
   });
 
-  const allGuilds = ((guilds as any[]) || []).map(g => {
+  const allGuilds = rawGuilds.map((g: any) => {
     if (paymentSuccess && newlyPurchasedGuildId && String(g.id) === newlyPurchasedGuildId) {
-      return { ...g, plan: newlyPurchasedPlan };
+      return { ...g, plan: newlyPurchasedPlan ?? undefined };
     }
     return g;
   });

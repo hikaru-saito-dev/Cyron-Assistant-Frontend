@@ -207,8 +207,8 @@ export const guildService = {
   },
 
   // Panels
-  async fetchPanels(guildId: string) {
-    const res = await api.get(`/guilds/${guildId}/panels`);
+  async fetchPanels(guildId: string): Promise<Panel[]> {
+    const res = await api.get<Panel[]>(`/guilds/${guildId}/panels`);
     return res.data;
   },
   async createPanel(guildId: string, payload: Omit<Panel, "id" | "guild_id">) {
