@@ -121,7 +121,7 @@ export function Panels() {
     enabled: !!guildId,
   });
 
-  const panelContexts = contexts.filter((c) => c.id !== generalRules?.id);
+  const panelContexts = contexts.filter((c: any) => c.id !== generalRules?.id);
 
   const { data: channels = [], refetch: refetchChannels, isFetching: channelsFetching } = useQuery({
     queryKey: ['channels', guildId],
@@ -199,7 +199,7 @@ export function Panels() {
 
       <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="space-y-4">
         {panels.map((p) => {
-          const ctx = panelContexts.find((c) => c.id === p.ai_context_id);
+          const ctx = panelContexts.find((c: any) => c.id === p.ai_context_id);
           return (
             <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-5 transition-all duration-300 hover:bg-white/[0.04]">
               <div>
@@ -303,7 +303,7 @@ export function Panels() {
                           className="flex-1 rounded-xl border border-white/10 bg-[#0f0f0f] px-4 py-2.5 text-[14px] text-white focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all appearance-none"
                         >
                           <option value="">— Select AI Context —</option>
-                          {panelContexts.map((c) => (
+                          {panelContexts.map((c: any) => (
                             <option key={c.id} value={c.id}>{c.name}</option>
                           ))}
                           <option value="__create__">+ Create new context</option>
