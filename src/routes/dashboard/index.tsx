@@ -17,17 +17,12 @@ export const Dashboard = () => {
   const newlyPurchasedGuildId = searchParams.get('guildId');
   const newlyPurchasedPlan = searchParams.get('plan');
 
-  const isLoading = false;
-  const rawGuilds = [
-    { id: '101', name: 'Neon Knights', icon_url: null, has_bot: true, plan: 'premium' },
-    { id: '102', name: 'Cyberpunk Hub', icon_url: null, has_bot: false, plan: 'free' },
-    { id: '103', name: 'Quantum Realm', icon_url: null, has_bot: true, plan: 'enterprise' },
-    { id: '104', name: 'Apex Legends Scrims', icon_url: null, has_bot: false, plan: 'free' },
-    { id: '105', name: 'Starlight Lounge', icon_url: null, has_bot: true, plan: 'premium' },
-    { id: '106', name: 'Free Server', icon_url: null, has_bot: true, plan: 'free' }
-  ];
+  const { data: rawGuilds = [], isLoading } = useQuery({
+    queryKey: ['guilds'],
+    queryFn: fetchGuilds
+  });
 
-  const allGuilds = rawGuilds.map(g => {
+  const allGuilds = rawGuilds.map((g: any) => {
     if (paymentSuccess && newlyPurchasedGuildId && String(g.id) === newlyPurchasedGuildId) {
       return { ...g, plan: newlyPurchasedPlan ?? undefined };
     }
