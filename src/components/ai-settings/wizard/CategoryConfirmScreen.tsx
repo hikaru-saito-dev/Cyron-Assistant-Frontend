@@ -56,29 +56,29 @@ export function CategoryConfirmScreen({
       }
     >
       {lowConfidence ? (
-        <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3.5 dark:border-amber-500/30 dark:bg-amber-500/10">
-          <p className="font-sans text-sm font-semibold text-amber-900 dark:text-amber-300">
+        <div className="mb-5 rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3.5 backdrop-blur-xl">
+          <p className="font-sans text-sm font-semibold text-yellow-300">
             I couldn&apos;t find enough — tell me
           </p>
-          <p className="mt-1 font-sans text-xs text-amber-800/80 dark:text-amber-400/80">
+          <p className="mt-1 font-sans text-xs text-yellow-400/80">
             Pick one of the four cards below. No random suggestions.
           </p>
         </div>
       ) : (
-        <div className="mb-5 rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 dark:border-indigo-500/30 dark:bg-indigo-500/10">
+        <div className="mb-5 rounded-2xl border border-amber-400/25 bg-amber-400/[0.07] p-4 backdrop-blur-xl">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-[#F5A623] px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-white">
+            <span className="rounded-full bg-[#F5A623] px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-[#0a0a0a]">
               my guess
             </span>
-            <span className="font-sans text-sm font-semibold text-indigo-900 dark:text-indigo-200">
+            <span className="font-sans text-sm font-semibold text-amber-200">
               {CATEGORY_META[proposed].emoji} {CATEGORY_META[proposed].label}
             </span>
-            <span className="rounded-full bg-indigo-200/80 px-2 py-0.5 font-sans text-[10px] font-bold text-indigo-800 dark:bg-indigo-500/30 dark:text-indigo-200">
+            <span className="rounded-full bg-amber-400/20 px-2 py-0.5 font-sans text-[10px] font-bold text-amber-200">
               {Math.round((scan?.confidence ?? 0) * 100)}% confidence
             </span>
           </div>
           {(scan?.rationale?.length ?? 0) > 0 && (
-            <ul className="mt-3 space-y-1 font-sans text-xs text-indigo-800/90 dark:text-indigo-300/80">
+            <ul className="mt-3 space-y-1 font-sans text-xs text-amber-300/80">
               {scan!.rationale.slice(0, 6).map((r) => (
                 <li key={r}>• {r}</li>
               ))}
@@ -88,7 +88,7 @@ export function CategoryConfirmScreen({
             <button
               type="button"
               onClick={() => setShowPicker(true)}
-              className="mt-3 font-sans text-xs font-medium text-indigo-700 underline-offset-2 hover:underline dark:text-indigo-300"
+              className="mt-3 font-sans text-xs font-medium text-amber-300 underline-offset-2 hover:underline"
             >
               No, it&apos;s another kind of server
             </button>
@@ -106,13 +106,13 @@ export function CategoryConfirmScreen({
                 key={c}
                 type="button"
                 onClick={() => onSelect(c)}
-                className={`rounded-2xl border px-4 py-4 text-left transition ${
+                className={`cyron-glass cyron-glass-hover px-4 py-4 text-left ${
                   isActive
-                    ? "border-indigo-400 bg-indigo-50 ring-2 ring-indigo-300/50 dark:border-indigo-500 dark:bg-indigo-500/10"
-                    : "border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-slate-600"
+                    ? "!border-amber-400/40 !bg-amber-400/10 ring-2 ring-amber-400/20"
+                    : ""
                 }`}
               >
-                <p className="font-display text-lg font-bold text-slate-900 dark:text-white">
+                <p className="font-display text-lg font-bold text-white">
                   {m.emoji} {m.label}
                 </p>
               </button>

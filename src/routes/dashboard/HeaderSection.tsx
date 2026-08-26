@@ -50,7 +50,7 @@ export const DashboardHeaderSection = ({
         {cards.map((card, i) => (
           <div
             key={i}
-            className="bg-[#151515] border border-white/[0.05] rounded-xl p-5 flex flex-col"
+            className="bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-xl p-5 flex flex-col transition-all duration-300 hover:border-amber-400/30"
           >
             <div className="flex items-center justify-between mb-4">
               <span className="text-slate-400 text-[13px] font-medium">{card.title}</span>

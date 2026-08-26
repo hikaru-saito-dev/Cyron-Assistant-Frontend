@@ -49,13 +49,13 @@ export function KnowledgeTable({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <p className="font-sans text-sm font-medium text-slate-600 dark:text-slate-300">
+        <p className="font-sans text-sm font-medium text-zinc-400">
           {label}
         </p>
         <button
           type="button"
           onClick={() => setAdding(true)}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#F5A623] px-3.5 py-2 font-sans text-xs font-semibold text-white shadow-sm transition hover:bg-[#F5A623]/90"
+          className="cyron-btn-primary !px-3.5 !py-2 !text-xs"
         >
           <FaPlus className="text-[10px]" />
           Add entry
@@ -63,16 +63,16 @@ export function KnowledgeTable({
       </div>
 
       {adding && (
-        <div className="space-y-3 rounded-2xl bg-black p-5 dark:bg-black">
+        <div className="cyron-glass space-y-3 p-5">
           <input
             autoFocus
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 font-sans text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/20 dark:border-slate-600 dark:bg-slate-800"
+            className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 font-sans text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <textarea
-            className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 font-mono text-[13px] leading-relaxed focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/20 dark:border-slate-600 dark:bg-slate-800"
+            className="min-h-[120px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 font-mono text-[13px] leading-relaxed text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
             placeholder={
               section === "problems"
                 ? "Problem description and solution…"
@@ -88,7 +88,7 @@ export function KnowledgeTable({
               disabled={
                 !title.trim() || !content.trim() || createMut.isPending
               }
-              className="inline-flex items-center gap-2 rounded-xl bg-[#F5A623] px-4 py-2 font-sans text-xs font-semibold text-white transition-colors hover:bg-[#F5A623]/90 disabled:opacity-50"
+              className="cyron-btn-primary !px-4 !py-2 !text-xs"
             >
               {createMut.isPending ? "Saving…" : "Save entry"}
             </button>
@@ -99,7 +99,7 @@ export function KnowledgeTable({
                 setTitle("");
                 setContent("");
               }}
-              className="rounded-xl border border-slate-200 px-4 py-2 font-sans text-xs font-medium text-slate-600 hover:bg-white dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+              className="cyron-btn-ghost !px-4 !py-2 !text-xs"
             >
               Cancel
             </button>
@@ -108,46 +108,46 @@ export function KnowledgeTable({
       )}
 
       {entries.length === 0 && !adding ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 py-12 text-center dark:border-slate-700">
-          <p className="font-sans text-sm text-slate-400">No entries yet.</p>
+        <div className="rounded-2xl border border-dashed border-white/15 py-12 text-center">
+          <p className="font-sans text-sm text-zinc-500">No entries yet.</p>
           <button
             type="button"
             onClick={() => setAdding(true)}
-            className="mt-2 font-sans text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+            className="mt-2 font-sans text-sm font-medium text-amber-400 hover:underline"
           >
             Add your first entry
           </button>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
+        <div className="cyron-glass overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[480px] border-collapse font-sans text-sm">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/90 dark:border-slate-700 dark:bg-slate-800/80">
-                  <th className="px-5 py-3.5 text-left font-display text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                <tr className="border-b border-white/10 bg-white/[0.04]">
+                  <th className="px-5 py-3.5 text-left font-display text-[11px] font-bold uppercase tracking-[0.12em] text-zinc-400">
                     Title
                   </th>
-                  <th className="px-5 py-3.5 text-left font-display text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                  <th className="px-5 py-3.5 text-left font-display text-[11px] font-bold uppercase tracking-[0.12em] text-zinc-400">
                     Preview
                   </th>
-                  <th className="w-24 px-5 py-3.5 text-right font-display text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                  <th className="w-24 px-5 py-3.5 text-right font-display text-[11px] font-bold uppercase tracking-[0.12em] text-zinc-400">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+              <tbody className="divide-y divide-white/5">
                 {entries.map((k) => (
                   <tr
                     key={k.id}
-                    className="bg-white transition-colors hover:bg-slate-50/80 dark:bg-slate-900 dark:hover:bg-slate-800/50"
+                    className="transition-colors hover:bg-white/[0.04]"
                   >
                     <td className="px-5 py-4 align-top">
-                      <p className="font-sans font-semibold text-slate-900 dark:text-slate-100">
+                      <p className="font-sans font-semibold text-white">
                         {k.title}
                       </p>
                     </td>
                     <td className="px-5 py-4 align-top">
-                      <p className="line-clamp-2 font-mono text-[12px] leading-relaxed text-slate-500 dark:text-slate-400">
+                      <p className="line-clamp-2 font-mono text-[12px] leading-relaxed text-zinc-400">
                         {k.main_content ?? k.content}
                       </p>
                     </td>
@@ -156,7 +156,7 @@ export function KnowledgeTable({
                         type="button"
                         onClick={() => deleteMut.mutate(k.id)}
                         disabled={deleteMut.isPending}
-                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 font-sans text-xs font-medium text-red-500 transition hover:bg-red-50 dark:hover:bg-red-500/10"
+                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 font-sans text-xs font-medium text-red-400 transition hover:bg-red-500/10"
                       >
                         <FaTrash className="text-[10px]" />
                         Delete

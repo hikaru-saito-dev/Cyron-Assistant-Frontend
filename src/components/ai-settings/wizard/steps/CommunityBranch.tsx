@@ -70,10 +70,10 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
           {data.requestableRoles.map((row, i) => (
             <div
               key={row.id}
-              className="mb-2 grid gap-2 rounded-xl border border-slate-200 p-2 sm:grid-cols-[1fr_1fr_auto] dark:border-slate-600"
+              className="mb-2 grid gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-2 sm:grid-cols-[1fr_1fr_auto]"
             >
               <select
-                className="rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="rounded-lg border border-white/10 bg-[#0f0f0f] px-2 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 value={row.roleId}
                 onChange={(e) => {
                   const role = roles.find((r) => r.id === e.target.value);
@@ -94,7 +94,7 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
                 ))}
               </select>
               <input
-                className="rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="rounded-lg border border-white/10 bg-white/[0.04] px-2 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 placeholder="Requirement"
                 value={row.requirement}
                 onChange={(e) => {
@@ -105,7 +105,7 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
               />
               <button
                 type="button"
-                className="text-red-500"
+                className="text-red-400"
                 onClick={() =>
                   onChange({
                     ...data,
@@ -135,7 +135,7 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
                 ],
               })
             }
-            className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-indigo-600"
+            className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-amber-400"
           >
             <FaPlus className="text-[10px]" /> Add role
           </button>
@@ -144,7 +144,7 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
 
       {data.routing.includes("Ban/warn appeals") && (
         <SectionCard title="C4 — Appeals">
-          <p className="mb-1 font-sans text-xs text-slate-500">Who decides?</p>
+          <p className="mb-1 font-sans text-xs text-zinc-400">Who decides?</p>
           <div className="mb-3 flex flex-wrap gap-2">
             {roles.map((r) => {
               const on = data.appealDeciderRoleIds.includes(r.id);
@@ -160,10 +160,10 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
                         : [...data.appealDeciderRoleIds, r.id],
                     })
                   }
-                  className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+                  className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
                     on
-                      ? "border-indigo-400 bg-indigo-50 text-indigo-800"
-                      : "border-slate-200 text-slate-600 dark:border-slate-600"
+                      ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                      : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
                   }`}
                 >
                   @{r.name}
@@ -207,7 +207,7 @@ export function CommunityBranch({ data, roles, channels, onChange }: Props) {
             data.routing.includes("Questions about rules")) && (
             <div className="mt-3 space-y-2">
               <textarea
-                className="min-h-[100px] w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="min-h-[100px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 placeholder="Paste rules text…"
                 value={data.rulesText}
                 onChange={(e) =>

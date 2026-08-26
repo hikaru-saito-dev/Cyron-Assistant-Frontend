@@ -15,10 +15,12 @@ import { Home } from './routes/home';
 import { Docs } from './routes/docs';
 import { AiSettings } from './routes/ai-settings';
 import { HowItWorks } from './routes/how-it-works';
+import { ScrollToTop } from './components/layout/ScrollToTop';
 
 export default function App() {
   return (
     <div className="cyron-app-shell min-h-screen bg-[#070707] text-zinc-100">
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/docs" element={<Docs />} />

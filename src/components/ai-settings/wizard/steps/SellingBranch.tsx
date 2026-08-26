@@ -31,7 +31,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
       </SectionCard>
 
       <SectionCard title="S2 — Delivery" required>
-        <p className="mb-2 font-sans text-xs text-slate-500">
+        <p className="mb-2 font-sans text-xs text-zinc-400">
           After payment, how does the customer receive the product?
         </p>
         <ChipSingle
@@ -50,11 +50,11 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
         />
         {(data.delivery === "manual" || data.delivery === "depends") && (
           <div className="mt-3">
-            <label className="font-sans text-xs text-slate-500">
+            <label className="font-sans text-xs text-zinc-400">
               Within how long at most?
             </label>
             <select
-              className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#0f0f0f] px-3 py-2.5 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               value={data.deliveryMaxTime}
               onChange={(e) =>
                 onChange({ ...data, deliveryMaxTime: e.target.value })
@@ -95,7 +95,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
         />
         {data.refundPolicy === "none" && (
           <input
-            className="mt-3 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+            className="mt-3 w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
             placeholder="Exceptions? (optional)"
             value={data.refundExceptions}
             onChange={(e) =>
@@ -106,11 +106,11 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
         {data.refundPolicy === "broken" && (
           <div className="mt-3 space-y-3">
             <div>
-              <label className="font-sans text-xs text-slate-500">
+              <label className="font-sans text-xs text-zinc-400">
                 Within how long from delivery?
               </label>
               <select
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#0f0f0f] px-3 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 value={data.refundWithin}
                 onChange={(e) =>
                   onChange({ ...data, refundWithin: e.target.value })
@@ -132,9 +132,9 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
         {data.refundPolicy === "within_n" && (
           <div className="mt-3 space-y-3">
             <div>
-              <label className="font-sans text-xs text-slate-500">Days</label>
+              <label className="font-sans text-xs text-zinc-400">Days</label>
               <select
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#0f0f0f] px-3 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 value={data.refundDays}
                 onChange={(e) =>
                   onChange({ ...data, refundDays: e.target.value })
@@ -146,7 +146,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
               </select>
             </div>
             <input
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder="Under what conditions?"
               value={data.refundConditions}
               onChange={(e) =>
@@ -157,7 +157,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
         )}
         {data.refundPolicy === "case_by_case" && (
           <textarea
-            className="mt-3 min-h-[80px] w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+            className="mt-3 min-h-[80px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
             placeholder="Explain how the evaluation works (who decides, criteria, timing) — required"
             value={data.refundCaseExplain}
             onChange={(e) =>
@@ -207,11 +207,11 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
               }
             />
             <div>
-              <label className="font-sans text-xs text-slate-500">
+              <label className="font-sans text-xs text-zinc-400">
                 For how long?
               </label>
               <select
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#0f0f0f] px-3 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 value={data.warrantyDuration}
                 onChange={(e) =>
                   onChange({ ...data, warrantyDuration: e.target.value })
@@ -231,7 +231,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
               }
             />
             <input
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder="Conditions or exclusions"
               value={data.warrantyExclusions}
               onChange={(e) =>
@@ -241,7 +241,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
           </div>
         ) : (
           <input
-            className="mt-3 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+            className="mt-3 w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
             value={data.warrantyNoLine}
             onChange={(e) =>
               onChange({ ...data, warrantyNoLine: e.target.value })
@@ -279,7 +279,7 @@ export function SellingBranch({ data, roles, channels, onChange }: Props) {
               placeholder="Price list channel…"
             />
             <input
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder="Or URL to price list"
               value={data.pricesUrl}
               onChange={(e) =>

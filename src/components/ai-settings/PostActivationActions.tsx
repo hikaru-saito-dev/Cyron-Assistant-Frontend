@@ -119,8 +119,8 @@ export function PostActivationActions({
   }
 
   return (
-    <section className="space-y-3 rounded-2xl bg-black p-4 dark:bg-black">
-      <h3 className="font-display text-sm font-bold text-slate-900 dark:text-white">
+    <section className="cyron-glass space-y-3 p-4">
+      <h3 className="font-display text-sm font-bold text-white">
         Maintenance
       </h3>
       <div className="flex flex-wrap gap-2">
@@ -128,7 +128,7 @@ export function PostActivationActions({
           type="button"
           onClick={() => void startRerun()}
           disabled={loading}
-          className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 font-sans text-xs font-semibold text-slate-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200"
+          className="cyron-btn-ghost !px-3 !py-2 !text-xs"
         >
           <FaSync className={loading ? "animate-spin" : ""} />
           Re-run discovery only
@@ -136,7 +136,7 @@ export function PostActivationActions({
         <button
           type="button"
           onClick={confirmReconfigure}
-          className="inline-flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 font-sans text-xs font-semibold text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
+          className="inline-flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 font-sans text-xs font-semibold text-rose-300 transition-colors hover:bg-rose-500/15"
         >
           <FaRedo />
           Reconfigure from scratch
@@ -144,11 +144,11 @@ export function PostActivationActions({
       </div>
 
       {rerunOpen && (
-        <div className="mt-2 rounded-xl border border-indigo-100 bg-indigo-50/50 p-3 dark:border-indigo-500/20 dark:bg-indigo-500/5">
-          <p className="font-sans text-xs text-indigo-800 dark:text-indigo-300">
+        <div className="mt-2 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] p-3">
+          <p className="font-sans text-xs text-amber-300">
             {status}
           </p>
-          <p className="mt-1 font-sans text-[11px] text-slate-500">
+          <p className="mt-1 font-sans text-[11px] text-zinc-400">
             Privacy: mentions and IDs are stripped before extraction. Existing
             General Rules are not wiped.
           </p>
@@ -158,16 +158,16 @@ export function PostActivationActions({
               {proposals.map((p) => (
                 <div
                   key={p.id}
-                  className={`rounded-xl border bg-white p-3 dark:bg-slate-900 ${
+                  className={`rounded-xl border bg-white/[0.04] p-3 ${
                     p.status === "discarded"
-                      ? "opacity-40"
+                      ? "border-white/10 opacity-40"
                       : p.status === "accepted"
-                        ? "border-emerald-300"
-                        : "border-slate-200 dark:border-slate-700"
+                        ? "border-emerald-400/40"
+                        : "border-white/10"
                   }`}
                 >
                   <input
-                    className="mb-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-800"
+                    className="mb-1 w-full rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1.5 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                     value={p.problem}
                     disabled={p.status === "discarded"}
                     onChange={(e) =>
@@ -181,7 +181,7 @@ export function PostActivationActions({
                     }
                   />
                   <textarea
-                    className="min-h-[56px] w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-800"
+                    className="min-h-[56px] w-full rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1.5 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                     value={p.solution}
                     disabled={p.status === "discarded"}
                     onChange={(e) =>
@@ -201,7 +201,7 @@ export function PostActivationActions({
                   <div className="mt-2 flex flex-wrap gap-2">
                     <button
                       type="button"
-                      className="inline-flex items-center gap-1 font-sans text-[11px] font-semibold text-emerald-600"
+                      className="inline-flex items-center gap-1 font-sans text-[11px] font-semibold text-emerald-400"
                       onClick={() =>
                         setProposals((prev) =>
                           prev.map((x) =>
@@ -214,7 +214,7 @@ export function PostActivationActions({
                     </button>
                     <button
                       type="button"
-                      className="inline-flex items-center gap-1 font-sans text-[11px] font-semibold text-indigo-600"
+                      className="inline-flex items-center gap-1 font-sans text-[11px] font-semibold text-amber-400"
                       onClick={() =>
                         setProposals((prev) =>
                           prev.map((x) =>
@@ -245,7 +245,7 @@ export function PostActivationActions({
                 type="button"
                 disabled={saving}
                 onClick={() => void applyAccepted()}
-                className="rounded-xl bg-[#F5A623] hover:bg-[#F5A623]/90 transition-colors px-3 py-2 font-sans text-xs font-semibold text-white disabled:opacity-50"
+                className="cyron-btn-primary !px-3 !py-2 !text-xs"
               >
                 {saving ? "Applying…" : "Apply accepted proposals"}
               </button>

@@ -5,7 +5,7 @@ import { GENERAL_RULES_TABS } from "./constants";
 export function GlobalBadge({ compact = false }: { compact?: boolean }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 font-display font-semibold uppercase tracking-wide text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-300 ${
+      className={`inline-flex items-center rounded-full border border-amber-400/30 bg-amber-400/10 font-display font-semibold uppercase tracking-wide text-amber-300 ${
         compact ? "px-2 py-0.5 text-[10px]" : "px-2.5 py-0.5 text-[10px]"
       }`}
     >
@@ -22,7 +22,7 @@ export function TabBar({
   onChange: (tab: GeneralRulesTab) => void;
 }) {
   return (
-    <div className="inline-flex flex-wrap gap-1 rounded-2xl bg-black p-1.5 dark:bg-black">
+    <div className="cyron-glass inline-flex flex-wrap gap-1 p-1.5">
       {GENERAL_RULES_TABS.map((t) => (
         <button
           key={t.id}
@@ -30,8 +30,8 @@ export function TabBar({
           onClick={() => onChange(t.id)}
           className={`rounded-xl px-4 py-2 font-sans text-sm font-medium transition-all ${
             active === t.id
-              ? "bg-[#F5A623] text-white shadow-sm"
-              : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+              ? "bg-[#F5A623] text-[#0a0a0a] shadow-sm"
+              : "text-zinc-400 hover:text-white"
           }`}
         >
           {t.label}
@@ -53,14 +53,14 @@ export function EditorArea({
   minHeight?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/50 shadow-inner dark:border-slate-700 dark:bg-slate-900/40">
-      <div className="flex items-center gap-2 border-b border-slate-200 bg-white/80 px-4 py-2.5 dark:border-slate-700 dark:bg-slate-800/80">
-        <span className="font-mono text-[11px] font-medium uppercase tracking-widest text-slate-400">
+    <div className="cyron-glass overflow-hidden">
+      <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-4 py-2.5">
+        <span className="font-mono text-[11px] font-medium uppercase tracking-widest text-white/40">
           Markdown
         </span>
       </div>
       <textarea
-        className={`w-full resize-y border-0 bg-transparent px-5 py-4 font-mono text-[13px] leading-relaxed text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-0 dark:text-slate-100 dark:placeholder:text-slate-500 ${minHeight}`}
+        className={`w-full resize-y border-0 bg-transparent px-5 py-4 font-mono text-[13px] leading-relaxed text-white placeholder:text-white/40 focus:outline-none focus:ring-0 ${minHeight}`}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
@@ -86,10 +86,10 @@ export function PrimaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className="inline-flex items-center gap-2 rounded-xl bg-[#F5A623] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#F5A623]/90 focus:outline-none focus:ring-2 focus:ring-[#F5A623]/30 disabled:cursor-not-allowed disabled:opacity-50"
+      className="cyron-btn-primary !px-5 !py-2.5 !text-sm"
     >
       {loading ? (
-        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0a0a0a]/40 border-t-transparent" />
       ) : (
         <FaSave className="text-xs" />
       )}
@@ -112,7 +112,7 @@ export function ToggleSwitch({
       aria-checked={enabled}
       onClick={() => onChange(!enabled)}
       className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
-        enabled ? "bg-emerald-500" : "bg-slate-200 dark:bg-slate-600"
+        enabled ? "bg-emerald-500" : "bg-white/15"
       }`}
     >
       <span

@@ -136,20 +136,20 @@ export function OptionalSourcesScreen({
         />
       }
     >
-      <div className="mb-4 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/50">
-        <p className="font-sans text-xs text-slate-600 dark:text-slate-300">
+      <div className="cyron-glass mb-4 px-4 py-3">
+        <p className="font-sans text-xs text-zinc-300">
           <strong>Privacy:</strong> I only read to extract recurring problems
           and solutions. Mentions and personal IDs are stripped before any AI
           call. User names never end up in the rules.
         </p>
-        <p className="mt-1.5 font-sans text-xs text-slate-500 dark:text-slate-400">
+        <p className="mt-1.5 font-sans text-xs text-zinc-400">
           You don&apos;t need all your tickets — about ten are enough to find
           patterns. If extraction fails, you can continue and fill problems
           manually.
         </p>
       </div>
 
-      <p className="mb-3 font-sans text-sm text-slate-600 dark:text-slate-300">
+      <p className="mb-3 font-sans text-sm text-zinc-300">
         Example output:{" "}
         <em>
           From 30 old tickets: &quot;Tracking not updating&quot; → staff asks for
@@ -158,7 +158,7 @@ export function OptionalSourcesScreen({
       </p>
 
       <div className="mb-4">
-        <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-zinc-400">
           Which bot did you use before?
         </p>
         <div className="flex flex-wrap gap-2">
@@ -169,15 +169,15 @@ export function OptionalSourcesScreen({
               onClick={() => onChange({ previousBot: b.id })}
               className={`rounded-xl px-3 py-1.5 font-sans text-xs font-semibold transition ${
                 answers.previousBot === b.id
-                  ? "bg-[#F5A623] text-white"
-                  : "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300"
+                  ? "bg-[#F5A623] text-[#0a0a0a]"
+                  : "border border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
               }`}
             >
               {b.label}
             </button>
           ))}
         </div>
-        <p className="mt-2 font-sans text-xs text-slate-500">
+        <p className="mt-2 font-sans text-xs text-zinc-400">
           {answers.previousBot === "ticket_tool"
             ? "Select the transcript channel — I'll download the HTML attachments myself."
             : answers.previousBot === "tickety"
@@ -206,12 +206,12 @@ export function OptionalSourcesScreen({
         count={answers.ticketChannelIds.length}
       >
         {ticketOptions.length === 0 ? (
-          <p className="font-sans text-xs text-slate-500">
+          <p className="font-sans text-xs text-zinc-400">
             No ticket-\d+ channels detected.
           </p>
         ) : (
           <>
-            <p className="mb-2 font-sans text-xs text-slate-500">
+            <p className="mb-2 font-sans text-xs text-zinc-400">
               I found {ticketOptions.length} channel(s) that look like closed
               tickets — may I read them?
             </p>
@@ -230,8 +230,8 @@ export function OptionalSourcesScreen({
         title="HTML / TXT files"
         count={answers.htmlFiles.length}
       >
-        <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 px-4 py-8 text-center dark:border-slate-600">
-          <p className="font-sans text-sm text-slate-600 dark:text-slate-300">
+        <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-white/15 px-4 py-8 text-center transition-colors hover:border-amber-400/40">
+          <p className="font-sans text-sm text-zinc-300">
             Drop Ticket Tool HTML / TXT here
           </p>
           <input
@@ -249,9 +249,9 @@ export function OptionalSourcesScreen({
             {answers.htmlFiles.map((f, i) => (
               <li
                 key={`${f.name}-${i}`}
-                className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700"
+                className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm"
               >
-                <span className="truncate font-sans text-slate-700 dark:text-slate-200">
+                <span className="truncate font-sans text-zinc-200">
                   {f.name}
                 </span>
                 <button
@@ -261,7 +261,7 @@ export function OptionalSourcesScreen({
                       htmlFiles: answers.htmlFiles.filter((_, j) => j !== i),
                     })
                   }
-                  className="text-red-500"
+                  className="text-red-400"
                 >
                   <FaTrash className="text-xs" />
                 </button>
@@ -271,7 +271,7 @@ export function OptionalSourcesScreen({
         )}
       </Accordion>
 
-      <p className="mt-4 font-sans text-sm font-medium text-slate-700 dark:text-slate-200">
+      <p className="mt-4 font-sans text-sm font-medium text-zinc-200">
         {sourceCount} source{sourceCount === 1 ? "" : "s"} ready to read
       </p>
     </WizardShell>
@@ -292,21 +292,21 @@ function Accordion({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mb-3 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
+    <div className="cyron-glass mb-3 overflow-hidden">
       <button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-center justify-between bg-white px-4 py-3 text-left dark:bg-slate-900"
+        className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
       >
-        <span className="font-sans text-sm font-semibold text-slate-800 dark:text-slate-100">
+        <span className="font-sans text-sm font-semibold text-white">
           {title}
         </span>
-        <span className="font-sans text-xs text-slate-400">
+        <span className="font-sans text-xs text-zinc-500">
           {count > 0 ? `${count} selected` : open ? "▾" : "▸"}
         </span>
       </button>
       {open && (
-        <div className="border-t border-slate-100 bg-slate-50/50 px-4 py-3 dark:border-slate-800 dark:bg-slate-900/50">
+        <div className="border-t border-white/10 bg-white/[0.02] px-4 py-3">
           {children}
         </div>
       )}
@@ -334,8 +334,8 @@ function ChannelChips({
             onClick={() => onToggle(o.id)}
             className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 font-sans text-xs transition ${
               on
-                ? "border-indigo-400 bg-indigo-50 text-indigo-800 dark:border-indigo-500 dark:bg-indigo-500/15 dark:text-indigo-200"
-                : "border-slate-200 bg-white text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
             }`}
           >
             {on && <FaCheck className="text-[9px]" />}#{o.name}

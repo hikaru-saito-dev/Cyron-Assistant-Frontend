@@ -242,7 +242,7 @@ export function PricingSection({
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setMousePosition({ x: null, y: null })}
-        className="relative w-full bg-black py-20 sm:py-24"
+        className="relative w-full bg-transparent py-20 sm:py-24"
       >
         <InteractiveStarfield
           mousePosition={mousePosition}

@@ -24,19 +24,19 @@ export function WizardShell({
     <div className="space-y-5">
       <div>
         <div className="mb-2 flex items-center justify-between gap-3">
-          <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
+          <p className="font-display text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-500">
             Step {index + 1} of {WIZARD_STEPS.length}
             {WIZARD_STEPS[index] ? ` · ${WIZARD_STEPS[index].label}` : ""}
           </p>
           <button
             type="button"
             onClick={onEscapeManual}
-            className="font-sans text-xs font-medium text-slate-500 transition hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+            className="font-sans text-xs font-medium text-zinc-400 transition hover:text-amber-400"
           >
             I&apos;ll fill it myself
           </button>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+        <div className="h-2 overflow-hidden rounded-full border border-white/10 bg-white/[0.06]">
           <div
             className="h-full rounded-full bg-emerald-500 transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -47,9 +47,7 @@ export function WizardShell({
             <span
               key={s.id}
               className={`rounded-md px-1.5 py-0.5 font-sans text-[10px] font-medium ${
-                i <= index
-                  ? "text-emerald-600 dark:text-emerald-400"
-                  : "text-slate-400"
+                i <= index ? "text-emerald-400" : "text-zinc-500"
               }`}
             >
               {s.label}
@@ -61,12 +59,12 @@ export function WizardShell({
       {(title || subtitle) && (
         <div>
           {title && (
-            <h2 className="font-display text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="font-display text-xl font-bold tracking-tight text-white">
               {title}
             </h2>
           )}
           {subtitle && (
-            <p className="mt-1.5 font-sans text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-1.5 font-sans text-sm text-zinc-400">
               {subtitle}
             </p>
           )}
@@ -106,7 +104,7 @@ export function WizardNav({
           <button
             type="button"
             onClick={onBack}
-            className="rounded-xl border border-slate-200 px-4 py-2.5 font-sans text-sm font-medium text-slate-600 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="cyron-btn-ghost !px-4 !py-2.5 !text-sm"
           >
             Back
           </button>
@@ -115,7 +113,7 @@ export function WizardNav({
           <button
             type="button"
             onClick={onSkip}
-            className="font-sans text-sm font-medium text-slate-500 transition hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+            className="font-sans text-sm font-medium text-zinc-400 transition hover:text-amber-400"
           >
             {skipLabel ?? "Skip"}
           </button>
@@ -126,7 +124,7 @@ export function WizardNav({
           type="button"
           onClick={onNext}
           disabled={nextDisabled}
-          className="inline-flex items-center justify-center rounded-xl bg-[#F5A623] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#F5A623]/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="cyron-btn-primary !px-5 !py-2.5 !text-sm"
         >
           {nextLabel}
         </button>

@@ -108,28 +108,26 @@ export function GeneralRulesEditor({
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <div className="flex flex-wrap items-center gap-2.5">
-              <h2 className="font-display text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+              <h2 className="font-display text-xl font-bold tracking-tight text-white">
                 General Rules
               </h2>
               <GlobalBadge />
             </div>
-            <p className="mt-1.5 font-sans text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-1.5 font-sans text-sm text-zinc-400">
               Applies to all AI-enabled panels on this server. Completing and
               activating unlocks AI Contexts.
             </p>
           </div>
           <div className="flex items-center gap-4">
             {lockDisable ? (
-              <span className="font-sans text-sm font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="font-sans text-sm font-medium text-emerald-400">
                 Active (turn off per panel)
               </span>
             ) : (
               <label className="flex items-center gap-2.5">
                 <span
                   className={`font-sans text-sm font-medium ${
-                    grEnabled
-                      ? "text-emerald-600 dark:text-emerald-400"
-                      : "text-slate-400"
+                    grEnabled ? "text-emerald-400" : "text-zinc-500"
                   }`}
                 >
                   {grEnabled ? "Active" : "Disabled"}
@@ -149,9 +147,7 @@ export function GeneralRulesEditor({
           <label className="flex items-center gap-2.5">
             <span
               className={`font-sans text-sm font-medium ${
-                grEnabled
-                  ? "text-emerald-600 dark:text-emerald-400"
-                  : "text-slate-400"
+                grEnabled ? "text-emerald-400" : "text-zinc-500"
               }`}
             >
               {grEnabled ? "Active" : "Disabled"}
@@ -166,13 +162,13 @@ export function GeneralRulesEditor({
 
       {!grEnabled && (
         <div
-          className="mb-5 rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3.5 dark:border-amber-500/30 dark:bg-amber-500/10"
+          className="mb-5 rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3.5 backdrop-blur-xl"
           role="alert"
         >
-          <p className="font-sans text-sm font-semibold text-amber-900 dark:text-amber-300">
+          <p className="font-sans text-sm font-semibold text-yellow-300">
             General Rules is currently off
           </p>
-          <p className="mt-1 font-sans text-xs text-amber-800/80 dark:text-amber-400/80">
+          <p className="mt-1 font-sans text-xs text-yellow-400/80">
             Turn on the toggle and save to activate AI and unlock AI Contexts.
           </p>
         </div>
@@ -182,7 +178,7 @@ export function GeneralRulesEditor({
         <TabBar active={grTab} onChange={setGrTab} />
       </div>
 
-      <p className="mb-4 font-sans text-sm text-slate-500 dark:text-slate-400">
+      <p className="mb-4 font-sans text-sm text-zinc-400">
         {activeTabMeta?.hint}
       </p>
 
@@ -200,7 +196,7 @@ export function GeneralRulesEditor({
             }
           />
           {savedFlash && (
-            <span className="font-sans text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="font-sans text-sm font-medium text-emerald-400">
               Saved successfully
             </span>
           )}
@@ -254,8 +250,8 @@ export function GeneralRulesEditor({
 
 function EmptyHint({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-8 text-center dark:border-slate-700">
-      <p className="font-sans text-sm text-slate-500">{text}</p>
+    <div className="rounded-2xl border border-dashed border-white/15 px-4 py-8 text-center">
+      <p className="font-sans text-sm text-zinc-400">{text}</p>
     </div>
   );
 }

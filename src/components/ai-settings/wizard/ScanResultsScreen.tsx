@@ -34,17 +34,17 @@ export function ScanResultsScreen({
       }
     >
       <div className="space-y-4">
-        <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 px-4 py-4 dark:border-indigo-500/30 dark:bg-black">
+        <div className="rounded-2xl border border-amber-400/25 bg-amber-400/[0.07] px-4 py-4 backdrop-blur-xl">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="font-sans text-sm font-semibold text-indigo-900 dark:text-indigo-200">
+            <p className="font-sans text-sm font-semibold text-amber-200">
               {meta.emoji} Likely {meta.label}
             </p>
-            <span className="rounded-full bg-indigo-200/80 px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-indigo-800 dark:bg-indigo-500/30 dark:text-indigo-200">
+            <span className="rounded-full bg-amber-400/20 px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-amber-200">
               {scan.confidence_tier} · {Math.round((scan.confidence ?? 0) * 100)}%
             </span>
           </div>
           {scan.summary && (
-            <p className="mt-2 font-sans text-xs text-indigo-800/80 dark:text-indigo-300/80">
+            <p className="mt-2 font-sans text-xs text-amber-300/80">
               {scan.summary}
             </p>
           )}
@@ -61,7 +61,7 @@ export function ScanResultsScreen({
 
         {(scan.rationale?.length ?? 0) > 0 && (
           <Section title="Why this guess">
-            <ul className="space-y-1 font-sans text-sm text-slate-600 dark:text-slate-300">
+            <ul className="space-y-1 font-sans text-sm text-zinc-300">
               {scan.rationale.slice(0, 8).map((r) => (
                 <li key={r}>• {r}</li>
               ))}
@@ -75,7 +75,7 @@ export function ScanResultsScreen({
               {scan.signals.slice(0, 12).map((s) => (
                 <span
                   key={s}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 font-sans text-[11px] text-slate-600 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                  className="rounded-lg border border-white/10 bg-white/[0.06] px-2 py-1 font-sans text-[11px] text-zinc-300"
                 >
                   {s}
                 </span>
@@ -90,7 +90,7 @@ export function ScanResultsScreen({
               {scan.panels_found.map((p) => (
                 <span
                   key={p.id}
-                  className="rounded-xl border border-slate-200 px-3 py-1.5 font-sans text-xs font-medium text-slate-700 dark:border-slate-600 dark:text-slate-200"
+                  className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 font-sans text-xs font-medium text-zinc-200"
                 >
                   {p.button_emoji ? `${p.button_emoji} ` : ""}
                   {p.name}
@@ -101,7 +101,7 @@ export function ScanResultsScreen({
         )}
 
         {(scan.classified_channels?.ticket_history?.length ?? 0) > 0 && (
-          <p className="font-sans text-xs text-slate-500 dark:text-slate-400">
+          <p className="font-sans text-xs text-zinc-400">
             Found {scan.classified_channels.ticket_history.length} closed ticket
             channel(s) — you can use them in the next sources step.
           </p>
@@ -113,11 +113,11 @@ export function ScanResultsScreen({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-3 dark:border-slate-700 dark:bg-black">
-      <p className="font-display text-[10px] font-bold uppercase tracking-wider text-slate-400">
+    <div className="cyron-glass !rounded-xl px-3 py-3">
+      <p className="font-display text-[10px] font-bold uppercase tracking-wider text-zinc-500">
         {label}
       </p>
-      <p className="mt-1 font-display text-lg font-bold text-slate-900 dark:text-white">
+      <p className="mt-1 font-display text-lg font-bold text-white">
         {value}
       </p>
     </div>
@@ -132,8 +132,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-black">
-      <p className="mb-2 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">
+    <div className="cyron-glass p-4">
+      <p className="mb-2 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-zinc-500">
         {title}
       </p>
       {children}

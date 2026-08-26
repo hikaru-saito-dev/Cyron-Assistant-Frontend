@@ -86,30 +86,30 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
   );
 
   return (
-    <section className="space-y-4 rounded-2xl bg-black p-4 sm:p-5 dark:bg-black">
+    <section className="cyron-glass space-y-4 p-4 sm:p-5">
       <div>
-        <h3 className="font-display text-base font-bold text-slate-900 dark:text-white">
+        <h3 className="font-display text-base font-bold text-white">
           General AI settings
         </h3>
-        <p className="mt-1 font-sans text-xs text-slate-500">
+        <p className="mt-1 font-sans text-xs text-zinc-400">
           Always editable. Hours stay per-panel — only the out-of-hours
           behavior is set here.
         </p>
       </div>
 
       {/* When it doesn't know */}
-      <div className="rounded-xl border border-slate-100 p-3 dark:border-slate-800">
-        <p className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-slate-800 dark:text-slate-100">
-          <FaUserShield className="text-indigo-500" />
+      <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+        <p className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-white">
+          <FaUserShield className="text-amber-400" />
           When it doesn&apos;t know the answer
         </p>
-        <p className="mb-2 font-sans text-xs text-slate-500">
+        <p className="mb-2 font-sans text-xs text-zinc-400">
           Cyron admits it doesn&apos;t know and hands off. Choose who to ping
           (min. 1 role or user).
         </p>
         <div className="flex flex-wrap gap-2">
           {roles.length === 0 && (
-            <p className="font-sans text-xs text-amber-600">
+            <p className="font-sans text-xs text-yellow-400">
               No roles cached yet —{" "}
               <button
                 type="button"
@@ -139,10 +139,10 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
                 key={r.id}
                 type="button"
                 onClick={() => toggleRole(r.id, r.name)}
-                className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+                className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
                   on
-                    ? "border-indigo-400 bg-indigo-50 text-indigo-800"
-                    : "border-slate-200 text-slate-600 dark:border-slate-600"
+                    ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                    : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.07]"
                 }`}
               >
                 @{r.name}
@@ -154,12 +154,12 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
           {userIds.map((uid) => (
             <span
               key={uid}
-              className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-1 font-mono text-[11px] dark:bg-slate-800"
+              className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/[0.06] px-2 py-1 font-mono text-[11px] text-zinc-300"
             >
               {uid}
               <button
                 type="button"
-                className="text-red-500"
+                className="text-red-400"
                 onClick={() => setUserIds(userIds.filter((x) => x !== uid))}
               >
                 ×
@@ -172,7 +172,7 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
               const raw = window.prompt("Discord user ID to ping:");
               if (raw?.trim()) setUserIds([...userIds, raw.trim()]);
             }}
-            className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-indigo-600"
+            className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-amber-400"
           >
             <FaPlus className="text-[10px]" /> Add user ID
           </button>
@@ -180,9 +180,9 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
       </div>
 
       {/* Rude users */}
-      <div className="rounded-xl border border-slate-100 p-3 dark:border-slate-800">
-        <p className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-slate-800 dark:text-slate-100">
-          <FaShieldAlt className="text-rose-500" />
+      <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+        <p className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-white">
+          <FaShieldAlt className="text-rose-400" />
           Rude users or spam
         </p>
         <div className="flex flex-wrap gap-2">
@@ -197,10 +197,10 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
               key={id}
               type="button"
               onClick={() => setRudeThreshold(id)}
-              className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+              className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
                 rudeThreshold === id
-                  ? "border-rose-300 bg-rose-50 text-rose-800"
-                  : "border-slate-200 dark:border-slate-600"
+                  ? "border-rose-400/40 bg-rose-500/10 text-rose-200"
+                  : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.07]"
               }`}
             >
               {label}
@@ -209,7 +209,7 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
         </div>
         {rudeThreshold !== "straight_staff" && (
           <textarea
-            className="mt-3 min-h-[64px] w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900"
+            className="mt-3 min-h-[64px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
             value={rudeText}
             onChange={(e) => setRudeText(e.target.value)}
             placeholder={DEFAULT_WARN}
@@ -218,12 +218,12 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
       </div>
 
       {/* Out of hours */}
-      <div className="rounded-xl border border-slate-100 p-3 dark:border-slate-800">
-        <p className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-slate-800 dark:text-slate-100">
-          <FaClock className="text-amber-500" />
+      <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+        <p className="mb-2 flex items-center gap-2 font-sans text-sm font-semibold text-white">
+          <FaClock className="text-amber-400" />
           Out-of-hours behavior
         </p>
-        <p className="mb-2 font-sans text-xs text-slate-500">
+        <p className="mb-2 font-sans text-xs text-zinc-400">
           Hours are configured on each panel. This only controls what Cyron does
           when a panel is closed.
         </p>
@@ -231,10 +231,10 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
           <button
             type="button"
             onClick={() => setOutsideBehavior("try_resolve")}
-            className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+            className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
               outsideBehavior === "try_resolve"
-                ? "border-amber-300 bg-amber-50 text-amber-900"
-                : "border-slate-200 dark:border-slate-600"
+                ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.07]"
             }`}
           >
             Still try to resolve (default)
@@ -242,44 +242,44 @@ export function GeneralAiSettingsPanel({ guildId, settings, enabled }: Props) {
           <button
             type="button"
             onClick={() => setOutsideBehavior("waiting_only")}
-            className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+            className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
               outsideBehavior === "waiting_only"
-                ? "border-amber-300 bg-amber-50 text-amber-900"
-                : "border-slate-200 dark:border-slate-600"
+                ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                : "border-white/10 bg-white/[0.04] text-zinc-400 hover:bg-white/[0.07]"
             }`}
           >
             Waiting message only
           </button>
         </div>
         <textarea
-          className="mt-3 min-h-[72px] w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900"
+          className="mt-3 min-h-[72px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           value={outsideMsg}
           onChange={(e) => setOutsideMsg(e.target.value)}
         />
-        <p className="mt-2 font-sans text-[11px] text-slate-400">
+        <p className="mt-2 font-sans text-[11px] text-zinc-500">
           Preview: {preview}
         </p>
       </div>
 
       {error && (
-        <p className="font-sans text-sm text-rose-600">{error}</p>
+        <p className="font-sans text-sm text-rose-400">{error}</p>
       )}
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
           disabled={saveMut.isPending || !enabled}
           onClick={() => saveMut.mutate()}
-          className="rounded-xl bg-[#F5A623] hover:bg-[#F5A623]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
+          className="cyron-btn-primary !px-4 !py-2 !text-sm"
         >
           {saveMut.isPending ? "Saving…" : "Save general settings"}
         </button>
         {saved && (
-          <span className="font-sans text-xs font-medium text-emerald-600">
+          <span className="font-sans text-xs font-medium text-emerald-400">
             Saved — live now
           </span>
         )}
         {!enabled && (
-          <span className="font-sans text-xs text-slate-400">
+          <span className="font-sans text-xs text-zinc-500">
             Activate General Rules first to apply these at runtime.
           </span>
         )}

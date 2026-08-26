@@ -20,7 +20,7 @@ export function ChannelPicker({
   return (
     <div>
       <select
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 font-sans text-sm dark:border-slate-600 dark:bg-slate-800"
+        className="w-full rounded-xl border border-white/10 bg-[#0f0f0f] px-3 py-2.5 font-sans text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
         value={value}
         onChange={(e) => {
           const id = e.target.value;
@@ -36,7 +36,7 @@ export function ChannelPicker({
         ))}
       </select>
       {value && !exists && (
-        <p className="mt-1 font-sans text-[11px] font-medium text-amber-600">
+        <p className="mt-1 font-sans text-[11px] font-medium text-yellow-400">
           Channel no longer exists
         </p>
       )}

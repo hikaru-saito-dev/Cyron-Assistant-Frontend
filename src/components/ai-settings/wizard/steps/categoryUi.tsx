@@ -14,10 +14,10 @@ export function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="space-y-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
-      <h3 className="font-display text-sm font-bold text-slate-900 dark:text-white">
+    <section className="cyron-glass space-y-3 p-4">
+      <h3 className="font-display text-sm font-bold text-white">
         {title}
-        {required && <span className="ml-1 text-rose-500">*</span>}
+        {required && <span className="ml-1 text-rose-400">*</span>}
       </h3>
       {children}
     </section>
@@ -39,7 +39,7 @@ export function ChipMulti({
   return (
     <div>
       {label && (
-        <p className="mb-1.5 font-sans text-xs text-slate-500">{label}</p>
+        <p className="mb-1.5 font-sans text-xs text-zinc-400">{label}</p>
       )}
       <div className="flex flex-wrap gap-2">
         {opts.map((o) => {
@@ -55,8 +55,8 @@ export function ChipMulti({
               }
               className={`rounded-xl border px-3 py-1.5 font-sans text-xs font-medium transition ${
                 on
-                  ? "border-indigo-400 bg-indigo-50 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-200"
-                  : "border-slate-200 text-slate-600 dark:border-slate-600 dark:text-slate-300"
+                  ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                  : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
               }`}
             >
               {o.label}
@@ -87,8 +87,8 @@ export function ChipSingle({
           onClick={() => onChange(o.id)}
           className={`rounded-xl border px-3 py-1.5 font-sans text-xs font-medium transition ${
             value === o.id
-              ? "border-indigo-400 bg-indigo-50 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-200"
-              : "border-slate-200 text-slate-600 dark:border-slate-600 dark:text-slate-300"
+              ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+              : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
           }`}
         >
           {o.label}

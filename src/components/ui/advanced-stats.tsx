@@ -63,7 +63,7 @@ export default function AdvancedStats({
   return (
     <section
       ref={timelineRef}
-      className="flex flex-col gap-8 py-8 bg-black md:px-0 px-5"
+      className="flex flex-col gap-8 py-8 bg-transparent md:px-0 px-5"
     >
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -71,7 +71,7 @@ export default function AdvancedStats({
           <TimelineAnimation
             animationNum={1}
             timelineRef={timelineRef}
-            className="lg:col-span-2 p-8 rounded-3xl bg-zinc-900 border border-zinc-700"
+            className="lg:col-span-2 p-8 rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10"
           >
             <ClippedAreaChart
               totalServers={totalServers}
@@ -110,7 +110,7 @@ export default function AdvancedStats({
                   </div>
                   <div className="w-full h-1.5 bg-zinc-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-black rounded-full transition-all duration-700"
+                      className="h-full bg-[#F5A623] rounded-full transition-all duration-700"
                       style={{ width: `${isLoading ? 0 : Math.min(adoptionRate, 100)}%` }}
                     />
                   </div>
@@ -124,7 +124,7 @@ export default function AdvancedStats({
               <TimelineAnimation
                 animationNum={3}
                 timelineRef={timelineRef}
-                className="p-6 rounded-3xl bg-zinc-900 border border-zinc-700 flex-1"
+                className="p-6 rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 flex-1"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="size-8 rounded-lg bg-zinc-800 flex items-center justify-center border border-zinc-700">
@@ -175,7 +175,7 @@ export default function AdvancedStats({
                 timelineRef={timelineRef}
                 key={kpi.label}
                 className={cn(
-                  'p-6 rounded-2xl border bg-zinc-900 border-zinc-700 transition-all duration-300',
+                  'p-6 rounded-2xl border bg-white/[0.04] backdrop-blur-xl border-white/10 transition-all duration-300 hover:border-amber-400/30',
                   kpi.status === 'up'
                     ? 'hover:border-emerald-500 hover:bg-emerald-950'
                     : 'hover:border-rose-500 hover:bg-rose-950'

@@ -41,14 +41,14 @@ export function PaymentsShortcut({ guildId, settings, enabled }: Props) {
   if (!enabled) return null;
 
   return (
-    <section className="rounded-2xl bg-black p-4 sm:p-5 dark:bg-black">
+    <section className="cyron-glass p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="flex items-center gap-2 font-display text-base font-bold text-slate-900 dark:text-white">
-            <FaCreditCard className="text-emerald-600" />
+          <h3 className="flex items-center gap-2 font-display text-base font-bold text-white">
+            <FaCreditCard className="text-emerald-400" />
             Payments
           </h3>
-          <p className="mt-1 font-sans text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-1 font-sans text-xs text-zinc-400">
             Fast edit for emails, crypto addresses and networks — changes go live
             on save.
           </p>
@@ -56,7 +56,7 @@ export function PaymentsShortcut({ guildId, settings, enabled }: Props) {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 font-sans text-xs font-semibold dark:border-slate-600 dark:bg-slate-900"
+          className="cyron-btn-ghost !px-3 !py-1.5 !text-xs"
         >
           {open ? "Collapse" : "Expand"}
         </button>
@@ -70,12 +70,12 @@ export function PaymentsShortcut({ guildId, settings, enabled }: Props) {
               type="button"
               disabled={saveMut.isPending}
               onClick={() => saveMut.mutate()}
-              className="rounded-xl bg-[#F5A623] hover:bg-[#F5A623]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
+              className="cyron-btn-primary !px-4 !py-2 !text-sm"
             >
               {saveMut.isPending ? "Saving…" : "Save payments"}
             </button>
             {saved && (
-              <span className="font-sans text-xs font-medium text-emerald-700">
+              <span className="font-sans text-xs font-medium text-emerald-400">
                 Saved — live now
               </span>
             )}

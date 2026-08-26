@@ -24,7 +24,7 @@ const cardVariants = {
 
 export default function FUIBentoGridDark() {
   return (
-    <div className="container mx-auto min-w-screen flex flex-col p-10 bg-gray-950/10">
+    <div className="container mx-auto min-w-screen flex flex-col p-10 bg-transparent">
       <motion.div
         className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2"
         variants={containerVariants}
@@ -55,7 +55,7 @@ export default function FUIBentoGridDark() {
           title="Built for busy staff"
           description="Claim, close, or resume tickets with a single click — or let the AI handle it and step in only when needed."
           graphic={
-            <div className="absolute  inset-0 -top-20 -left-60 bg-[url(https://framerusercontent.com/images/gR21e8Wh6l3pU6CciDrqt8wjHM.png)] object-scale-down  bg-black" />
+            <div className="absolute  inset-0 -top-20 -left-60 bg-[url(https://framerusercontent.com/images/gR21e8Wh6l3pU6CciDrqt8wjHM.png)] object-scale-down" />
           }
           className="lg:col-span-2 lg:rounded-bl-4xl"
         />
@@ -106,9 +106,10 @@ export function BentoCard({
       data-dark={dark ? "true" : undefined}
       className={clsx(
         className,
-        "group relative flex flex-col overflow-hidden rounded-lg ",
-        "bg-black dark:bg-transparent transform-gpu dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#8686f01f_inset] bg-black   shadow-sm ring-1 ring-white/10",
-        "data-[dark]:bg-gray-800 data-[dark]:ring-white/15"
+        "group relative flex flex-col overflow-hidden rounded-2xl",
+        "bg-white/[0.04] backdrop-blur-xl border border-white/10 transform-gpu",
+        "[box-shadow:0_-20px_80px_-20px_rgba(245,166,35,0.12)_inset]",
+        "transition-all duration-300 hover:border-amber-400/30"
       )}
     >
       <div className="relative h-[29rem] shrink-0 ">

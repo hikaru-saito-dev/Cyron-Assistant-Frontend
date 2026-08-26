@@ -117,7 +117,7 @@ export function AiSettings() {
         )}
       </div>
 
-      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl bg-black p-6 sm:p-8">
+      <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="cyron-glass p-6 sm:p-8">
         {effectiveView === "welcome" && (
           <Phase0Welcome onAnalyze={handleAnalyze} onSkip={handleSkip} />
         )}

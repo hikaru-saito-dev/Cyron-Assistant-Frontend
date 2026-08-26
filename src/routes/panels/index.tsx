@@ -226,7 +226,7 @@ export function Panels() {
       {/* Modal */}
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4">
-          <form onSubmit={handleSubmit} className="w-full sm:max-w-2xl rounded-t-2xl sm:rounded-3xl bg-[#0a0a0a] border border-white/10 shadow-2xl flex flex-col max-h-[92vh]">
+          <form onSubmit={handleSubmit} className="w-full sm:max-w-2xl rounded-t-2xl sm:rounded-3xl bg-[#0d0d0d]/95 backdrop-blur-xl border border-white/10 shadow-2xl flex flex-col max-h-[92vh]">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
               <h3 className="text-[16px] font-bold text-white tracking-tight">{editing ? 'Edit Panel' : 'New Panel'}</h3>
@@ -477,7 +477,7 @@ export function Panels() {
             </div>
 
             {/* Footer */}
-            <div className="flex justify-end gap-3 px-6 py-5 border-t border-white/5 bg-[#0a0a0a] rounded-b-3xl">
+            <div className="flex justify-end gap-3 px-6 py-5 border-t border-white/5 bg-white/[0.02] rounded-b-3xl">
               <button type="button" onClick={() => setOpen(false)} className="rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-white/10 transition-colors">Cancel</button>
               <button type="submit" disabled={createMut.isPending || updateMut.isPending}
                 className="inline-flex items-center justify-center min-w-[120px] gap-2 rounded-xl bg-[#F5A623] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[#F5A623]/90 disabled:opacity-60 transition-colors shadow-lg shadow-[#F5A623]/20">
@@ -532,7 +532,7 @@ export function Panels() {
       {/* Send Panel Modal */}
       {sendingPanel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-slate-900 shadow-xl p-6 flex flex-col gap-4">
+          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#0d0d0d]/95 backdrop-blur-xl shadow-2xl p-6 flex flex-col gap-4">
             <h3 className="text-base font-semibold">Send Panel to Channel</h3>
             <p className="text-xs text-slate-500">Select a channel to send the <span className="font-medium text-slate-700 dark:text-slate-300">{sendingPanel.name || 'Unnamed'}</span> panel embed.</p>
             <select

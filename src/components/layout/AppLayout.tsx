@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -34,6 +35,13 @@ export const AppLayout = () => {
   const params = useParams<{ guildId?: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // The guild shell scrolls <main>, not the window, so route changes need their
+  // own reset or the next tab opens scrolled to the previous tab's offset.
+  const mainRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname]);
 
   const { data: guilds } = useQuery({
     queryKey: ['guilds'],
@@ -186,7 +194,7 @@ export const AppLayout = () => {
             </Sidebar001Footer>
           </Sidebar001>
 
-          <main className="flex-1 overflow-y-auto p-4 md:p-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/10 hover:[&::-webkit-scrollbar-thumb]:bg-amber-400/30 [&::-webkit-scrollbar]:w-2">
+          <main ref={mainRef} className="flex-1 overflow-y-auto p-4 md:p-8 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/10 hover:[&::-webkit-scrollbar-thumb]:bg-amber-400/30 [&::-webkit-scrollbar]:w-2">
             <AnimatedOutlet />
           </main>
         </div>

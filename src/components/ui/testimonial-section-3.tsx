@@ -73,8 +73,8 @@ export default function Testimonial3() {
 
   return (
     <section
-      className="w-full py-20 bg-black flex flex-col items-center justify-center overflow-hidden"
-      style={{ "--color-primary": "#003AF9" } as React.CSSProperties}
+      className="w-full py-20 bg-transparent flex flex-col items-center justify-center overflow-hidden"
+      style={{ "--color-primary": "#F5A623" } as React.CSSProperties}
     >
       <div className="text-center mb-12 space-y-2">
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white">

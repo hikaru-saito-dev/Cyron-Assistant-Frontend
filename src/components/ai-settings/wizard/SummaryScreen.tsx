@@ -53,12 +53,12 @@ export function SummaryScreen({
       }
     >
       {unreviewed.length > 0 && (
-        <div className="mb-4 rounded-2xl border border-green-200 bg-green-50/80 px-4 py-3 dark:border-green-500/30 dark:bg-green-500/10">
-          <p className="flex items-center gap-1.5 font-sans text-sm font-semibold text-green-900 dark:text-green-300">
+        <div className="mb-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 backdrop-blur-xl">
+          <p className="flex items-center gap-1.5 font-sans text-sm font-semibold text-emerald-300">
             <Sparkles className="h-4 w-4" />
             Suggestions not reviewed
           </p>
-          <ul className="mt-1 space-y-0.5 font-sans text-xs text-slate-800 dark:text-white">
+          <ul className="mt-1 space-y-0.5 font-sans text-xs text-white">
             {unreviewed.slice(0, 12).map((u) => (
               <li key={u}>• {u}</li>
             ))}
@@ -81,7 +81,7 @@ export function SummaryScreen({
             key={id}
             type="button"
             onClick={() => onEditStep(id)}
-            className="rounded-xl border border-slate-200 px-3 py-1.5 font-sans text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="cyron-btn-ghost !px-3 !py-1.5 !text-xs"
           >
             Edit {label}
           </button>
@@ -89,7 +89,7 @@ export function SummaryScreen({
       </div>
 
       {!compiled && !compiling && (
-        <p className="font-sans text-sm text-slate-500">
+        <p className="font-sans text-sm text-zinc-400">
           Click <strong>Compile General Rules</strong> to generate the 4
           sections from your answers (category: {answers.category ?? "—"}).
         </p>
@@ -145,20 +145,20 @@ function Section({
   onEdit: () => void;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+    <div className="cyron-glass p-4">
       <div className="mb-2 flex items-center justify-between gap-2">
-        <p className="font-display text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">
+        <p className="font-display text-[11px] font-bold uppercase tracking-[0.12em] text-zinc-500">
           {title}
         </p>
         <button
           type="button"
           onClick={onEdit}
-          className="font-sans text-xs font-semibold text-indigo-600 hover:underline"
+          className="font-sans text-xs font-semibold text-amber-400 hover:underline"
         >
           Edit
         </button>
       </div>
-      <pre className="whitespace-pre-wrap font-mono text-[12px] leading-relaxed text-slate-700 dark:text-slate-200">
+      <pre className="whitespace-pre-wrap font-mono text-[12px] leading-relaxed text-zinc-300">
         {body}
       </pre>
     </div>

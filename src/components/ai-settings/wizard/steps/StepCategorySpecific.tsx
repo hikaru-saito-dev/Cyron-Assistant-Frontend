@@ -53,7 +53,7 @@ export function StepCategorySpecific({
       }
     >
       {error && (
-        <div className="mb-4 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 font-sans text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">
+        <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 font-sans text-sm text-rose-300">
           {error}
         </div>
       )}
@@ -102,7 +102,7 @@ export function StepCategorySpecific({
         />
       )}
       {!cat && (
-        <p className="font-sans text-sm text-slate-500">
+        <p className="font-sans text-sm text-zinc-400">
           No category selected — go back and confirm one.
         </p>
       )}

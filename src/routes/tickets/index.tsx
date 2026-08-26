@@ -66,8 +66,8 @@ export function TicketManagement() {
       <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap gap-3">
         <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by channel name…"
-          className="rounded-xl border border-white/10 !bg-white px-4 py-2.5 text-[14px] !text-black placeholder-slate-500 focus:outline-none focus:border-[#F5A623]/50 focus:ring-2 focus:ring-[#F5A623]/20 transition-all w-full sm:w-64" />
-        <div className="flex bg-[#0f0f0f] p-1 rounded-xl border border-white/10">
+          className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-[14px] text-white placeholder-white/40 backdrop-blur-md focus:outline-none focus:border-[#F5A623]/50 focus:ring-2 focus:ring-[#F5A623]/20 transition-all w-full sm:w-64" />
+        <div className="flex bg-white/[0.04] backdrop-blur-md p-1 rounded-xl border border-white/10">
           {['all', 'open', 'closed'].map((s) => (
             <button key={s} onClick={() => { setStatus(s); setPage(1); }}
               className={`rounded-lg px-4 py-1.5 text-[13px] font-semibold capitalize transition-all ${status === s ? 'bg-[#F5A623] text-white shadow-sm shadow-[#F5A623]/20' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}>
@@ -108,7 +108,7 @@ export function TicketManagement() {
 
         {/* Detail */}
         {selected && (
-          <div className="w-80 flex-shrink-0 rounded-3xl border border-white/10 bg-[#0a0a0a] shadow-2xl flex flex-col max-h-[75vh] overflow-hidden">
+          <div className="w-80 flex-shrink-0 rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-2xl flex flex-col max-h-[75vh] overflow-hidden">
             {detailLoading ? <div className="p-6 text-[13px] text-slate-500 flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-500 border-t-transparent" />Loading details…</div> : detail ? (
               <>
                 <div className="p-5 border-b border-white/5 space-y-3 bg-white/[0.02]">

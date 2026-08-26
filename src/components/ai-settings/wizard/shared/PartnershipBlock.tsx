@@ -27,16 +27,16 @@ export function PartnershipBlock({
   const enabled = forceEnabled || data.enabled;
 
   return (
-    <section className="space-y-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+    <section className="cyron-glass space-y-3 p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <h3 className="font-display text-sm font-bold text-slate-900 dark:text-white">
+        <h3 className="font-display text-sm font-bold text-white">
           Partnership / Collaborations
         </h3>
         {data.suggested && <SuggestedBadge why={data.why} />}
       </div>
 
       {!forceEnabled && (
-        <label className="flex items-center gap-2 font-sans text-sm text-slate-700 dark:text-slate-200">
+        <label className="flex items-center gap-2 font-sans text-sm text-zinc-200">
           <input
             type="checkbox"
             checked={data.enabled}
@@ -49,11 +49,11 @@ export function PartnershipBlock({
       {enabled ? (
         <div className="space-y-3">
           <div>
-            <label className="font-sans text-xs text-slate-500">
+            <label className="font-sans text-xs text-zinc-400">
               Minimum requirements
             </label>
             <textarea
-              className="mt-1 min-h-[72px] w-full rounded-xl border border-slate-200 px-3 py-2 font-sans text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="mt-1 min-h-[72px] w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 font-sans text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder={categoryPlaceholder}
               value={data.requirements}
               onChange={(e) =>
@@ -62,7 +62,7 @@ export function PartnershipBlock({
             />
           </div>
           <div>
-            <p className="mb-1 font-sans text-xs text-slate-500">
+            <p className="mb-1 font-sans text-xs text-zinc-400">
               Who evaluates them?
             </p>
             <div className="flex flex-wrap gap-2">
@@ -80,10 +80,10 @@ export function PartnershipBlock({
                           : [...data.evaluatorRoleIds, r.id],
                       })
                     }
-                    className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+                    className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
                       on
-                        ? "border-indigo-400 bg-indigo-50 text-indigo-800 dark:bg-indigo-500/15 dark:text-indigo-200"
-                        : "border-slate-200 text-slate-600 dark:border-slate-600"
+                        ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                        : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
                     }`}
                   >
                     @{r.name}
@@ -93,7 +93,7 @@ export function PartnershipBlock({
             </div>
           </div>
           <div>
-            <p className="mb-1 font-sans text-xs text-slate-500">
+            <p className="mb-1 font-sans text-xs text-zinc-400">
               What must the proposer provide?
             </p>
             <div className="flex flex-wrap gap-2">
@@ -111,10 +111,10 @@ export function PartnershipBlock({
                           : [...data.provide, p.id],
                       })
                     }
-                    className={`rounded-xl border px-3 py-1.5 font-sans text-xs ${
+                    className={`rounded-xl border px-3 py-1.5 font-sans text-xs transition-colors ${
                       on
-                        ? "border-indigo-400 bg-indigo-50 text-indigo-800 dark:bg-indigo-500/15"
-                        : "border-slate-200 text-slate-600 dark:border-slate-600"
+                        ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                        : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
                     }`}
                   >
                     {p.label}
@@ -125,7 +125,7 @@ export function PartnershipBlock({
           </div>
         </div>
       ) : (
-        <p className="font-sans text-xs text-slate-500">
+        <p className="font-sans text-xs text-zinc-400">
           Cyron will politely say this server doesn&apos;t handle partnerships
           via tickets.
         </p>

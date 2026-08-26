@@ -96,12 +96,12 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
   if (!enabled) return null;
 
   return (
-    <section className="rounded-2xl bg-black p-4 dark:bg-black">
-      <h3 className="flex items-center gap-2 font-display text-sm font-bold text-slate-900 dark:text-white">
-        <FaLink className="text-indigo-500" />
+    <section className="cyron-glass p-4">
+      <h3 className="flex items-center gap-2 font-display text-sm font-bold text-white">
+        <FaLink className="text-amber-400" />
         Linkable channels
       </h3>
-      <p className="mt-1 font-sans text-xs text-slate-500">
+      <p className="mt-1 font-sans text-xs text-zinc-400">
         Cyron may only mention channels listed here. Deleted channels are
         flagged.
       </p>
@@ -113,10 +113,10 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
           return (
             <div
               key={row.id}
-              className="grid gap-2 rounded-xl border border-slate-200 p-2 sm:grid-cols-[1fr_1fr_auto] dark:border-slate-700"
+              className="grid gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-2 sm:grid-cols-[1fr_1fr_auto]"
             >
               <select
-                className="rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="rounded-lg border border-white/10 bg-[#0f0f0f] px-2 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 value={row.purpose}
                 onChange={(e) => {
                   const next = [...rows];
@@ -139,7 +139,7 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
                   }}
                 />
                 {missing && (
-                  <p className="mt-1 font-sans text-[11px] font-medium text-amber-600">
+                  <p className="mt-1 font-sans text-[11px] font-medium text-yellow-400">
                     Channel no longer exists
                   </p>
                 )}
@@ -171,7 +171,7 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
               },
             ])
           }
-          className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-indigo-600"
+          className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-amber-400"
         >
           <FaPlus className="text-[10px]" /> Add channel
         </button>
@@ -179,12 +179,12 @@ export function LinkableChannelsEditor({ guildId, settings, enabled }: Props) {
           type="button"
           disabled={saveMut.isPending}
           onClick={() => saveMut.mutate()}
-          className="rounded-xl bg-[#F5A623] hover:bg-[#F5A623]/90 transition-colors px-3 py-1.5 font-sans text-xs font-semibold text-white disabled:opacity-50"
+          className="cyron-btn-primary !px-3 !py-1.5 !text-xs"
         >
           {saveMut.isPending ? "Saving…" : "Save channels"}
         </button>
         {saved && (
-          <span className="font-sans text-xs text-emerald-600">Saved</span>
+          <span className="font-sans text-xs text-emerald-400">Saved</span>
         )}
       </div>
     </section>

@@ -75,9 +75,9 @@ const STYLES = `
 /* Theme-adaptive Aurora Glow */
 .footer-aurora {
   background: radial-gradient(
-    circle at 50% 50%, 
-    color-mix(in oklch, var(--primary) 15%, transparent) 0%, 
-    color-mix(in oklch, var(--secondary) 15%, transparent) 40%, 
+    circle at 50% 50%,
+    rgba(245, 166, 35, 0.20) 0%,
+    rgba(245, 166, 35, 0.07) 40%,
     transparent 70%
   );
 }
@@ -209,10 +209,10 @@ MagneticButton.displayName = "MagneticButton";
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
-    <span>AI Auto-Reply</span> <span className="text-[#3a3a3a]">✦</span>
-    <span>Token / Cost control</span> <span className="text-[#3a3a3a]">✦</span>
-    <span>Multi-panel isolation</span> <span className="text-[#3a3a3a]">✦</span>
-    <span>Onboarding experience</span> <span className="text-[#3a3a3a]">✦</span>
+    <span>AI Auto-Reply</span> <span className="text-amber-400/50">✦</span>
+    <span>Token / Cost control</span> <span className="text-amber-400/50">✦</span>
+    <span>Multi-panel isolation</span> <span className="text-amber-400/50">✦</span>
+    <span>Onboarding experience</span> <span className="text-amber-400/50">✦</span>
   </div>
 );
 
@@ -311,11 +311,11 @@ export function CinematicFooter({
       */}
       <div
         ref={wrapperRef}
-        className="relative h-screen w-full"
+        className="relative z-20 h-screen w-full"
         style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
       >
         {/* The actual footer stays fixed to the viewport underneath everything */}
-        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-background text-foreground cinematic-footer-wrapper">
+        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-[#070707] text-foreground cinematic-footer-wrapper">
 
           {/* Ambient Light & Grid Background */}
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px] pointer-events-none z-0" />
@@ -330,8 +330,8 @@ export function CinematicFooter({
           </div>
 
           {/* 1. Diagonal Sleek Marquee (Top of footer) */}
-          <div className="absolute top-12 left-0 w-full overflow-hidden border-y border-[#1a1a1a] bg-[#0a0a0a] py-4 z-10 -rotate-2 scale-110">
-            <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-bold tracking-[0.3em] text-[#4a4a4a] uppercase">
+          <div className="absolute top-12 left-0 w-full overflow-hidden border-y border-white/10 bg-white/[0.03] backdrop-blur-md py-4 z-10 -rotate-2 scale-110">
+            <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-bold tracking-[0.3em] text-white/35 uppercase">
               <MarqueeItem />
               <MarqueeItem />
             </div>

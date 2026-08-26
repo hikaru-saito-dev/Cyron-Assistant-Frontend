@@ -198,11 +198,11 @@ export function AiSetupWizard({
   if (!scan) {
     return (
       <div className="py-10 text-center">
-        <p className="font-sans text-sm text-slate-500">
+        <p className="font-sans text-sm text-zinc-400">
           No scan data yet.{" "}
           <button
             type="button"
-            className="font-medium text-indigo-600 hover:underline"
+            className="font-medium text-amber-400 hover:underline"
             onClick={onCancelToWelcome}
           >
             Go back

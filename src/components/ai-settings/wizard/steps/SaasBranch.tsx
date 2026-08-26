@@ -69,13 +69,13 @@ export function SaasBranch({ data, roles, channels, onChange }: Props) {
       </SectionCard>
 
       <SectionCard title="P3 — Resources">
-        <p className="mb-2 font-sans text-xs text-slate-500">
+        <p className="mb-2 font-sans text-xs text-zinc-400">
           Optional docs, FAQ, status page, videos (Label + URL).
         </p>
         {data.resources.map((r, i) => (
           <div key={r.id} className="mb-2 flex gap-2">
             <input
-              className="w-1/3 rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="w-1/3 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder="Label"
               value={r.label}
               onChange={(e) => {
@@ -85,7 +85,7 @@ export function SaasBranch({ data, roles, channels, onChange }: Props) {
               }}
             />
             <input
-              className="min-w-0 flex-1 rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder="URL"
               value={r.url}
               onChange={(e) => {
@@ -96,7 +96,7 @@ export function SaasBranch({ data, roles, channels, onChange }: Props) {
             />
             <button
               type="button"
-              className="text-red-500"
+              className="text-red-400"
               onClick={() =>
                 onChange({
                   ...data,
@@ -119,14 +119,14 @@ export function SaasBranch({ data, roles, channels, onChange }: Props) {
               ],
             })
           }
-          className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-indigo-600"
+          className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-amber-400"
         >
           <FaPlus className="text-[10px]" /> Add resource
         </button>
       </SectionCard>
 
       <SectionCard title="P4 — Bug triage">
-        <p className="mb-2 font-sans text-xs text-slate-500">
+        <p className="mb-2 font-sans text-xs text-zinc-400">
           What must Cyron collect before passing to staff?
         </p>
         <ChipMulti
@@ -164,7 +164,7 @@ export function SaasBranch({ data, roles, channels, onChange }: Props) {
           />
           {data.billingMode === "simple_guide" && (
             <input
-              className="mt-3 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="mt-3 w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               placeholder="Subscription management link"
               value={data.billingLink}
               onChange={(e) =>

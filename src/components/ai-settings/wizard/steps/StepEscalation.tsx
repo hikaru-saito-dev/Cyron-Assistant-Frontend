@@ -71,7 +71,7 @@ export function StepEscalation({
     >
       <div className="space-y-6">
         <section>
-          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-zinc-400">
             Escalation cases
           </p>
           <EditableRuleList
@@ -82,11 +82,11 @@ export function StepEscalation({
         </section>
 
         <section>
-          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-zinc-400">
             Roles to notify
           </p>
           {noRole && (
-            <div className="mb-3 rounded-xl border border-amber-200 bg-amber-50/80 px-3 py-2 font-sans text-xs text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
+            <div className="mb-3 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 font-sans text-xs text-yellow-300">
               Select at least one role so Cyron knows who to mention when
               escalating.
             </div>
@@ -104,8 +104,8 @@ export function StepEscalation({
                   onClick={() => toggleRole(r.id)}
                   className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 font-sans text-xs font-medium transition ${
                     on
-                      ? "border-indigo-400 bg-indigo-50 text-indigo-800 dark:border-indigo-500 dark:bg-indigo-500/15 dark:text-indigo-200"
-                      : "border-slate-200 text-slate-600 dark:border-slate-600 dark:text-slate-300"
+                      ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                      : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
                   }`}
                 >
                   @{r.name}
@@ -116,7 +116,7 @@ export function StepEscalation({
               );
             })}
             {roles.length === 0 && (
-              <p className="font-sans text-xs text-slate-500">
+              <p className="font-sans text-xs text-zinc-400">
                 No roles synced yet — re-run Analyze after the bot syncs, or
                 continue and add roles later.
               </p>
@@ -125,14 +125,14 @@ export function StepEscalation({
         </section>
 
         <section>
-          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-zinc-400">
             Specific users (optional)
           </p>
           <div className="flex flex-wrap gap-2">
             {answers.escalationUsers.map((u) => (
               <span
                 key={u}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-1.5 font-sans text-xs dark:border-slate-600"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-1.5 font-sans text-xs text-zinc-200"
               >
                 {u}
                 <button
@@ -145,14 +145,14 @@ export function StepEscalation({
                     })
                   }
                 >
-                  <FaTimes className="text-[10px] text-slate-400" />
+                  <FaTimes className="text-[10px] text-zinc-500" />
                 </button>
               </span>
             ))}
             <button
               type="button"
               onClick={addUser}
-              className="inline-flex items-center gap-1 rounded-xl border border-dashed border-slate-300 px-3 py-1.5 font-sans text-xs font-semibold text-slate-500 dark:border-slate-600"
+              className="inline-flex items-center gap-1 rounded-xl border border-dashed border-white/15 px-3 py-1.5 font-sans text-xs font-semibold text-zinc-400 transition-colors hover:border-amber-400/40 hover:text-amber-400"
             >
               <FaPlus className="text-[9px]" />
               Add user ID

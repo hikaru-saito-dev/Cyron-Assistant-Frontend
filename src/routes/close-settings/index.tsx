@@ -13,8 +13,8 @@ const Toggle = ({ label, hint, checked, onChange }: { label: string; hint?: stri
       {hint && <p className="text-[13px] text-slate-400 mt-0.5 leading-relaxed">{hint}</p>}
     </div>
     <button type="button" onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${checked ? 'bg-white' : 'bg-white/10'}`}>
-      <span className={`inline-block h-4 w-4 transform rounded-full transition-transform ${checked ? 'translate-x-6 bg-black' : 'translate-x-1 bg-white/50'}`} />
+      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${checked ? 'bg-[#F5A623] shadow-[0_0_14px_rgba(245,166,35,0.35)]' : 'bg-white/10'}`}>
+      <span className={`inline-block h-4 w-4 transform rounded-full transition-transform ${checked ? 'translate-x-6 bg-[#0a0a0a]' : 'translate-x-1 bg-white/50'}`} />
     </button>
   </div>
 );
@@ -61,7 +61,7 @@ export function CloseSettings() {
 
       <div className="space-y-6 px-4 md:px-0">
         {/* Close Message Section */}
-        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="rounded-2xl border border-white/5 bg-black overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="cyron-glass overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Close Message Embed</h3>
             <p className="text-[13px] text-slate-400 mt-1">Sent in the ticket channel before it's deleted. Supports variables: <code className="font-mono bg-white/10 px-1 py-0.5 rounded text-white/80">{'{ticket.closer.mention}'}</code>, <code className="font-mono bg-white/10 px-1 py-0.5 rounded text-white/80">{'{ticket.closeReason}'}</code></p>
@@ -71,31 +71,31 @@ export function CloseSettings() {
               <label className="block space-y-2">
                 <span className="text-[13px] font-medium text-white">Title</span>
                 <input value={form.close_embed_title ?? ''} onChange={e => set('close_embed_title', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#F5A623] focus:ring-1 focus:ring-[#F5A623] transition-all" placeholder="Ticket Closed" />
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-[13px] text-white placeholder-white/40 focus:outline-none focus:border-[#F5A623]/60 focus:ring-2 focus:ring-[#F5A623]/20 transition-all" placeholder="Ticket Closed" />
               </label>
               <label className="block space-y-2">
                 <span className="text-[13px] font-medium text-white">Default Close Reason</span>
                 <input value={form.default_close_reason ?? ''} onChange={e => set('default_close_reason', e.target.value)}
-                  className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#F5A623] focus:ring-1 focus:ring-[#F5A623] transition-all"
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-[13px] text-white placeholder-white/40 focus:outline-none focus:border-[#F5A623]/60 focus:ring-2 focus:ring-[#F5A623]/20 transition-all"
                   placeholder="No further action required." />
               </label>
             </div>
             <label className="block space-y-2">
               <span className="text-[13px] font-medium text-white">Description</span>
               <textarea value={form.close_embed_description ?? ''} onChange={e => set('close_embed_description', e.target.value)} rows={3}
-                className="w-full rounded-xl border border-white/10 !bg-white px-4 py-3 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#F5A623] focus:ring-1 focus:ring-[#F5A623] transition-all resize-y"
+                className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-[13px] text-white placeholder-white/40 focus:outline-none focus:border-[#F5A623]/60 focus:ring-2 focus:ring-[#F5A623]/20 transition-all resize-y"
                 placeholder="Your ticket has been closed by {ticket.closer.mention}." />
             </label>
             <label className="block space-y-2">
               <span className="text-[13px] font-medium text-white">Footer</span>
               <input value={form.close_embed_footer ?? ''} onChange={e => set('close_embed_footer', e.target.value || null)}
-                className="w-full rounded-xl border border-white/10 !bg-white px-4 py-2 text-[13px] !text-black placeholder-slate-400 focus:outline-none focus:border-[#F5A623] focus:ring-1 focus:ring-[#F5A623] transition-all" />
+                className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-[13px] text-white placeholder-white/40 focus:outline-none focus:border-[#F5A623]/60 focus:ring-2 focus:ring-[#F5A623]/20 transition-all" />
             </label>
           </div>
         </motion.div>
 
         {/* Toggles */}
-        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="rounded-2xl border border-white/5 bg-black overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="cyron-glass overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Behavior & Logs</h3>
             <p className="text-[13px] text-slate-400 mt-1">Configure actions that happen when a ticket is closed.</p>
@@ -115,7 +115,7 @@ export function CloseSettings() {
         </motion.div>
 
         {/* Rating */}
-        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="rounded-2xl border border-white/5 bg-black overflow-hidden">
+        <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="cyron-glass overflow-hidden">
           <div className="p-6 md:p-8 border-b border-white/5">
             <h3 className="text-[16px] font-semibold text-white">Rating System</h3>
             <p className="text-[13px] text-slate-400 mt-1">Ask the ticket creator to rate their support experience.</p>
@@ -124,7 +124,7 @@ export function CloseSettings() {
             <Toggle label="Enable Rating System" hint="Prompt user to rate (1–5 stars) after closing"
               checked={!!form.rating_system_enabled} onChange={v => set('rating_system_enabled', v)} />
             {form.rating_system_enabled && (
-              <div className="p-6 md:p-8 bg-black">
+              <div className="p-6 md:p-8 bg-white/[0.02]">
                 <label className="block space-y-2 max-w-md">
                   <span className="text-[13px] font-medium text-white">Rating Log Channel ID</span>
                   <input value={form.rating_log_channel_id ?? ''} onChange={e => set('rating_log_channel_id', e.target.value ? parseInt(e.target.value) : null)}

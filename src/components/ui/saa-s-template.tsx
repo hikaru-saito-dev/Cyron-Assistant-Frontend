@@ -13,8 +13,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       default: "bg-white text-black hover:bg-gray-100",
-      secondary: "bg-gray-800 text-white hover:bg-gray-700",
-      ghost: "hover:bg-gray-800/50 text-white",
+      secondary: "bg-white/[0.06] border border-white/10 text-white backdrop-blur-md hover:border-amber-400/30 hover:bg-white/[0.1]",
+      ghost: "hover:bg-white/[0.06] text-white",
       gradient: "bg-gradient-to-b from-white via-white/95 to-white/60 text-black hover:scale-105 active:scale-95"
     };
 
@@ -96,7 +96,7 @@ const Hero = React.memo(() => {
         }
       `}</style>
 
-      <aside className="mb-8 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 backdrop-blur-sm max-w-full mt-10">
+      <aside className="mb-8 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/[0.05] backdrop-blur-md max-w-full mt-10">
         <span className="text-xs text-center whitespace-nowrap" style={{ color: '#9ca3af' }}>
           Cyron is live — smarter AI, faster setup
         </span>
@@ -159,7 +159,7 @@ Hero.displayName = "Hero";
 
 export default function SaaSHero() {
   return (
-    <div className="w-full bg-black text-white relative z-10">
+    <div className="w-full bg-transparent text-white relative z-10">
       <Hero />
     </div>
   );

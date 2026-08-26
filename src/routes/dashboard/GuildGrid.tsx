@@ -119,7 +119,7 @@ export const DashboardGuildGrid = ({
                     e.stopPropagation();
                     navigate(`/guilds/${guild.id}/panels`);
                   }}
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#1a1d24] border border-white/5 px-4 py-2 text-[13px] font-semibold text-slate-200 transition-all duration-300 hover:bg-[#252830] hover:text-white group/btn"
+                  className="inline-flex items-center gap-2 rounded-lg bg-white/[0.05] backdrop-blur-md border border-white/10 px-4 py-2 text-[13px] font-semibold text-slate-200 transition-all duration-300 hover:border-amber-400/30 hover:bg-white/10 hover:text-white group/btn"
                 >
                   Manage
                   <ChevronRight className="w-[14px] h-[14px] text-slate-400 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:text-white" strokeWidth={2.5} />

@@ -8,20 +8,20 @@ type Phase0WelcomeProps = {
 export function Phase0Welcome({ onAnalyze, onSkip }: Phase0WelcomeProps) {
   return (
     <div className="mx-auto max-w-xl py-8 text-center sm:py-12">
-      <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300">
+      <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-400/25 bg-amber-400/10 text-amber-300 backdrop-blur-xl">
         <FaRobot className="text-2xl" />
       </div>
 
-      <h2 className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+      <h2 className="font-display text-2xl font-bold tracking-tight text-white">
         Configure AI for your server
       </h2>
 
-      <p className="mt-4 font-sans text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+      <p className="mt-4 font-sans text-sm leading-relaxed text-zinc-400">
         Let&apos;s configure the AI for your server. First I&apos;ll take a
         look at how it&apos;s built — channels, roles and panels — so I only ask
         you the necessary questions.
       </p>
-      <p className="mt-3 font-sans text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+      <p className="mt-3 font-sans text-xs leading-relaxed text-zinc-500">
         Privacy: the initial scan only looks at structure (names and panels),
         not private message content. Transcript reading is optional and always
         asks for your consent later.
@@ -31,7 +31,7 @@ export function Phase0Welcome({ onAnalyze, onSkip }: Phase0WelcomeProps) {
         <button
           type="button"
           onClick={onAnalyze}
-          className="inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-xl bg-[#F5A623] px-6 py-3 font-sans text-sm font-semibold text-white shadow-sm shadow-[#F5A623]/20 transition hover:bg-[#F5A623]/90 focus:outline-none focus:ring-2 focus:ring-[#F5A623]/30 sm:w-auto"
+          className="cyron-btn-primary w-full max-w-sm sm:w-auto"
         >
           <FaSearch className="text-xs" />
           Analyze my server
@@ -40,7 +40,7 @@ export function Phase0Welcome({ onAnalyze, onSkip }: Phase0WelcomeProps) {
         <button
           type="button"
           onClick={onSkip}
-          className="font-sans text-sm font-medium text-slate-500 transition hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+          className="font-sans text-sm font-medium text-zinc-400 transition hover:text-amber-400"
         >
           Skip, I&apos;ll fill everything in myself
         </button>

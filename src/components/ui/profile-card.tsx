@@ -62,7 +62,7 @@ export default function ProfileCard({
         </>
       )}
 
-      <div className={cn("relative z-10 mx-auto w-full overflow-visible rounded-[28px] border border-white/10 backdrop-blur-md text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]", "bg-[#18181B]")}>
+      <div className={cn("relative z-10 mx-auto w-full overflow-visible rounded-[28px] border border-white/10 backdrop-blur-md text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]", "bg-white/[0.05]")}>
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-5">
             <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10 bg-white/10 flex items-center justify-center text-xl font-bold">

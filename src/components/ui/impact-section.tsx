@@ -13,7 +13,7 @@ const impactCards = [
       "Trusted by thousands of Discord communities to handle their support needs efficiently and professionally.",
     image:
       "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?auto=format&fit=crop&w=1200&q=80",
-    bg: "bg-[#CCFF00]",
+    bg: "bg-[#F5A623]",
     text: "text-[#111111]",
     isFeature: true,
   },
@@ -25,7 +25,7 @@ const impactCards = [
       "Successfully processed and resolved hundreds of thousands of user inquiries across all our active communities.",
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    bg: "bg-[#B8E8FF]",
+    bg: "bg-[#F7DFAE]",
     text: "text-[#111111]",
   },
   {
@@ -36,7 +36,7 @@ const impactCards = [
       "Pioneering communities that have fully automated their support with our intelligent context-aware AI.",
     image:
       "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
-    bg: "bg-[#222222]",
+    bg: "bg-white/[0.05] backdrop-blur-xl border border-white/10",
     text: "text-[#ffffff]",
   },
   {
@@ -47,7 +47,7 @@ const impactCards = [
       "Lightning-fast AI responses ensure your users get the help they need instantly, 24/7 without delays.",
     image:
       "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1200&q=80",
-    bg: "bg-[#FF5CBA]",
+    bg: "bg-[#E8A017]",
     text: "text-[#111111]",
   },
 ];
@@ -56,7 +56,7 @@ export default function ImpactSection() {
   const [openCard, setOpenCard] = useState(0);
 
   return (
-    <section className="w-full bg-[#f3f3f3] dark:bg-[#000000] py-12 sm:py-16 md:py-20">
+    <section className="w-full bg-transparent py-12 sm:py-16 md:py-20">
       <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
         <div className="flex items-start justify-between gap-6 mb-8 sm:mb-10">
           <div className="max-w-[620px]">

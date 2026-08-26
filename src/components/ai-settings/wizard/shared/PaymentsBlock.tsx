@@ -26,10 +26,10 @@ export function PaymentsBlock({ data, onChange }: Props) {
 
   return (
     <div className="space-y-3">
-      <p className="font-sans text-xs text-slate-500">
+      <p className="font-sans text-xs text-zinc-400">
         Select at least one payment method with details (required for selling).
         {!methodsOn && (
-          <span className="text-amber-600"> — none selected yet.</span>
+          <span className="text-yellow-400"> — none selected yet.</span>
         )}
       </p>
 
@@ -39,7 +39,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
         onToggle={(v) => toggle("paypal", v)}
       >
         <input
-          className="mb-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-sans text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="mb-2 w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 font-sans text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder="PayPal email"
           value={data.paypalEmail}
           onChange={(e) => onChange({ ...data, paypalEmail: e.target.value })}
@@ -56,10 +56,10 @@ export function PaymentsBlock({ data, onChange }: Props) {
               key={id}
               type="button"
               onClick={() => onChange({ ...data, paypalType: id })}
-              className={`rounded-lg border px-2.5 py-1 font-sans text-xs ${
+              className={`rounded-lg border px-2.5 py-1 font-sans text-xs transition-colors ${
                 data.paypalType === id
-                  ? "border-indigo-400 bg-indigo-50 text-indigo-800"
-                  : "border-slate-200"
+                  ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                  : "border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
               }`}
             >
               {label}
@@ -76,10 +76,10 @@ export function PaymentsBlock({ data, onChange }: Props) {
         {data.cryptoRows.map((row, i) => (
           <div
             key={row.id}
-            className="mb-2 grid gap-2 rounded-lg border border-slate-200 p-2 sm:grid-cols-3 dark:border-slate-600"
+            className="mb-2 grid gap-2 rounded-lg border border-white/10 bg-white/[0.03] p-2 sm:grid-cols-3"
           >
             <select
-              className="rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="rounded-lg border border-white/10 bg-[#0f0f0f] px-2 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               value={row.coin}
               onChange={(e) => {
                 const coin = e.target.value;
@@ -98,7 +98,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
               ))}
             </select>
             <select
-              className="rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+              className="rounded-lg border border-white/10 bg-[#0f0f0f] px-2 py-2 text-sm text-white transition-all focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
               value={row.network}
               onChange={(e) => {
                 const next = [...data.cryptoRows];
@@ -112,7 +112,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
             </select>
             <div className="flex gap-1">
               <input
-                className="min-w-0 flex-1 rounded-lg border border-slate-200 px-2 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+                className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
                 placeholder="Address"
                 value={row.address}
                 onChange={(e) => {
@@ -129,7 +129,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
                     cryptoRows: data.cryptoRows.filter((_, j) => j !== i),
                   })
                 }
-                className="text-red-500"
+                className="text-red-400"
               >
                 <FaTrash className="text-xs" />
               </button>
@@ -152,7 +152,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
               ],
             })
           }
-          className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-indigo-600"
+          className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-amber-400"
         >
           <FaPlus className="text-[10px]" /> Add coin
         </button>
@@ -160,7 +160,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
 
       <Method label="Card" on={data.card} onToggle={(v) => toggle("card", v)}>
         <input
-          className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder="Payment link (Stripe/checkout)"
           value={data.cardLink}
           onChange={(e) => onChange({ ...data, cardLink: e.target.value })}
@@ -173,13 +173,13 @@ export function PaymentsBlock({ data, onChange }: Props) {
         onToggle={(v) => toggle("bank", v)}
       >
         <input
-          className="mb-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="mb-2 w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder="Account holder"
           value={data.bankHolder}
           onChange={(e) => onChange({ ...data, bankHolder: e.target.value })}
         />
         <input
-          className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder="IBAN"
           value={data.bankIban}
           onChange={(e) => onChange({ ...data, bankIban: e.target.value })}
@@ -192,7 +192,7 @@ export function PaymentsBlock({ data, onChange }: Props) {
         onToggle={(v) => toggle("paysafecard", v)}
       >
         <input
-          className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder='e.g. "only 10/25/50€ denominations"'
           value={data.paysafecardInstructions}
           onChange={(e) =>
@@ -203,13 +203,13 @@ export function PaymentsBlock({ data, onChange }: Props) {
 
       <Method label="Other" on={data.other} onToggle={(v) => toggle("other", v)}>
         <input
-          className="mb-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="mb-2 w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder="Method name"
           value={data.otherName}
           onChange={(e) => onChange({ ...data, otherName: e.target.value })}
         />
         <textarea
-          className="min-h-[60px] w-full rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-800"
+          className="min-h-[60px] w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white transition-all placeholder:text-white/40 focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
           placeholder="Instructions"
           value={data.otherInstructions}
           onChange={(e) =>
@@ -233,8 +233,8 @@ function Method({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-700">
-      <label className="flex cursor-pointer items-center gap-2 px-3 py-2.5 font-sans text-sm font-medium text-slate-800 dark:text-slate-100">
+    <div className="rounded-xl border border-white/10 bg-white/[0.03]">
+      <label className="flex cursor-pointer items-center gap-2 px-3 py-2.5 font-sans text-sm font-medium text-white">
         <input
           type="checkbox"
           checked={on}
@@ -243,7 +243,7 @@ function Method({
         {label}
       </label>
       {on && (
-        <div className="border-t border-slate-100 px-3 py-3 dark:border-slate-800">
+        <div className="border-t border-white/10 px-3 py-3">
           {children}
         </div>
       )}

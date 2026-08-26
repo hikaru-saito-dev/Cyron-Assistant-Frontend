@@ -155,7 +155,7 @@ export const KnowledgeModal = ({
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
-            className="mx-4 flex max-h-[90vh] w-full max-w-xl flex-col rounded-2xl bg-[#020617] shadow-2xl ring-1 ring-zinc-700"
+            className="mx-4 flex max-h-[90vh] w-full max-w-xl flex-col rounded-2xl bg-[#0d0d0d]/95 backdrop-blur-xl shadow-2xl ring-1 ring-white/10"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-3 border-b border-zinc-800 px-6 py-4">
@@ -266,7 +266,7 @@ export const KnowledgeModal = ({
                 <motion.div
                   initial={{ scale: 0.95, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="mx-4 w-full max-w-sm rounded-xl bg-[#020617] p-5 ring-1 ring-zinc-600"
+                  className="mx-4 w-full max-w-sm rounded-xl bg-[#0d0d0d]/95 backdrop-blur-xl p-5 ring-1 ring-white/10"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <p className="mb-3 text-sm font-medium text-white">Choose template</p>

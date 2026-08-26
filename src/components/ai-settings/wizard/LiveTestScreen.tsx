@@ -110,27 +110,27 @@ export function LiveTestScreen({
         {turns.map((t) => (
           <div
             key={t.prompt}
-            className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900"
+            className="cyron-glass p-4"
           >
-            <p className="font-sans text-xs font-semibold uppercase tracking-wide text-slate-400">
+            <p className="font-sans text-xs font-semibold uppercase tracking-wide text-zinc-500">
               User
             </p>
-            <p className="mt-1 font-sans text-sm text-slate-800 dark:text-slate-100">
+            <p className="mt-1 font-sans text-sm text-white">
               {t.prompt}
             </p>
-            <p className="mt-3 font-sans text-xs font-semibold uppercase tracking-wide text-indigo-500">
+            <p className="mt-3 font-sans text-xs font-semibold uppercase tracking-wide text-amber-400">
               Cyron
             </p>
             {t.loading && (
-              <p className="mt-1 animate-pulse font-sans text-sm text-slate-400">
+              <p className="mt-1 animate-pulse font-sans text-sm text-zinc-500">
                 Thinking…
               </p>
             )}
             {t.error && (
-              <p className="mt-1 font-sans text-sm text-rose-600">{t.error}</p>
+              <p className="mt-1 font-sans text-sm text-rose-400">{t.error}</p>
             )}
             {t.reply && (
-              <p className="mt-1 whitespace-pre-wrap font-sans text-sm text-slate-700 dark:text-slate-200">
+              <p className="mt-1 whitespace-pre-wrap font-sans text-sm text-zinc-300">
                 {t.reply}
               </p>
             )}

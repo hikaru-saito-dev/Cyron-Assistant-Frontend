@@ -267,13 +267,13 @@ export function Contexts() {
   if (generalRules && !generalRules.enabled) {
     return (
       <div className="space-y-6">
-        <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-sky-50 to-indigo-50 p-6 shadow-soft sm:p-8 dark:border-slate-700 dark:bg-none dark:bg-slate-900">
+        <div className="cyron-glass rounded-3xl p-6 sm:p-8">
           <h1 className="flex items-center gap-2.5 font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             <FaBrain className="text-sky-500" />
             AI Contexts
           </h1>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <div className="cyron-glass p-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400 dark:bg-slate-800">
             <FaLock className="text-xl" />
           </div>
@@ -509,7 +509,7 @@ export function Contexts() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
-            className="fixed bottom-6 right-6 z-50 rounded-2xl border border-slate-700 bg-slate-900 px-5 py-3 font-sans text-sm font-medium text-white shadow-lg"
+            className="fixed bottom-6 right-6 z-50 rounded-2xl border border-amber-400/30 bg-[#141414]/90 px-5 py-3 font-sans text-sm font-medium text-amber-100 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
           >
             {toast}
           </motion.div>

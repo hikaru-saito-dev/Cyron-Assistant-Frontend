@@ -54,7 +54,7 @@ export function StepToneLanguage({
     >
       <div className="space-y-6">
         <section>
-          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-zinc-400">
             Tone
           </p>
           <div className="flex flex-wrap gap-2">
@@ -65,39 +65,39 @@ export function StepToneLanguage({
                 onClick={() => setTone(t)}
                 className={`rounded-xl px-3.5 py-2 font-sans text-sm font-semibold transition ${
                   answers.tone === t
-                    ? "bg-[#F5A623] text-white"
-                    : "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300"
+                    ? "bg-[#F5A623] text-[#0a0a0a]"
+                    : "border border-white/10 bg-white/[0.04] text-zinc-300 hover:bg-white/[0.07]"
                 }`}
               >
                 {t}
               </button>
             ))}
           </div>
-          <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/50">
-            <p className="font-display text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          <div className="cyron-glass !rounded-xl mt-3 px-4 py-3">
+            <p className="font-display text-[10px] font-bold uppercase tracking-wider text-zinc-500">
               Live preview
             </p>
-            <p className="mt-1 font-sans text-sm text-slate-700 dark:text-slate-200">
+            <p className="mt-1 font-sans text-sm text-zinc-200">
               {PREVIEWS[answers.tone]}
             </p>
           </div>
-          <label className="mt-3 flex items-center gap-2.5 font-sans text-sm text-slate-700 dark:text-slate-200">
+          <label className="mt-3 flex items-center gap-2.5 font-sans text-sm text-zinc-200">
             <input
               type="checkbox"
               checked={answers.emojisAllowed}
               onChange={(e) => onChange({ emojisAllowed: e.target.checked })}
-              className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+              className="h-4 w-4 rounded border-white/20 bg-white/[0.06] text-amber-400 focus:ring-amber-400/40"
             />
             Can it use emojis?
           </label>
         </section>
 
         <section>
-          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-wide text-zinc-400">
             Language
           </p>
           <div className="space-y-2">
-            <label className="flex items-start gap-2.5 rounded-xl border border-slate-200 px-3 py-3 dark:border-slate-700">
+            <label className="flex items-start gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3">
               <input
                 type="radio"
                 name="langMode"
@@ -105,12 +105,12 @@ export function StepToneLanguage({
                 onChange={() => onChange({ languageMode: "auto" })}
                 className="mt-1"
               />
-              <span className="font-sans text-sm text-slate-700 dark:text-slate-200">
+              <span className="font-sans text-sm text-zinc-200">
                 Detect the customer&apos;s language and reply in it{" "}
-                <span className="text-slate-400">(default)</span>
+                <span className="text-zinc-500">(default)</span>
               </span>
             </label>
-            <label className="flex items-start gap-2.5 rounded-xl border border-slate-200 px-3 py-3 dark:border-slate-700">
+            <label className="flex items-start gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3">
               <input
                 type="radio"
                 name="langMode"
@@ -118,7 +118,7 @@ export function StepToneLanguage({
                 onChange={() => onChange({ languageMode: "fixed" })}
                 className="mt-1"
               />
-              <span className="font-sans text-sm text-slate-700 dark:text-slate-200">
+              <span className="font-sans text-sm text-zinc-200">
                 Always reply in a fixed language
               </span>
             </label>
@@ -126,7 +126,7 @@ export function StepToneLanguage({
 
           {answers.languageMode === "fixed" ? (
             <div className="mt-3">
-              <label className="font-sans text-xs text-slate-500 mb-1 block">Language</label>
+              <label className="font-sans text-xs text-zinc-400 mb-1 block">Language</label>
               <LanguageSelectorDropdown
                 value={answers.fixedLanguage}
                 onChange={(val: string) => onChange({ fixedLanguage: val })}
@@ -134,7 +134,7 @@ export function StepToneLanguage({
             </div>
           ) : (
             <div className="mt-3">
-              <label className="font-sans text-xs text-slate-500 mb-1 block">
+              <label className="font-sans text-xs text-zinc-400 mb-1 block">
                 Fallback language (if unclear)
               </label>
               <LanguageSelectorDropdown
