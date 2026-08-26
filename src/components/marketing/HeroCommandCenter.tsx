@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import { useId } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -30,9 +29,9 @@ const ACTIVITY = [
 const COMMANDS = ['/new', '/ticket claim', '/ticket ai pause', '/ticket close'];
 
 const CONFIDENCE = [
-  { label: 'High', range: '≥ 0.55', pct: 70, tone: 'bg-amber-400' },
-  { label: 'Partial', range: '0.25–0.55', pct: 18, tone: 'bg-amber-400/40' },
-  { label: 'None', range: '< 0.25', pct: 12, tone: 'bg-white/20' },
+  { label: 'High', range: '≥ 0.55' },
+  { label: 'Partial', range: '0.25–0.55' },
+  { label: 'None', range: '< 0.25' },
 ];
 
 const TILES = [
@@ -73,10 +72,10 @@ export function HeroCommandCenter() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-transparent px-4 pb-8 pt-28 sm:px-6 md:pt-32 lg:min-h-[100svh] lg:pb-12">
+    <section className="relative overflow-hidden bg-transparent px-4 pb-8 pt-5 sm:px-6 md:pt-6 lg:pb-12">
       <div
         aria-hidden
-        className="pointer-events-none absolute left-[58%] top-[42%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl opacity-50"
+        className="pointer-events-none absolute right-[8%] top-[28%] h-[420px] w-[420px] rounded-full blur-3xl opacity-40"
         style={{
           background:
             'radial-gradient(circle, rgba(245,166,35,0.16) 0%, rgba(245,166,35,0.04) 42%, transparent 70%)',
@@ -101,13 +100,13 @@ export function HeroCommandCenter() {
           ))}
         </div>
 
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-8 xl:gap-12">
-          <div>
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-10 xl:gap-14">
+          <div className="lg:pt-2">
             <span className="cyron-glass inline-flex items-center rounded-full px-4 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white/55">
               AI-powered support
             </span>
 
-            <h1 className="mt-6 font-display text-[2.35rem] font-semibold leading-[0.95] tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-[3.65rem]">
+            <h1 className="mt-6 font-display text-[2.35rem] font-semibold leading-[0.95] tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-[3.4rem]">
               <TextLoop
                 staticText="Powering smarter"
                 rotatingTexts={['tickets', 'replies', 'support']}
@@ -136,11 +135,18 @@ export function HeroCommandCenter() {
             </p>
           </div>
 
-          <div className="relative lg:min-h-[560px]">
-            <HudRings />
-
-            <div className="relative z-10 mx-auto max-w-[380px]">
-              <DiscordFrame channel="ticket-4418" topic="General Support" className="shadow-[0_0_80px_-24px_rgba(245,166,35,0.45)]">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
+            className="grid gap-3 sm:grid-cols-2"
+          >
+            <div className="sm:col-span-2">
+              <DiscordFrame
+                channel="ticket-4418"
+                topic="General Support"
+                className="shadow-[0_0_60px_-28px_rgba(245,166,35,0.4)]"
+              >
                 <DiscordMessage author="aurelia.draws" timestamp="2:13 PM">
                   <DiscordText>how long do I have to ask for a refund?</DiscordText>
                 </DiscordMessage>
@@ -154,41 +160,22 @@ export function HeroCommandCenter() {
               </DiscordFrame>
             </div>
 
-            <FloatCard
-              className="lg:absolute lg:-left-6 lg:top-6 lg:w-[220px]"
-              delay={0.15}
-              reduceMotion={!!reduceMotion}
-            >
+            <div className="cyron-glass h-full p-4">
               <ConfidenceCard />
-            </FloatCard>
-
-            <FloatCard
-              className="mt-4 lg:absolute lg:-right-4 lg:top-10 lg:mt-0 lg:w-[230px]"
-              delay={0.25}
-              reduceMotion={!!reduceMotion}
-            >
+            </div>
+            <div className="cyron-glass h-full p-4">
               <SparklineCard />
-            </FloatCard>
-
-            <FloatCard
-              className="mt-4 lg:absolute lg:-left-8 lg:bottom-16 lg:mt-0 lg:w-[240px]"
-              delay={0.35}
-              reduceMotion={!!reduceMotion}
-            >
+            </div>
+            <div className="cyron-glass h-full p-4">
               <LogCard />
-            </FloatCard>
-
-            <FloatCard
-              className="mt-4 lg:absolute lg:-right-6 lg:bottom-10 lg:mt-0 lg:w-[210px]"
-              delay={0.45}
-              reduceMotion={!!reduceMotion}
-            >
+            </div>
+            <div className="cyron-glass h-full p-4">
               <CommandsCard />
-            </FloatCard>
-          </div>
+            </div>
+          </motion.div>
         </div>
 
-        <div className="mt-10 flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 backdrop-blur-xl sm:px-5">
+        <div className="mt-8 flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 backdrop-blur-xl sm:px-5">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400 cyron-pulse-dot" />
           <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
             Grounded · cached · staff-overridable
@@ -202,7 +189,7 @@ export function HeroCommandCenter() {
               key={tile.title}
               initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.08, duration: 0.5 }}
+              transition={{ delay: 0.15 + index * 0.06, duration: 0.5 }}
               className="cyron-glass cyron-glass-hover p-4"
             >
               <div className="flex items-start justify-between gap-3">
@@ -221,51 +208,20 @@ export function HeroCommandCenter() {
   );
 }
 
-function FloatCard({
-  children,
-  className,
-  delay,
-  reduceMotion,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay: number;
-  reduceMotion: boolean;
-}) {
-  return (
-    <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.55, ease: [0.22, 0.61, 0.36, 1] }}
-      className={cn('z-20', className)}
-    >
-      <div
-        className={cn(
-          'cyron-glass p-3.5 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.8)]',
-          !reduceMotion && 'lg:animate-[heroFloat_6s_ease-in-out_infinite]',
-        )}
-        style={!reduceMotion ? { animationDelay: `${delay * 1.4}s` } : undefined}
-      >
-        {children}
-      </div>
-    </motion.div>
-  );
-}
-
 function ConfidenceCard() {
   return (
     <>
       <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Confidence</p>
       <div className="mt-3 flex items-center gap-3">
         <div
-          className="relative h-[72px] w-[72px] shrink-0 rounded-full"
+          className="relative h-[68px] w-[68px] shrink-0 rounded-full"
           style={{
             background:
               'conic-gradient(#F5A623 0 70%, rgba(245,166,35,0.35) 70% 88%, rgba(255,255,255,0.12) 88% 100%)',
             boxShadow: '0 0 24px rgba(245,166,35,0.25)',
           }}
         >
-          <div className="absolute inset-[9px] flex flex-col items-center justify-center rounded-full bg-[#0c0c0d]">
+          <div className="absolute inset-[8px] flex flex-col items-center justify-center rounded-full bg-[#0c0c0d]">
             <span className="font-mono text-[13px] font-semibold tabular-nums text-white">0.55</span>
             <span className="font-mono text-[8px] uppercase tracking-wider text-white/35">high</span>
           </div>
@@ -309,7 +265,7 @@ function SparklineCard() {
 function LogCard() {
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Activity</p>
         <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-white/25">
           Representative
@@ -323,7 +279,7 @@ function LogCard() {
             </span>
             <span
               className={cn(
-                'truncate text-[11px]',
+                'min-w-0 truncate text-[11px]',
                 row.tone === 'ok' && 'text-emerald-300/80',
                 row.tone === 'amber' && 'text-amber-300/85',
                 row.tone === 'muted' && 'text-white/50',
@@ -413,22 +369,6 @@ function Waveform() {
           style={{ height: h, opacity: 0.35 + (i % 5) * 0.12 }}
         />
       ))}
-    </div>
-  );
-}
-
-function HudRings() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 lg:block"
-    >
-      <div className="absolute inset-0 rounded-full border border-amber-400/10" />
-      <div className="absolute inset-8 rounded-full border border-white/[0.06]" />
-      <div className="absolute inset-16 rounded-full border border-amber-400/15" />
-      <div className="absolute inset-[88px] rounded-full border border-dashed border-white/[0.07]" />
-      <div className="absolute left-1/2 top-0 h-8 w-px -translate-x-1/2 bg-gradient-to-b from-amber-400/40 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 h-8 w-px -translate-x-1/2 bg-gradient-to-t from-amber-400/40 to-transparent" />
     </div>
   );
 }

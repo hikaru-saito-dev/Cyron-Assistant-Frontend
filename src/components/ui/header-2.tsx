@@ -41,11 +41,11 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent md:rounded-xl md:border md:transition-all md:duration-300 md:ease-out',
+        'sticky top-3 z-50 mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-5xl rounded-xl border border-white/10 bg-[#0a0a0a]/70 backdrop-blur-xl transition-all duration-300 ease-out md:top-4 md:mt-4 md:w-[calc(100%-2rem)]',
         {
-          'bg-[#0a0a0a]/80 supports-[backdrop-filter]:bg-[#0a0a0a]/55 border-white/10 backdrop-blur-xl md:top-4 md:max-w-4xl shadow-[0_0_24px_rgba(245,166,35,0.06)]':
+          'bg-[#0a0a0a]/80 supports-[backdrop-filter]:bg-[#0a0a0a]/55 md:max-w-4xl shadow-[0_0_24px_rgba(245,166,35,0.06)]':
             scrolled && !open,
-          'bg-[#0a0a0a]/90 backdrop-blur-xl border-white/10': open,
+          'bg-[#0a0a0a]/90': open,
         },
       )}
     >
