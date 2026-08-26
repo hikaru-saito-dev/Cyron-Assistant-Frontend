@@ -1,6 +1,6 @@
 import { PricingPlansDemo } from '../../components/PricingPlansDemo';
 import { PageTransition } from '../../components/motion/PageTransition';
-import { Hero } from '../../components/ui/hero-1';
+import { HeroCommandCenter } from '../../components/marketing/HeroCommandCenter';
 import { FeaturesSection } from './FeaturesSection';
 import { Stats } from '../../components/ui/statistics-card';
 import ImpactSection from '../../components/ui/impact-section';
@@ -29,14 +29,7 @@ export const Home = () => {
         <div className="cyron-marketing relative min-h-screen bg-[#050505] text-white z-10">
           <AtmosphereBackground fixed />
           <div className="relative z-10">
-            <Hero
-              staticText="Powering smarter"
-              rotatingTexts={["tickets", "replies", "support"]}
-              secondaryText="for your community"
-              subtitle="Grounded AI answers, instant ticket panels, and seamless handoffs. All from one dashboard built for Discord communities."
-              eyebrow="AI-POWERED SUPPORT"
-              ctaLabel="Get Started"
-            />
+            <HeroCommandCenter />
             <FeaturesSection />
             <TicketScenePlayer />
             <AnswerPipeline />

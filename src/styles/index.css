@@ -144,3 +144,8 @@ html, body {
 .cyron-pulse-dot {
   animation: cyron-pulse-glow 2s ease-in-out infinite;
 }
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
