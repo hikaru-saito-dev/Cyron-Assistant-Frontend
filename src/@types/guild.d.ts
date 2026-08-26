@@ -12,7 +12,7 @@ interface Guild {
 }
 
 interface UsageStats {
-  guild_id: number;
+  guild_id: number | string;
   plan: string;
   monthly_tokens_used: number;
   monthly_tokens_limit: number;
@@ -20,6 +20,13 @@ interface UsageStats {
   daily_ticket_limit: number;
   concurrent_ai_sessions: number;
   concurrent_limit: number;
+}
+
+interface UsageDashboard {
+  counters: UsageStats;
+  history: { date: string; tokens_used: number }[];
+  logs: { timestamp: string; tokens_used: number; low_confidence: boolean }[];
+  warnings: string[];
 }
 
 type KnowledgeTemplateType =

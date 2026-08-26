@@ -1,70 +1,82 @@
 import axios from "axios";
 import { api } from "../lib/api";
 
+const PLAN_USAGE_DEFAULTS: Record<
+  string,
+  {
+    monthly_tokens_limit: number;
+    daily_ticket_limit: number;
+    concurrent_limit: number;
+  }
+> = {
+  free: {
+    monthly_tokens_limit: 50_000,
+    daily_ticket_limit: 10,
+    concurrent_limit: 1,
+  },
+  pro: {
+    monthly_tokens_limit: 1_500_000,
+    daily_ticket_limit: 50,
+    concurrent_limit: 3,
+  },
+  business: {
+    monthly_tokens_limit: 3_000_000,
+    daily_ticket_limit: 100,
+    concurrent_limit: 3,
+  },
+};
+
+function normalizeUsageStats(
+  raw: Partial<UsageStats> | null | undefined,
+): UsageStats {
+  const plan = String(raw?.plan || "free").toLowerCase();
+  const defaults = PLAN_USAGE_DEFAULTS[plan] ?? PLAN_USAGE_DEFAULTS.free;
+  const limitOr = (value: unknown, fallback: number) => {
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0 ? n : fallback;
+  };
+  const usedOr = (value: unknown) => {
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : 0;
+  };
+  return {
+    guild_id: (raw?.guild_id as UsageStats["guild_id"]) ?? 0,
+    plan,
+    monthly_tokens_used: usedOr(raw?.monthly_tokens_used),
+    monthly_tokens_limit: limitOr(
+      raw?.monthly_tokens_limit,
+      defaults.monthly_tokens_limit,
+    ),
+    daily_ticket_count: usedOr(raw?.daily_ticket_count),
+    daily_ticket_limit: limitOr(
+      raw?.daily_ticket_limit,
+      defaults.daily_ticket_limit,
+    ),
+    concurrent_ai_sessions: usedOr(raw?.concurrent_ai_sessions),
+    concurrent_limit: limitOr(raw?.concurrent_limit, defaults.concurrent_limit),
+  };
+}
+
 export const guildService = {
   async fetchGuild(guildId: string): Promise<Guild> {
-    if (guildId === '2') {
-      return {
-        id: guildId,
-        name: "Gaming Hub",
-        plan: "free",
-        system_prompt: "You are a helpful AI assistant.",
-        embed_color: "#0433FF",
-        icon_url: "https://cdn.discordapp.com/embed/avatars/1.png"
-      } as any;
-    }
-    if (guildId === '5') {
-      return {
-        id: guildId,
-        name: "Marketing Hub",
-        plan: "free",
-        system_prompt: "You are a helpful AI assistant.",
-        embed_color: "#0433FF",
-        icon_url: "https://cdn.discordapp.com/embed/avatars/2.png"
-      } as any;
-    }
-    if (guildId === '6') {
-      return {
-        id: guildId,
-        name: "Open Source Community",
-        plan: "free",
-        system_prompt: "You are a helpful AI assistant.",
-        embed_color: "#0433FF",
-        icon_url: "https://cdn.discordapp.com/embed/avatars/3.png"
-      } as any;
-    }
-    if (guildId === '7') {
-      return {
-        id: guildId,
-        name: "Friend Group",
-        plan: "free",
-        system_prompt: "You are a helpful AI assistant.",
-        embed_color: "#0433FF",
-        icon_url: "https://cdn.discordapp.com/embed/avatars/4.png"
-      } as any;
-    }
-    return {
-      id: guildId,
-      name: "Mock Server",
-      plan: "pro",
-      system_prompt: "You are a helpful AI assistant.",
-      embed_color: "#0433FF",
-      icon_url: "https://ui-avatars.com/api/?name=Mock+Server"
-    } as any;
+    const res = await api.get<Guild>(`/guilds/${guildId}`);
+    return res.data;
   },
 
   async fetchUsage(guildId: string): Promise<UsageStats> {
-    return { tokens_used: 12500, request_count: 340, ai_messages: 120 } as any;
+    const res = await api.get<UsageStats>(`/guilds/${guildId}/usage`);
+    return normalizeUsageStats(res.data);
   },
 
   async fetchUsageHistory(
     guildId: string,
     days: number,
   ): Promise<{ date: string; tokens_used: number }[]> {
-    const { data } = await api.get(`/guilds/${guildId}/analytics/usage-history`, {
-      params: { days }
-    });
-    return data;
+    const res = await api.get<{ date: string; tokens_used: number }[]>(
+      `/guilds/${guildId}/usage/history`,
+      { params: { days } },
+    );
+    return Array.isArray(res.data) ? res.data : [];
   },
 
   async fetchUsageLogs(
@@ -73,15 +85,40 @@ export const guildService = {
   ): Promise<
     { timestamp: string; tokens_used: number; low_confidence: boolean }[]
   > {
-    const { data } = await api.get(`/guilds/${guildId}/analytics/usage-logs`, {
-      params: { limit }
-    });
-    return data;
+    const res = await api.get<
+      { timestamp: string; tokens_used: number; low_confidence: boolean }[]
+    >(`/guilds/${guildId}/usage/logs`, { params: { limit } });
+    return Array.isArray(res.data) ? res.data : [];
+  },
+
+  async fetchUsageDashboard(guildId: string): Promise<UsageDashboard> {
+    try {
+      const res = await api.get<UsageDashboard>(
+        `/guilds/${guildId}/usage/dashboard`,
+        { params: { days: 7, limit: 10 } },
+      );
+      const data = res.data;
+      return {
+        counters: normalizeUsageStats(data?.counters),
+        history: Array.isArray(data?.history) ? data.history : [],
+        logs: Array.isArray(data?.logs) ? data.logs : [],
+        warnings: Array.isArray(data?.warnings) ? data.warnings : [],
+      };
+    } catch {
+      const [counters, history, logs] = await Promise.all([
+        guildService.fetchUsage(guildId),
+        guildService.fetchUsageHistory(guildId, 7).catch(() => []),
+        guildService.fetchUsageLogs(guildId, 10).catch(() => []),
+      ]);
+      return { counters, history, logs, warnings: ["dashboard_fallback"] };
+    }
   },
 
   async fetchKnowledge(guildId: string): Promise<KnowledgeEntry[]> {
-    const res = await api.get<KnowledgeEntry[]>(`/guilds/${guildId}/knowledge`);
-    return res.data;
+    const res = await api.get<KnowledgeEntry[] | null>(
+      `/guilds/${guildId}/knowledge`,
+    );
+    return Array.isArray(res.data) ? res.data : [];
   },
 
   async updateGuild(

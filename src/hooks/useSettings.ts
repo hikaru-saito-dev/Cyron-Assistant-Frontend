@@ -68,34 +68,23 @@ export const useSettings = (): UseSettingsResult => {
   });
 
   const {
-    data: usage,
+    data: usageDashboard,
     isLoading: usageLoading,
     isError: usageError,
   } = useQuery({
-    queryKey: ["usage", guildId],
-    queryFn: () => guildService.fetchUsage(guildId!),
-    enabled: !!guildId,
+    queryKey: ["usage-dashboard", guildId],
+    queryFn: () => guildService.fetchUsageDashboard(guildId!),
+    enabled: !!guildId && view === "usage",
+    retry: 1,
   });
 
-  const {
-    data: usageHistory,
-    isLoading: historyLoading,
-    isError: historyError,
-  } = useQuery({
-    queryKey: ["usage-history", guildId],
-    queryFn: () => guildService.fetchUsageHistory(guildId!, 7),
-    enabled: !!guildId,
-  });
-
-  const {
-    data: usageLogs,
-    isLoading: logsLoading,
-    isError: logsError,
-  } = useQuery({
-    queryKey: ["usage-logs", guildId],
-    queryFn: () => guildService.fetchUsageLogs(guildId!, 10),
-    enabled: !!guildId,
-  });
+  const usage = usageDashboard?.counters;
+  const usageHistory = usageDashboard?.history;
+  const usageLogs = usageDashboard?.logs;
+  const historyLoading = usageLoading;
+  const logsLoading = usageLoading;
+  const historyError = false;
+  const logsError = false;
 
   const {
     data: knowledge = [],
@@ -327,11 +316,25 @@ export const useSettings = (): UseSettingsResult => {
     !!guild &&
     ["pro", "business"].includes((guild.plan ?? "free").toLowerCase());
 
-  const chartData =
-    usageHistory?.map((row: { date: string; tokens_used: number }) => ({
-      date: row.date,
-      tokens: row.tokens_used,
-    })) ?? [];
+  const chartData = (() => {
+    const mapped =
+      usageHistory?.map((row: { date: string; tokens_used: number }) => ({
+        date: String(row.date).slice(5),
+        tokens: Number(row.tokens_used ?? 0),
+      })) ?? [];
+    if (mapped.length > 0) return mapped;
+    const out: { date: string; tokens: number }[] = [];
+    const now = new Date();
+    for (let i = 6; i >= 0; i -= 1) {
+      const d = new Date(now);
+      d.setDate(now.getDate() - i);
+      out.push({
+        date: `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`,
+        tokens: 0,
+      });
+    }
+    return out;
+  })();
 
   const recentActivity =
     usageLogs?.map(

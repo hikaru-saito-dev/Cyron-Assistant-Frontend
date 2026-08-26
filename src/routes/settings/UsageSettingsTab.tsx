@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Loader } from "../../components/ui/Loader";
-import { useApp } from "../../context/AppContext";
 import { TextBlurIn } from '../../components/ui/text-blur-in';
 
 export const UsageTab = ({
@@ -15,8 +14,11 @@ export const UsageTab = ({
     logsLoading: boolean; logsError: boolean;
     chartData: any[]; recentActivity: any[];
 }) => {
-    const { theme } = useApp();
-    const isDark = theme === 'dark';
+    const loading = usageLoading || historyLoading || logsLoading;
+    // historyError/logsError kept in props for API compatibility; dashboard fetch
+    // already soft-fails those slices so they should not blank the page.
+    void historyError;
+    void logsError;
 
     return (
         <motion.div key="usage" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-4">
@@ -25,8 +27,7 @@ export const UsageTab = ({
                 <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 mt-1">Monitor your server's token usage and ticket automation limits.</TextBlurIn>
             </div>
 
-
-            {(usageLoading || historyLoading || logsLoading) && (
+            {loading && (
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                     <div className="mb-4 flex items-center gap-2 text-[14px] text-slate-400"><Loader /> Loading usage…</div>
                     <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
@@ -35,40 +36,42 @@ export const UsageTab = ({
                 </div>
             )}
 
-            {(usageError || historyError || logsError) && (
+            {usageError && !usage && (
                 <p className="text-sm text-red-500">Failed to load usage analytics. Please refresh.</p>
             )}
 
-            {usage && !usageLoading && !usageError && (
+            {usage && !loading && (
                 <>
-                    {/* Stats grid — 1 col mobile, 3 col sm+ */}
                     <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                         {[
                             { label: 'Monthly tokens', used: usage.monthly_tokens_used, limit: usage.monthly_tokens_limit },
                             { label: 'Tickets today', used: usage.daily_ticket_count, limit: usage.daily_ticket_limit },
                             { label: 'Concurrent sessions', used: usage.concurrent_ai_sessions, limit: usage.concurrent_limit },
-                        ].map(({ label, used, limit }, i) => (
+                        ].map(({ label, used, limit }, i) => {
+                            const usedN = Number(used ?? 0);
+                            const limitN = Math.max(1, Number(limit ?? 0));
+                            return (
                             <motion.div key={label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                                 className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                                 <p className="text-[12px] font-bold uppercase tracking-wider text-slate-500">{label}</p>
                                 <p className="mt-2 text-2xl font-bold text-[#0433FF]">
-                                    {(used || 0).toLocaleString()} <span className="text-[15px] font-semibold text-slate-400">/ {(limit || 0).toLocaleString()}</span>
+                                    {usedN.toLocaleString()} <span className="text-[15px] font-semibold text-slate-400">/ {limitN.toLocaleString()}</span>
                                 </p>
                                 <div className="mt-4 h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
-                                    <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(100, ((used || 0) / (limit || 1)) * 100)}%` }}
+                                    <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(100, (usedN / limitN) * 100)}%` }}
                                         transition={{ duration: 0.4 }} className="h-full rounded-full bg-[#0433FF]" />
                                 </div>
                             </motion.div>
-                        ))}
+                            );
+                        })}
                     </motion.div>
 
-                    {/* Chart */}
                     <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                         <p className="mb-1 text-[15px] font-bold text-white">Token usage (last 7 days)</p>
                         <p className="mb-4 text-[13px] text-slate-400">Daily token usage from live logs.</p>
-                        <div className="h-48 w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+                        <div className="h-48 w-full min-h-[12rem]">
+                            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={180}>
+                                <AreaChart data={chartData.length ? chartData : [{ date: '—', tokens: 0 }]} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                                     <defs>
                                         <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
                                             <stop offset="0%" stopColor="#0433FF" stopOpacity={0.4} />
@@ -77,7 +80,7 @@ export const UsageTab = ({
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                                     <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#64748b' }} stroke="rgba(255,255,255,0.1)" />
-                                    <YAxis tick={{ fontSize: 10, fill: '#64748b' }} stroke="rgba(255,255,255,0.1)" />
+                                    <YAxis tick={{ fontSize: 10, fill: '#64748b' }} stroke="rgba(255,255,255,0.1)" allowDecimals={false} />
                                     <Tooltip contentStyle={{ fontSize: 12, borderRadius: 12, backgroundColor: '#0f0f0f', borderColor: 'rgba(255,255,255,0.1)', color: '#fff' }}
                                         formatter={(v) => [(typeof v === 'number' ? v : Number(v ?? 0)).toLocaleString(), 'Tokens']} />
                                     <Area type="monotone" dataKey="tokens" stroke="#0433FF" strokeWidth={2} fill="url(#tg)" />
@@ -86,11 +89,13 @@ export const UsageTab = ({
                         </div>
                     </motion.div>
 
-                    {/* Recent activity — card list on mobile, table on sm+ */}
                     <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
                         <p className="mb-4 text-[15px] font-bold text-white">Recent activity</p>
 
-                        {/* Mobile cards */}
+                        {recentActivity.length === 0 ? (
+                            <p className="text-[13px] text-slate-500">No recent AI activity yet.</p>
+                        ) : (
+                        <>
                         <div className="space-y-3 sm:hidden">
                             {recentActivity.map((row) => (
                                 <div key={row.id} className="rounded-xl border border-white/10 bg-white/5 p-4 text-[13px]">
@@ -103,7 +108,6 @@ export const UsageTab = ({
                             ))}
                         </div>
 
-                        {/* Desktop table */}
                         <div className="hidden sm:block overflow-x-auto">
                             <table className="w-full text-left text-[14px]">
                                 <thead>
@@ -124,9 +128,11 @@ export const UsageTab = ({
                                 </tbody>
                             </table>
                         </div>
+                        </>
+                        )}
                     </motion.div>
                 </>
             )}
         </motion.div>
     );
-}
+};
