@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button, buttonVariants } from './Button';
+import { Button } from './Button';
 import { cn } from '../../lib/utils';
 import { MenuToggleIcon } from './menu-toggle-icon';
 import { useScroll } from './use-scroll';
 import { useAuth } from '../../hooks/useAuth';
-import { ShinyButton } from './shiny-button';
 
 const links = [
   { label: 'Home', href: '/' },
@@ -42,11 +41,11 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent md:rounded-md md:border md:transition-all md:ease-out',
+        'sticky top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent md:rounded-xl md:border md:transition-all md:duration-300 md:ease-out',
         {
-          'bg-black/95 supports-[backdrop-filter]:bg-black/70 border-white/10 backdrop-blur-lg md:top-4 md:max-w-4xl md:shadow':
+          'bg-[#0a0a0a]/80 supports-[backdrop-filter]:bg-[#0a0a0a]/55 border-white/10 backdrop-blur-xl md:top-4 md:max-w-4xl shadow-[0_0_24px_rgba(245,166,35,0.06)]':
             scrolled && !open,
-          'bg-black/90': open,
+          'bg-[#0a0a0a]/90 backdrop-blur-xl border-white/10': open,
         },
       )}
     >
@@ -58,31 +57,41 @@ export function Header() {
           },
         )}
       >
-        {/* Logo — Cyron Assistant text in Fredoka font */}
-        <Link to="/" className="flex items-center">
+        {/* Logo — Cyron Assistant */}
+        <Link to="/" className="flex items-center group">
           <span
-            style={{ fontFamily: '"Fredoka", sans-serif', fontWeight: 500 }}
-            className="text-white text-[16px] tracking-wide"
+            className="font-display text-white text-[16px] font-semibold tracking-wide transition-colors duration-200 group-hover:text-amber-300"
           >
             Cyron Assistant
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden items-center gap-2 md:flex">
-          {links.map((link, i) => (
-            <Link
-              key={i}
-              className={buttonVariants({ variant: 'ghost' })}
-              to={link.href}
-            >
-              {link.label}
-            </Link>
-          ))}
-          {/* Sign In / User Profile styling */}
+        <div className="hidden items-center gap-1 md:flex">
+          {links.map((link, i) => {
+            const isActive =
+              link.href === '/'
+                ? location.pathname === '/'
+                : location.pathname.startsWith(link.href);
+            return (
+              <Link
+                key={i}
+                className={cn(
+                  'inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-all duration-200',
+                  isActive
+                    ? 'text-amber-400 bg-amber-400/10'
+                    : 'text-white/65 hover:text-amber-300 hover:bg-white/5',
+                )}
+                to={link.href}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+          {/* Sign In / User Profile */}
           {isAuthenticated ? (
             <div className="flex items-center gap-3 ml-2">
-              <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full pl-1.5 pr-3 py-1">
+              <div className="flex items-center gap-2 cyron-glass rounded-full pl-1.5 pr-3 py-1">
                 {user?.avatar_url ? (
                   <img src={user.avatar_url} alt={user.username} className="w-6 h-6 rounded-full object-cover" />
                 ) : (
@@ -93,28 +102,31 @@ export function Header() {
                 <span className="text-sm font-medium text-white">{user?.username}</span>
               </div>
               {isDashboard ? (
-                <ShinyButton
+                <button
+                  type="button"
                   onClick={logout}
-                  style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+                  className="cyron-btn-ghost !px-4 !py-1.5 !text-sm"
                 >
                   Sign Out
-                </ShinyButton>
+                </button>
               ) : (
-                <ShinyButton
+                <button
+                  type="button"
                   onClick={() => navigate('/dashboard')}
-                  style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+                  className="cyron-btn-primary !px-4 !py-1.5 !text-sm"
                 >
                   Dashboard
-                </ShinyButton>
+                </button>
               )}
             </div>
           ) : (
-            <ShinyButton
+            <button
+              type="button"
               onClick={loginWithDiscord}
-              style={{ padding: '0.4rem 1.1rem', fontSize: '0.82rem', lineHeight: '1.4' }}
+              className="cyron-btn-primary !px-4 !py-1.5 !text-sm ml-1"
             >
               Sign In
-            </ShinyButton>
+            </button>
           )}
         </div>
 
@@ -123,7 +135,7 @@ export function Header() {
           size="icon"
           variant="outline"
           onClick={() => setOpen(!open)}
-          className="md:hidden"
+          className="md:hidden border-white/15 hover:border-amber-400/30 hover:bg-white/5"
         >
           <MenuToggleIcon open={open} className="size-5" duration={300} />
         </Button>
@@ -132,7 +144,7 @@ export function Header() {
       {/* Mobile menu */}
       <div
         className={cn(
-          'bg-black/95 fixed top-14 right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden border-y border-white/10 md:hidden',
+          'fixed top-14 right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden border-y border-white/10 bg-[#050505]/95 backdrop-blur-xl md:hidden',
           open ? 'block' : 'hidden',
         )}
       >
@@ -140,23 +152,34 @@ export function Header() {
           data-slot={open ? 'open' : 'closed'}
           className="flex h-full w-full flex-col justify-between gap-y-2 p-4"
         >
-          <div className="grid gap-y-2">
-            {links.map((link) => (
-              <Link
-                key={link.label}
-                className={buttonVariants({ variant: 'ghost', className: 'justify-start' })}
-                to={link.href}
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="grid gap-y-1">
+            {links.map((link) => {
+              const isActive =
+                link.href === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.label}
+                  className={cn(
+                    'justify-start rounded-lg px-3 py-3 text-sm font-medium transition-all duration-200',
+                    isActive
+                      ? 'text-amber-400 bg-amber-400/10'
+                      : 'text-white/70 hover:text-amber-300 hover:bg-white/5',
+                  )}
+                  to={link.href}
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
           <div className="flex flex-col gap-2">
             {isAuthenticated ? (
               isDashboard ? (
                 <>
-                  <div className="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg mb-2">
+                  <div className="flex items-center gap-3 p-3 cyron-glass rounded-lg mb-2">
                     {user?.avatar_url ? (
                       <img src={user.avatar_url} alt={user.username} className="w-8 h-8 rounded-full" />
                     ) : (
@@ -166,37 +189,40 @@ export function Header() {
                     )}
                     <span className="text-sm font-medium text-white">{user?.username}</span>
                   </div>
-                  <ShinyButton
+                  <button
+                    type="button"
                     onClick={() => {
                       setOpen(false);
                       logout();
                     }}
-                    className="w-full"
+                    className="cyron-btn-ghost w-full"
                   >
                     Sign Out
-                  </ShinyButton>
+                  </button>
                 </>
               ) : (
-                <ShinyButton
+                <button
+                  type="button"
                   onClick={() => {
                     setOpen(false);
                     navigate('/dashboard');
                   }}
-                  className="w-full"
+                  className="cyron-btn-primary w-full"
                 >
                   Dashboard
-                </ShinyButton>
+                </button>
               )
             ) : (
-              <ShinyButton
+              <button
+                type="button"
                 onClick={() => {
                   setOpen(false);
                   loginWithDiscord();
                 }}
-                className="w-full"
+                className="cyron-btn-primary w-full"
               >
                 Sign In
-              </ShinyButton>
+              </button>
             )}
           </div>
         </div>

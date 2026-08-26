@@ -70,7 +70,7 @@ export default function TextLoop({
                   backgroundClassName,
                 )}
                 style={{
-                  background: 'linear-gradient(to right, transparent, rgba(4,51,255,0.3), rgba(4,51,255,0.6))',
+                  background: 'linear-gradient(to right, transparent, rgba(245, 166, 35,0.3), rgba(245, 166, 35,0.6))',
                 }}
               />
 
@@ -80,7 +80,7 @@ export default function TextLoop({
                   rotatingTextClassName,
                 )}
                 style={{
-                  backgroundImage: 'linear-gradient(to right, #4d7aff, #0433FF)',
+                  backgroundImage: 'linear-gradient(to right, #4d7aff, #F5A623)',
                   WebkitBackgroundClip: 'text',
                   backgroundClip: 'text',
                   color: 'transparent',
@@ -97,7 +97,7 @@ export default function TextLoop({
               "w-[3px] md:w-[4px] h-[1.10em] sm:h-[1em]",
               cursorClassName,
             )}
-            style={{ backgroundColor: '#0433FF' }}
+            style={{ backgroundColor: '#F5A623' }}
             animate={{ opacity: [1, 0.5] }}
             transition={{
               duration: 0.8,

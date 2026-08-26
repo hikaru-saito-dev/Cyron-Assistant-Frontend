@@ -30,7 +30,7 @@ export function TabBar({
           onClick={() => onChange(t.id)}
           className={`rounded-xl px-4 py-2 font-sans text-sm font-medium transition-all ${
             active === t.id
-              ? "bg-[#0433FF] text-white shadow-sm"
+              ? "bg-[#F5A623] text-white shadow-sm"
               : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
           }`}
         >
@@ -86,7 +86,7 @@ export function PrimaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className="inline-flex items-center gap-2 rounded-xl bg-[#0433FF] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#0433FF]/90 focus:outline-none focus:ring-2 focus:ring-[#0433FF]/30 disabled:cursor-not-allowed disabled:opacity-50"
+      className="inline-flex items-center gap-2 rounded-xl bg-[#F5A623] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#F5A623]/90 focus:outline-none focus:ring-2 focus:ring-[#F5A623]/30 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {loading ? (
         <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />

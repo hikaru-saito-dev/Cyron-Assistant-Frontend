@@ -2,10 +2,10 @@ import { TextReveal } from "../../components/ui/text-reveal";
 
 export default function TextRevealHero() {
   return (
-    <div className="flex pt-32 pb-4 items-center justify-center px-6">
+    <div className="relative flex pt-32 pb-8 items-center justify-center px-6">
       <TextReveal
         as="h1"
-        className="max-w-2xl text-center font-bold text-4xl text-foreground tracking-tight sm:text-5xl dark:text-white"
+        className="font-display max-w-2xl text-center font-bold text-4xl text-white tracking-tight sm:text-5xl"
         per="word"
         preset="fade-in-blur"
         speedReveal={0.5}

@@ -153,7 +153,7 @@ function HoverHighlight() {
       {enabled && hovered && hoverRect && (
         <motion.div
           key="sb001-hover-bg"
-          className="pointer-events-none absolute z-0 rounded-md bg-white/10"
+          className="pointer-events-none absolute z-0 rounded-lg bg-amber-400/10"
           style={{ right: 0 }}
           initial={false}
           animate={{
@@ -202,7 +202,7 @@ export const Sidebar001Item = memo(function Sidebar001Item({
         className={cn(
           "relative flex items-center gap-3 px-3 py-2 text-[14px] font-medium rounded-lg transition-colors",
           isActive
-            ? "bg-[#0433FF]/10 text-white shadow-[inset_3px_0_0_0_#0433FF]"
+            ? "bg-amber-400/10 text-white shadow-[inset_3px_0_0_0_#F5A623]"
             : "text-white/60 hover:text-white hover:bg-white/5",
           className,
         )}

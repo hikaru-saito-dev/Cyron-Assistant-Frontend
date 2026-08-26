@@ -140,7 +140,7 @@ const BarChart = ({
             bottom: 0,
             width: "100%",
             borderRadius: "40px",
-            backgroundColor: isAccent ? "#0433FF" : "rgba(255, 255, 255, 0.15)",
+            backgroundColor: isAccent ? "#F5A623" : "rgba(255, 255, 255, 0.15)",
             padding: "0.75rem",
             color: "#fff",
           }}
@@ -188,7 +188,7 @@ const BarChart = ({
               height: "0.75rem",
               borderRadius: "50%",
               border: "2px solid #fff",
-              backgroundColor: "#0433FF",
+              backgroundColor: "#F5A623",
               zIndex: 10,
             }}
           />
@@ -212,7 +212,7 @@ const BarChart = ({
             {/* Tooltip bubble */}
             <div
               style={{
-                backgroundColor: "#0433FF",
+                backgroundColor: "#F5A623",
                 color: "#fff",
                 padding: "0.25rem 0.75rem",
                 borderRadius: "0.75rem",
@@ -227,7 +227,7 @@ const BarChart = ({
             {/* Arrow */}
             <svg
               style={{
-                color: "#0433FF",
+                color: "#F5A623",
                 marginTop: "-1px", // seamlessly attach to bubble
               }}
               width="10"

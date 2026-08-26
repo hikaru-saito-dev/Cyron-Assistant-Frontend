@@ -43,8 +43,8 @@ export function ShinyButton({ children, onClick, className = "", style }: ShinyB
           --shiny-cta-bg: #000000;
           --shiny-cta-bg-subtle: #1a1818;
           --shiny-cta-fg: #ffffff;
-          --shiny-cta-highlight: blue;
-          --shiny-cta-highlight-subtle: #8484ff;
+          --shiny-cta-highlight: #F5A623;
+          --shiny-cta-highlight-subtle: #ffd27a;
           --animation: gradient-angle linear infinite;
           --duration: 3s;
           --shadow-size: 2px;

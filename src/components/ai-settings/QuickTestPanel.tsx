@@ -69,7 +69,7 @@ export function QuickTestPanel({ guildId, enabled }: Props) {
             type="button"
             disabled={loading || !question.trim()}
             onClick={() => void run()}
-            className="rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
+            className="rounded-xl bg-[#F5A623] hover:bg-[#F5A623]/90 transition-colors px-4 py-2 font-sans text-sm font-semibold text-white disabled:opacity-50"
           >
             {loading ? "Testing…" : "Test reply"}
           </button>

@@ -10,7 +10,7 @@ export function FaqSection() {
   const faqsRight = allFaqs.slice(half);
 
   return (
-    <div className="w-full bg-transparent">
+    <div className="relative w-full bg-transparent">
       <FAQSectionUI
         title="Platform & Product Support"
         subtitle="Frequently Asked Questions"

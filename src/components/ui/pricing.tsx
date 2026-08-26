@@ -46,7 +46,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#0433FF] text-white hover:bg-[#0433FF]/90",
+        default: "bg-[#F5A623] text-white hover:bg-[#F5A623]/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -376,13 +376,13 @@ function PricingCard({ plan, index }: { plan: PricingPlan; index: number }) {
       className={cn(
         "rounded-2xl p-8 flex flex-col relative bg-[rgba(255,255,255,0.8)] dark:bg-[rgba(0,0,0,0.4)] backdrop-blur-md h-full",
         plan.isPopular
-          ? "border-2 border-[#0433FF] shadow-xl"
+          ? "border-2 border-[#F5A623] shadow-xl"
           : "border border-border",
       )}
     >
       {plan.isPopular && (
         <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2">
-          <div className="bg-[#0433FF] py-1.5 px-4 rounded-full flex items-center gap-1.5">
+          <div className="bg-[#F5A623] py-1.5 px-4 rounded-full flex items-center gap-1.5">
             <LucideStar className="text-white h-4 w-4 fill-current" />
             <span className="text-white text-sm font-semibold">
               Most Popular

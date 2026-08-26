@@ -62,7 +62,7 @@ export function HeroSectionShadcnUI() {
               loginWithDiscord();
             }
           }}
-          className="inline-flex items-center justify-center gap-3 rounded-full bg-[#0433FF] px-8 py-4 text-base md:text-lg font-bold text-white hover:bg-[#0433FF]/90 shadow-lg shadow-[#0433FF]/25 transition-all cursor-pointer"
+          className="inline-flex items-center justify-center gap-3 rounded-full bg-[#F5A623] px-8 py-4 text-base md:text-lg font-bold text-white hover:bg-[#F5A623]/90 shadow-lg shadow-[#F5A623]/25 transition-all cursor-pointer"
         >
           {isAuthenticated ? "Dashboard" : "Get Started"}
           <ArrowRight className="h-5 w-5" />

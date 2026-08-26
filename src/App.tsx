@@ -18,7 +18,7 @@ import { HowItWorks } from './routes/how-it-works';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-bg-base text-text-primary">
+    <div className="cyron-app-shell min-h-screen bg-[#070707] text-zinc-100">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/docs" element={<Docs />} />

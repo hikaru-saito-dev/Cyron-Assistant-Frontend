@@ -41,7 +41,7 @@ export function TicketManagement() {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-6">
       <div>
-        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Ticket Management</TextBlurIn>
+        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter font-display">Ticket Management</TextBlurIn>
         <TextBlurIn delay={0.2} className="text-[14px] text-slate-400 mt-1">View and manage support tickets.</TextBlurIn>
       </div>
 
@@ -66,11 +66,11 @@ export function TicketManagement() {
       <motion.div initial={{ opacity: 0, filter: "blur(10px)", y: 10 }} animate={{ opacity: 1, filter: "blur(0px)", y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="flex flex-wrap gap-3">
         <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by channel name…"
-          className="rounded-xl border border-white/10 !bg-white px-4 py-2.5 text-[14px] !text-black placeholder-slate-500 focus:outline-none focus:border-[#0433FF]/50 focus:ring-2 focus:ring-[#0433FF]/20 transition-all w-full sm:w-64" />
+          className="rounded-xl border border-white/10 !bg-white px-4 py-2.5 text-[14px] !text-black placeholder-slate-500 focus:outline-none focus:border-[#F5A623]/50 focus:ring-2 focus:ring-[#F5A623]/20 transition-all w-full sm:w-64" />
         <div className="flex bg-[#0f0f0f] p-1 rounded-xl border border-white/10">
           {['all', 'open', 'closed'].map((s) => (
             <button key={s} onClick={() => { setStatus(s); setPage(1); }}
-              className={`rounded-lg px-4 py-1.5 text-[13px] font-semibold capitalize transition-all ${status === s ? 'bg-[#0433FF] text-white shadow-sm shadow-[#0433FF]/20' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}>
+              className={`rounded-lg px-4 py-1.5 text-[13px] font-semibold capitalize transition-all ${status === s ? 'bg-[#F5A623] text-white shadow-sm shadow-[#F5A623]/20' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}>
               {s}
             </button>
           ))}
@@ -83,7 +83,7 @@ export function TicketManagement() {
           {tickets.length === 0 && <p className="text-[14px] text-slate-500">No tickets found.</p>}
           {tickets.map((t: any) => (
             <div key={t.id} onClick={() => setSelected(t.id)}
-              className={`cursor-pointer rounded-2xl border p-4 transition-all duration-300 ${selected === t.id ? 'border-[#0433FF]/50 bg-[#0433FF]/10 shadow-[0_0_20px_rgba(4,51,255,0.08)]' : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.04]'}`}>
+              className={`cursor-pointer rounded-2xl border p-4 transition-all duration-300 ${selected === t.id ? 'border-[#F5A623]/50 bg-[#F5A623]/10 shadow-[0_0_20px_rgba(245, 166, 35,0.08)]' : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.04]'}`}>
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-3 flex-wrap">
@@ -91,7 +91,7 @@ export function TicketManagement() {
                     <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${STATUS_COLORS[t.status] ?? 'bg-white/10 text-slate-400 border border-white/10'}`}>{t.status}</span>
                     {t.priority && <span>{PRIORITY_EMOJI[t.priority]}</span>}
                   </div>
-                  <p className="text-[13px] text-slate-500 mt-1.5 flex items-center gap-2"><span className="text-[#0433FF] font-medium">{t.panel_name}</span> <span className="opacity-40">•</span> <span>{t.created_at ? new Date(t.created_at).toLocaleDateString() : '—'}</span></p>
+                  <p className="text-[13px] text-slate-500 mt-1.5 flex items-center gap-2"><span className="text-[#F5A623] font-medium">{t.panel_name}</span> <span className="opacity-40">•</span> <span>{t.created_at ? new Date(t.created_at).toLocaleDateString() : '—'}</span></p>
                 </div>
                 {t.rating && <span className="text-yellow-500 flex-shrink-0 text-sm">{'⭐'.repeat(t.rating)}</span>}
               </div>
@@ -136,8 +136,8 @@ export function TicketManagement() {
                 <div className="flex-1 overflow-y-auto p-4 space-y-3 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Transcript</p>
                   {(detail.messages ?? []).map((m: any, i: number) => (
-                    <div key={i} className={`rounded-2xl px-4 py-3 text-[13px] ${m.role === 'assistant' ? 'bg-[#0433FF]/10 text-white border border-[#0433FF]/20 ml-6 rounded-tr-sm' : 'bg-white/5 text-slate-200 border border-white/10 mr-6 rounded-tl-sm'}`}>
-                      <p className={`font-semibold text-[10px] mb-1 uppercase tracking-wider ${m.role === 'assistant' ? 'text-[#0433FF]' : 'text-slate-500'}`}>{m.role}</p>
+                    <div key={i} className={`rounded-2xl px-4 py-3 text-[13px] ${m.role === 'assistant' ? 'bg-[#F5A623]/10 text-white border border-[#F5A623]/20 ml-6 rounded-tr-sm' : 'bg-white/5 text-slate-200 border border-white/10 mr-6 rounded-tl-sm'}`}>
+                      <p className={`font-semibold text-[10px] mb-1 uppercase tracking-wider ${m.role === 'assistant' ? 'text-[#F5A623]' : 'text-slate-500'}`}>{m.role}</p>
                       <p className="whitespace-pre-wrap break-words leading-relaxed">{m.content}</p>
                     </div>
                   ))}

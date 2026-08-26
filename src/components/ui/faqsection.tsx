@@ -1,5 +1,4 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./accordion";
-import { Button } from "./Button";
 import { cn } from "../../lib/utils";
 
 type FAQItem = {
@@ -29,39 +28,46 @@ export function FAQSection({
   className,
 }: FAQSectionProps) {
   return (
-    <section className={cn("w-full max-w-5xl mx-auto py-16 px-4", className)}>
+    <section className={cn("w-full max-w-5xl mx-auto py-16 px-4 bg-transparent", className)}>
       {/* Header */}
       <div className="text-center mb-10">
-        <p className="text-sm text-muted-foreground font-medium tracking-wide mb-2">
+        <p
+          className="text-xs font-medium tracking-[0.16em] uppercase text-amber-400/80 mb-2"
+          style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace' }}
+        >
           {subtitle}
         </p>
-        <h2 className="text-3xl md:text-4xl font-semibold mb-3 dark:text-white">
+        <h2 className="font-display text-3xl md:text-4xl font-semibold mb-3 text-white">
           {title}
         </h2>
-        <p className="text-muted-foreground max-w-xl mx-auto mb-6">
+        <p className="text-white/50 max-w-xl mx-auto mb-6">
           {description}
         </p>
-        <Button variant="default" className="rounded-full !bg-[#0433FF] hover:!bg-[#0433FF]/90" onClick={onButtonClick}>
+        <button type="button" className="cyron-btn-primary !px-6 !py-2.5 !text-sm" onClick={onButtonClick}>
           {buttonLabel}
-        </Button>
+        </button>
       </div>
 
       {/* FAQs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
         {[faqsLeft, faqsRight].map((faqColumn, columnIndex) => (
           <Accordion
             key={columnIndex}
             type="single"
             collapsible
-            className="space-y-4"
+            className="space-y-3"
           >
             {faqColumn.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${columnIndex}-${i}`}>
-                <AccordionTrigger className="text-base font-medium dark:text-white">
+              <AccordionItem
+                key={i}
+                value={`item-${columnIndex}-${i}`}
+                className="cyron-glass cyron-glass-hover rounded-xl border-b-0 px-4 data-[state=open]:border-amber-400/25"
+              >
+                <AccordionTrigger className="text-base font-medium text-white hover:no-underline hover:text-amber-200/90 py-4">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
-                  <div className="min-h-[40px] transition-all duration-200 ease-in-out">
+                <AccordionContent className="text-sm text-white/50 leading-relaxed">
+                  <div className="min-h-[40px] transition-all duration-200 ease-in-out pb-2">
                     {faq.answer}
                   </div>
                 </AccordionContent>

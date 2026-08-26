@@ -5,31 +5,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#1ab7ef',
+        primary: '#F5A623',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         secondary: 'var(--secondary)',
         destructive: 'var(--destructive)',
         'muted-foreground': 'var(--muted-foreground)',
         border: 'var(--border)',
+        cyron: {
+          amber: '#F5A623',
+          charcoal: '#070707',
+        },
         bg: {
-          base: '#f5f7fb',
-          card: '#ffffff',
+          base: '#070707',
+          card: 'rgba(255,255,255,0.04)',
         },
         text: {
-          primary: '#0f172a',
-          muted: '#64748b',
+          primary: '#f4f4f5',
+          muted: '#a1a1aa',
         },
       },
       boxShadow: {
-        soft: '0 4px 16px rgba(15, 23, 42, 0.08)',
+        soft: '0 4px 16px rgba(0, 0, 0, 0.35)',
+        glow: '0 0 28px rgba(245, 166, 35, 0.25)',
       },
       borderRadius: {
         xl: '1rem',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Sora', '"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Sora', '"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       transitionTimingFunction: {

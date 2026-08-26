@@ -180,7 +180,7 @@ export const Payment = () => {
   const accent = ACCENT[plan];
   const isDark = theme === 'dark';
   const summarySurface = isDark
-    ? 'bg-slate-900/60 border-[#0433FF]'
+    ? 'bg-slate-900/60 border-[#F5A623]'
     : `${accent.bgColor} ${accent.borderColor}`;
   const formSurface = isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-white border-slate-200';
   const headingText = isDark ? 'text-slate-100' : 'text-slate-900';
@@ -558,7 +558,7 @@ export const Payment = () => {
                         type="submit"
                         disabled={isProcessing}
                         className={clsx(
-                          'flex w-full items-center justify-center gap-2 rounded-full bg-[#0433FF] hover:bg-[#0433FF]/90 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#0433FF]/40 transition',
+                          'flex w-full items-center justify-center gap-2 rounded-full bg-[#F5A623] hover:bg-[#F5A623]/90 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#F5A623]/40 transition',
                           isProcessing
                             ? 'cursor-not-allowed opacity-70'
                             : ''

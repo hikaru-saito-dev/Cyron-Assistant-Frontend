@@ -2,155 +2,138 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Shadcn-compatible CSS variables for themed components ── */
+/* ── Design tokens ── */
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #1ab7ef;
-  --secondary: #818cf8;
+  --background: #070707;
+  --foreground: #f4f4f5;
+  --primary: #F5A623;
+  --primary-hover: #E8A017;
+  --secondary: #a1a1aa;
   --destructive: #ef4444;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.1);
+  --cyron-amber: #F5A623;
+  --cyron-amber-soft: rgba(245, 166, 35, 0.18);
+  color-scheme: dark;
 }
+
 .dark {
-  --background: #000000;
-  --foreground: #f1f5f9;
-  --primary: #38bdf8;
-  --secondary: #818cf8;
+  --background: #070707;
+  --foreground: #f4f4f5;
+  --primary: #F5A623;
+  --secondary: #a1a1aa;
   --destructive: #ef4444;
-  --muted-foreground: #94a3b8;
-  --border: #1e293b;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100%;
+  background-color: #070707;
+  color: #f4f4f5;
+  font-family: "Sora", "Plus Jakarta Sans", Inter, system-ui, sans-serif;
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Strip gradients on home page sections + gradient cards in dark mode */
-.dark section:not(.cinematic-footer-wrapper *),
-.dark .rounded-3xl:not(.cinematic-footer-wrapper *) {
-  background-image: none !important;
-}
-.dark section:not(.cinematic-footer-wrapper *) {
-  background-color: #000000 !important;
-  border-color: #1e293b !important;
-}
-/* Re-allow gradient text inside dark sections */
-.dark .bg-clip-text {
-  background-image: linear-gradient(to right, #38bdf8, #818cf8) !important;
-}
+#root { min-height: 100vh; }
 
-.dark .bg-sky-100 { background-color: rgba(14,165,233,0.15) !important; }
-.dark .bg-sky-50  { background-color: rgba(14,165,233,0.08) !important; }
-:root { color-scheme: light; }
-body { background-color: #ffffff; color: #0f172a; }
-
-/* ── Dark ── */
-.dark { color-scheme: dark; }
-.dark body { background-color: #000000; color: #e2e8f0; }
-
-/* Surfaces */
-.dark .bg-white,
-.dark .bg-white\/80,
-.dark .bg-white\/90 { background-color: #111827 !important; }
-
-.dark .bg-slate-50 { background-color: #0f172a !important; }
-.dark .bg-slate-100 { background-color: #1e293b !important; }
-.dark .bg-bg-base   { background-color: #000000 !important; }
-
-/* Borders */
-.dark .border-slate-200,
-.dark .border-slate-300 { border-color: #1e293b !important; }
-.dark .border-slate-100 { border-color: #1e293b !important; }
-
-/* Text */
-.dark .text-slate-900,
-.dark .text-slate-800,
-.dark .text-text-primary { color: #f1f5f9 !important; }
-
-.dark .text-slate-700,
-.dark .text-slate-600 { color: #cbd5e1 !important; }
-
-.dark .text-slate-500,
-.dark .text-slate-400,
-.dark .text-text-muted { color: #94a3b8 !important; }
-
-/* Inputs & textareas */
+/* Soft inputs over glass UIs */
 .dark input,
 .dark textarea,
 .dark select {
-  background-color: #1e293b !important;
-  border-color: #334155 !important;
-  color: #f1f5f9 !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f4f4f5 !important;
 }
 .dark input.transparent-input {
   background-color: transparent !important;
 }
 .dark input::placeholder,
-.dark textarea::placeholder { color: #64748b !important; }
-.dark input.force-black-text { color: #000000 !important; }
-.dark input.force-black-text::placeholder { color: #000000 !important; }
+.dark textarea::placeholder { color: #71717a !important; }
 
-/* Hover states */
-.dark .hover\:bg-slate-50:hover,
-.dark .hover\:bg-slate-100:hover { background-color: #1e293b !important; }
+.dark .bg-clip-text.text-transparent,
+.dark .bg-clip-text {
+  background-image: linear-gradient(90deg, #F5A623, #fff7e6) !important;
+}
 
-/* Active nav item */
-.dark .bg-sky-50 { background-color: rgba(14,165,233,0.12) !important; }
-.dark .text-sky-700 { color: #38bdf8 !important; }
-.dark .border-sky-200 { border-color: #0ea5e9 !important; }
-
-/* Shadows — lighter in dark */
-.dark .shadow-soft { box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important; }
-.dark .shadow-sm   { box-shadow: 0 1px 4px rgba(0,0,0,0.4) !important; }
-
-/* Amber accents (General Rules) in dark mode */
-.dark .bg-amber-50 { background-color: rgba(245,158,11,0.08) !important; }
-.dark .bg-amber-100 { background-color: rgba(245,158,11,0.15) !important; }
-.dark .text-amber-700,
-.dark .text-amber-800,
-.dark .text-amber-900 { color: #fbbf24 !important; }
-.dark .border-amber-200,
-.dark .border-amber-400 { border-color: rgba(245,158,11,0.35) !important; }
-
-/* Indigo accents */
-.dark .bg-indigo-50 { background-color: rgba(99,102,241,0.1) !important; }
-.dark .text-indigo-700 { color: #a5b4fc !important; }
-.dark .border-indigo-200 { border-color: rgba(99,102,241,0.3) !important; }
-
-/* Tables in dark mode */
-.dark table thead { background-color: #1e293b !important; }
-.dark table tbody tr:hover { background-color: rgba(30,41,59,0.5); }
-.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #1e293b !important; }
-
-/* Headings */
 @layer base {
-  h1 { @apply text-2xl font-semibold md:text-3xl; }
-  h2 { @apply text-xl font-semibold md:text-2xl; }
+  h1 { @apply text-2xl font-semibold tracking-tight md:text-3xl; }
+  h2 { @apply text-xl font-semibold tracking-tight md:text-2xl; }
   h3 { @apply text-base font-semibold; }
   h4 { @apply text-sm font-semibold; }
 }
 
-#root { min-height: 100vh; }
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-2px);
+@layer components {
+  .cyron-glass {
+    @apply rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .cyron-glass-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  .cyron-glass-hover:hover {
+    @apply -translate-y-0.5 border-amber-400/35 bg-white/[0.07];
+    box-shadow: 0 0 28px rgba(245, 166, 35, 0.14), 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .cyron-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-semibold
+      text-[#0a0a0a] bg-[#F5A623] border border-[#E8A017]/50
+      transition-all duration-300 ease-out
+      hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-[#E8A017]
+      active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50
+      disabled:pointer-events-none disabled:opacity-50;
+    box-shadow: 0 0 24px rgba(245, 166, 35, 0.3), 0 4px 16px rgba(0, 0, 0, 0.35);
+  }
+  .cyron-btn-primary:hover {
+    box-shadow: 0 0 40px rgba(245, 166, 35, 0.45), 0 10px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .cyron-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium
+      text-white/90 bg-white/[0.04] border border-white/15 backdrop-blur-md
+      transition-all duration-300 ease-out
+      hover:-translate-y-0.5 hover:border-amber-400/30 hover:bg-white/10
+      active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/30
+      disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .cyron-panel {
+    @apply cyron-glass cyron-glass-hover p-5 md:p-6;
+  }
+
+  .cyron-marketing {
+    font-family: "Sora", "Plus Jakarta Sans", Inter, system-ui, sans-serif;
+  }
+  .cyron-marketing section {
+    background-color: transparent !important;
+    background-image: none !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .cyron-app-shell {
+    font-family: "Sora", "Plus Jakarta Sans", Inter, system-ui, sans-serif;
   }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .animate-fade-in {
   animation: fade-in 0.2s ease-out forwards;
+}
+
+@keyframes cyron-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 166, 35, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(245, 166, 35, 0); }
+}
+.cyron-pulse-dot {
+  animation: cyron-pulse-glow 2s ease-in-out infinite;
 }

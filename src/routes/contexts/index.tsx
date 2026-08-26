@@ -52,7 +52,7 @@ function TabBar({
   onChange: (tab: Tab) => void;
   accent?: "sky" | "indigo";
 }) {
-  const activeClass = "bg-[#0433FF] text-white shadow-sm shadow-[#0433FF]/20";
+  const activeClass = "bg-[#F5A623] text-white shadow-sm shadow-[#F5A623]/20";
 
   return (
     <div className="inline-flex flex-wrap gap-1 rounded-full border border-white/5 bg-white/[0.02] p-1.5">
@@ -85,7 +85,7 @@ function EditorArea({
   minHeight?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-inner">
+    <div className="overflow-hidden cyron-glass cyron-glass-hover shadow-inner">
       <div className="flex items-center gap-2 border-b border-white/10 bg-white/5 px-4 py-2.5">
         <span className="font-mono text-[11px] font-medium uppercase tracking-widest text-slate-400">
           Markdown
@@ -120,7 +120,7 @@ function PrimaryButton({
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className={`inline-flex items-center gap-2 rounded-full bg-[#0433FF] hover:bg-[#0433FF]/90 px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_0_15px_rgba(4,51,255,0.2)] transition-all disabled:opacity-50`}
+      className={`inline-flex items-center gap-2 rounded-full bg-[#F5A623] hover:bg-[#F5A623]/90 px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_0_15px_rgba(245, 166, 35,0.2)] transition-all disabled:opacity-50`}
     >
       {loading ? (
         <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -305,8 +305,8 @@ export function Contexts() {
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between px-4 md:px-0 mb-4">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h1 className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
-              <FaLayerGroup className="text-[#0433FF]" />
+            <h1 className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter font-display">
+              <FaLayerGroup className="text-[#F5A623]" />
               AI Contexts
             </h1>
           </div>
@@ -344,7 +344,7 @@ export function Contexts() {
                       type="button"
                       onClick={() => setSelectedId(c.id)}
                       className={`w-full rounded-xl px-4 py-3 text-left transition-all ${isActive
-                          ? "border border-[#0433FF]/30 bg-[#0433FF]/10 shadow-[0_0_15px_rgba(4,51,255,0.1)]"
+                          ? "border border-[#F5A623]/30 bg-[#F5A623]/10 shadow-[0_0_15px_rgba(245, 166, 35,0.1)]"
                           : "border border-transparent hover:bg-white/5"
                         }`}
                     >
@@ -368,7 +368,7 @@ export function Contexts() {
               <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
                 <input
                   autoFocus
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[14px] text-white placeholder-slate-500 focus:border-[#0433FF]/50 focus:outline-none focus:ring-2 focus:ring-[#0433FF]/20"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-[14px] text-white placeholder-slate-500 focus:border-[#F5A623]/50 focus:outline-none focus:ring-2 focus:ring-[#F5A623]/20"
                   placeholder="Context name"
                   value={newCtxName}
                   onChange={(e) => setNewCtxName(e.target.value)}
@@ -380,7 +380,7 @@ export function Contexts() {
                       newCtxName.trim() && createMut.mutate(newCtxName.trim())
                     }
                     disabled={!newCtxName.trim() || createMut.isPending}
-                    className="flex-1 rounded-xl bg-[#0433FF] py-2.5 text-[13px] font-semibold text-white hover:bg-[#0433FF]/90 disabled:opacity-50 transition-colors shadow-lg shadow-[#0433FF]/20"
+                    className="flex-1 rounded-xl bg-[#F5A623] py-2.5 text-[13px] font-semibold text-white hover:bg-[#F5A623]/90 disabled:opacity-50 transition-colors shadow-lg shadow-[#F5A623]/20"
                   >
                     Create
                   </button>
@@ -397,7 +397,7 @@ export function Contexts() {
               <button
                 type="button"
                 onClick={() => setCreating(true)}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 py-3 text-[13px] font-semibold text-slate-400 transition hover:border-[#0433FF]/50 hover:bg-[#0433FF]/10 hover:text-[#0433FF]"
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 py-3 text-[13px] font-semibold text-slate-400 transition hover:border-[#F5A623]/50 hover:bg-[#F5A623]/10 hover:text-[#F5A623]"
               >
                 <FaPlus className="text-[10px]" />
                 New Context
@@ -571,7 +571,7 @@ function KnowledgeTable({
         <button
           type="button"
           onClick={() => setAdding(true)}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#0433FF] px-4 py-2 text-[13px] font-semibold text-white shadow-lg shadow-[#0433FF]/20 transition hover:bg-[#0433FF]/90"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-[#F5A623] px-4 py-2 text-[13px] font-semibold text-white shadow-lg shadow-[#F5A623]/20 transition hover:bg-[#F5A623]/90"
         >
           <FaPlus className="text-[10px]" />
           Add entry
@@ -582,13 +582,13 @@ function KnowledgeTable({
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4">
           <input
             autoFocus
-            className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-[14px] text-white placeholder-slate-500 focus:border-[#0433FF]/50 focus:outline-none focus:ring-2 focus:ring-[#0433FF]/20"
+            className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-[14px] text-white placeholder-slate-500 focus:border-[#F5A623]/50 focus:outline-none focus:ring-2 focus:ring-[#F5A623]/20"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <textarea
-            className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-mono text-[13px] leading-relaxed text-white placeholder-slate-500 focus:border-[#0433FF]/50 focus:outline-none focus:ring-2 focus:ring-[#0433FF]/20 min-h-[120px]"
+            className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 font-mono text-[13px] leading-relaxed text-white placeholder-slate-500 focus:border-[#F5A623]/50 focus:outline-none focus:ring-2 focus:ring-[#F5A623]/20 min-h-[120px]"
             placeholder={
               section === "problems"
                 ? "Problem description and solution…"
@@ -604,7 +604,7 @@ function KnowledgeTable({
               disabled={
                 !title.trim() || !content.trim() || createMut.isPending
               }
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0433FF] px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-[#0433FF]/90 disabled:opacity-50 transition-colors shadow-lg shadow-[#0433FF]/20"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#F5A623] px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-[#F5A623]/90 disabled:opacity-50 transition-colors shadow-lg shadow-[#F5A623]/20"
             >
               {createMut.isPending ? "Saving…" : "Save entry"}
             </button>
@@ -629,13 +629,13 @@ function KnowledgeTable({
           <button
             type="button"
             onClick={() => setAdding(true)}
-            className="mt-3 text-[14px] font-medium text-[#0433FF] hover:underline"
+            className="mt-3 text-[14px] font-medium text-[#F5A623] hover:underline"
           >
             Add your first entry
           </button>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+        <div className="overflow-hidden cyron-glass cyron-glass-hover">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[480px] border-collapse text-[14px]">
               <thead>

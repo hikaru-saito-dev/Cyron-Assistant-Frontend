@@ -126,7 +126,7 @@ export function WizardNav({
           type="button"
           onClick={onNext}
           disabled={nextDisabled}
-          className="inline-flex items-center justify-center rounded-xl bg-[#0433FF] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#0433FF]/90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center justify-center rounded-xl bg-[#F5A623] px-5 py-2.5 font-sans text-sm font-semibold text-white shadow-sm transition hover:bg-[#F5A623]/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {nextLabel}
         </button>

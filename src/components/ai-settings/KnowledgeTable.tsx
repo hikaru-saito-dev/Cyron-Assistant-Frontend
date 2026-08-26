@@ -55,7 +55,7 @@ export function KnowledgeTable({
         <button
           type="button"
           onClick={() => setAdding(true)}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#0433FF] px-3.5 py-2 font-sans text-xs font-semibold text-white shadow-sm transition hover:bg-[#0433FF]/90"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-[#F5A623] px-3.5 py-2 font-sans text-xs font-semibold text-white shadow-sm transition hover:bg-[#F5A623]/90"
         >
           <FaPlus className="text-[10px]" />
           Add entry
@@ -88,7 +88,7 @@ export function KnowledgeTable({
               disabled={
                 !title.trim() || !content.trim() || createMut.isPending
               }
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0433FF] px-4 py-2 font-sans text-xs font-semibold text-white transition-colors hover:bg-[#0433FF]/90 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#F5A623] px-4 py-2 font-sans text-xs font-semibold text-white transition-colors hover:bg-[#F5A623]/90 disabled:opacity-50"
             >
               {createMut.isPending ? "Saving…" : "Save entry"}
             </button>

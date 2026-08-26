@@ -65,7 +65,7 @@ export const KnowledgeTab = ({
     <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
       <div className="space-y-2">
         <div className="flex items-center gap-3">
-          <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
+          <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter font-display">
             Knowledge Base
           </TextBlurIn>
           {knowledgeLoading && <Loader />}
@@ -102,7 +102,7 @@ export const KnowledgeTab = ({
         <button
           onClick={openCreateModal}
           disabled={knowledgeLoading}
-          className="rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-[0_0_15px_rgba(4,51,255,0.2)] disabled:opacity-50"
+          className="rounded-full bg-[#F5A623] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#F5A623]/90 transition-all shadow-[0_0_15px_rgba(245, 166, 35,0.2)] disabled:opacity-50"
         >
           Add Knowledge
         </button>
@@ -111,7 +111,7 @@ export const KnowledgeTab = ({
 
     {/* Upgrade banner */}
     {showUpgradeBanner && (
-      <div className="flex w-fit flex-col gap-4 rounded-2xl border border-white/10 bg-[#0433FF]/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:gap-8">
+      <div className="flex w-fit flex-col gap-4 rounded-2xl border border-white/10 bg-[#F5A623]/5 px-5 py-4 text-[13px] sm:flex-row sm:items-center sm:gap-8">
         <div>
           <p className="font-semibold text-white">
             Reached knowledge capacity for {planLabel} plan.
@@ -147,7 +147,7 @@ export const KnowledgeTab = ({
           <p className="max-w-sm text-[14px] text-slate-400">
             Add your first entry to teach the AI about your support topics.
           </p>
-          <button onClick={openCreateModal} className="mt-4 rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-[0_0_15px_rgba(4,51,255,0.2)]">
+          <button onClick={openCreateModal} className="mt-4 rounded-full bg-[#F5A623] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#F5A623]/90 transition-all shadow-[0_0_15px_rgba(245, 166, 35,0.2)]">
             Add your first entry
           </button>
         </div>

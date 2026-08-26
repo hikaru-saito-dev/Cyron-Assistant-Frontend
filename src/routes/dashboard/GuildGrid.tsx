@@ -60,8 +60,8 @@ export const DashboardGuildGrid = ({
           <div
             key={guild.id}
             onClick={handleRowClick}
-            className={`group grid grid-cols-[1fr_100px_100px_140px] gap-4 items-center px-5 py-4 transition-all duration-300 rounded-[14px] mb-3 bg-[#111111] border border-white/[0.04] hover:bg-[#161616] cursor-pointer ${
-              isActive ? 'border-[#0433FF]/20 shadow-[0_0_15px_rgba(4,51,255,0.05)]' : ''
+            className={`group mb-3 grid cursor-pointer grid-cols-[1fr_100px_100px_140px] items-center gap-4 rounded-[16px] border border-white/[0.06] bg-white/[0.03] px-5 py-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-400/30 hover:bg-white/[0.06] hover:shadow-[0_0_28px_rgba(245,166,35,0.12)] ${
+              isActive ? 'border-amber-400/35 shadow-[0_0_20px_rgba(245,166,35,0.12)]' : ''
             }`}
           >
             {/* Server info */}

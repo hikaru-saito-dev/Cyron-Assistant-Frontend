@@ -34,7 +34,7 @@ export const EmbedSettingsTab = ({
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
-                        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
+                        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter font-display">
                             Embed Customization
                         </TextBlurIn>
                     </div>
@@ -46,7 +46,7 @@ export const EmbedSettingsTab = ({
                     <button
                         onClick={handleSaveEmbedColor}
                         disabled={updateGuildPending || guildLoading}
-                        className="shrink-0 rounded-full bg-[#0433FF] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#0433FF]/90 transition-all shadow-[0_0_15px_rgba(4,51,255,0.2)] disabled:opacity-50"
+                        className="shrink-0 rounded-full bg-[#F5A623] px-5 py-2 text-[13px] font-medium text-white hover:bg-[#F5A623]/90 transition-all shadow-[0_0_15px_rgba(245, 166, 35,0.2)] disabled:opacity-50"
                     >
                         {updateGuildPending ? 'Saving…' : 'Save Changes'}
                     </button>

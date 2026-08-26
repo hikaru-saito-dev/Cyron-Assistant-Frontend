@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import { DOC_SECTIONS } from './docsContent';
 import type { DocSection, DocItem } from './docsContent';
 import { CinematicFooter } from '../../components/ui/motion-footer';
 import { Header } from '../../components/ui/header-2';
+import { AtmosphereBackground } from '../../components/ui/AtmosphereBackground';
 import { motion, AnimatePresence } from 'framer-motion';
 import TextBlockAnimation from '../../components/ui/text-block-animation';
 
@@ -22,7 +23,7 @@ function Sidebar({
   onToggleSection: (sectionId: string) => void;
 }) {
   return (
-    <aside className="hidden lg:block w-64 shrink-0 self-start sticky top-0 h-screen overflow-y-auto border-r border-white/[0.06] pt-8 pb-12 pl-6 pr-4">
+    <aside className="hidden lg:block w-64 shrink-0 self-start sticky top-0 h-screen overflow-y-auto border-r border-white/10 bg-white/[0.02] backdrop-blur-sm pt-8 pb-12 pl-6 pr-4">
 
       <nav className="space-y-1">
         {sections.map((section) => {
@@ -41,8 +42,8 @@ function Sidebar({
                 className={`
                   w-full flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-200
                   ${isActive
-                    ? 'bg-[#0433FF]/15 text-white border-l-2 border-[#0433FF]'
-                    : 'text-white/60 hover:text-white/90 hover:bg-white/[0.04] border-l-2 border-transparent'
+                    ? 'bg-amber-400/10 text-amber-300 border-l-2 border-amber-400'
+                    : 'text-white/60 hover:text-amber-200/90 hover:bg-white/[0.04] border-l-2 border-transparent'
                   }
                 `}
               >
@@ -95,11 +96,11 @@ function MobileNav({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="lg:hidden sticky top-0 z-[9] mb-6 bg-black/95 py-3 px-4 backdrop-blur-md border-b border-white/[0.06]">
+    <div className="lg:hidden sticky top-0 z-[9] mb-6 bg-[#050505]/90 py-3 px-4 backdrop-blur-md border-b border-white/10">
       <select
         value={activeId}
         onChange={(e) => onSelect(e.target.value)}
-        className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-3 text-sm font-medium text-white focus:border-[#0433FF] focus:outline-none focus:ring-2 focus:ring-[#0433FF]/20"
+        className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white focus:border-amber-400/50 focus:outline-none focus:ring-2 focus:ring-amber-400/20"
       >
         {sections.map((s) => (
           <option key={s.id} value={s.id}>
@@ -119,18 +120,18 @@ function DocContentArea({ section }: { section: DocSection }) {
       {/* Section header */}
       <div>
         <TextBlockAnimation
-          blockColor="#0433FF"
+          blockColor="#F5A623"
           animateOnScroll={false}
           delay={0.1}
           duration={0.7}
         >
-          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
+          <h1 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
             {section.title}
           </h1>
         </TextBlockAnimation>
 
         <TextBlockAnimation
-          blockColor="#0433FF"
+          blockColor="#F5A623"
           animateOnScroll={false}
           delay={0.4}
           duration={0.5}
@@ -157,7 +158,7 @@ function DocContentArea({ section }: { section: DocSection }) {
 const PLAN_BADGE: Record<string, { dot: string; bg: string; text: string }> = {
   all: { dot: 'bg-emerald-400', bg: 'bg-emerald-400/[0.08]', text: 'text-emerald-300' },
   admin: { dot: 'bg-amber-400', bg: 'bg-amber-400/[0.08]', text: 'text-amber-300' },
-  staff: { dot: 'bg-[#0433FF]', bg: 'bg-[#0433FF]/[0.08]', text: 'text-blue-300' },
+  staff: { dot: 'bg-amber-400', bg: 'bg-amber-400/[0.08]', text: 'text-amber-300' },
   free: { dot: 'bg-white/40', bg: 'bg-white/[0.04]', text: 'text-white/50' },
   pro: { dot: 'bg-violet-400', bg: 'bg-violet-400/[0.08]', text: 'text-violet-300' },
 };
@@ -176,12 +177,12 @@ function DocItemCard({ item }: { item: DocItem }) {
 
   return (
     <article id={item.id} className="scroll-mt-28 group">
-      <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 hover:bg-white/[0.04] transition-colors duration-200">
+      <div className="cyron-glass cyron-glass-hover rounded-xl p-6">
         {/* Title + Badge */}
         <div className="flex flex-wrap items-start justify-between gap-3">
           <h3 className="text-xl font-semibold text-white tracking-tight">
             {item.title.startsWith('/') ? (
-              <span className="font-mono text-[#0433FF]">{item.title}</span>
+              <span className="font-mono text-amber-400">{item.title}</span>
             ) : (
               item.title
             )}
@@ -238,8 +239,8 @@ function DocItemCard({ item }: { item: DocItem }) {
 
         {/* Tips */}
         {item.tips && item.tips.length > 0 && (
-          <div className="mt-5 rounded-lg border border-[#0433FF]/15 bg-[#0433FF]/[0.04] p-4">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#0433FF] mb-2">
+          <div className="mt-5 rounded-lg border border-amber-400/20 bg-amber-400/[0.06] p-4">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-400 mb-2">
               Tips
             </p>
             <ul className="list-disc space-y-1 pl-5 text-[13px] text-white/50">
@@ -320,40 +321,40 @@ export function Docs() {
     <>
       <Header />
 
-      <div className="min-h-screen bg-black text-white flex relative z-10">
-        {/* Subtle top gradient glow */}
-        <div className="absolute top-0 left-0 right-0 h-[300px] bg-gradient-to-b from-[#0433FF]/[0.06] via-[#0433FF]/[0.02] to-transparent pointer-events-none" />
-
-        <Sidebar
-          sections={DOC_SECTIONS}
-          activeId={activeSectionId}
-          expandedSections={expandedSections}
-          onSelect={handleSelect}
-          onToggleSection={handleToggleSection}
-        />
-
-        {/* Main content */}
-        <main className="flex-1 min-w-0 relative">
-          <MobileNav
+      <div className="cyron-marketing relative min-h-screen bg-[#050505] text-white flex z-10">
+        <AtmosphereBackground fixed />
+        <div className="relative z-10 flex w-full min-h-screen">
+          <Sidebar
             sections={DOC_SECTIONS}
             activeId={activeSectionId}
-            onSelect={(id) => handleSelect(id)}
+            expandedSections={expandedSections}
+            onSelect={handleSelect}
+            onToggleSection={handleToggleSection}
           />
 
-          <div className="max-w-4xl mx-auto px-6 sm:px-10 py-12 lg:py-16 min-h-screen">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeSectionId}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >
-                <DocContentArea section={activeSection} />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </main>
+          {/* Main content */}
+          <main className="flex-1 min-w-0 relative">
+            <MobileNav
+              sections={DOC_SECTIONS}
+              activeId={activeSectionId}
+              onSelect={(id) => handleSelect(id)}
+            />
+
+            <div className="max-w-4xl mx-auto px-6 sm:px-10 py-12 lg:py-16 min-h-screen">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeSectionId}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  <DocContentArea section={activeSection} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </main>
+        </div>
       </div>
 
       <CinematicFooter />

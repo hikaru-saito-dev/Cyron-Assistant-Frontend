@@ -136,7 +136,7 @@ const Hero = React.memo(() => {
           style={{
             top: "-15%",
             transform: "translateX(-50%)",
-            background: "radial-gradient(circle, rgba(4,51,255,0.5) 0%, rgba(0,0,0,0) 70%)",
+            background: "radial-gradient(circle, rgba(245, 166, 35,0.5) 0%, rgba(0,0,0,0) 70%)",
             filter: "blur(80px)"
           }}
           aria-hidden="true"

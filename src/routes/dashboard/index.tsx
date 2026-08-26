@@ -17,9 +17,9 @@ export const Dashboard = () => {
   const newlyPurchasedGuildId = searchParams.get('guildId');
   const newlyPurchasedPlan = searchParams.get('plan');
 
-  const { data: rawGuilds = [], isLoading } = useQuery({
+  const { data: rawGuilds = [] } = useQuery({
     queryKey: ['guilds'],
-    queryFn: fetchGuilds
+    queryFn: fetchGuilds,
   });
 
   const allGuilds = rawGuilds.map((g: any) => {
@@ -30,29 +30,37 @@ export const Dashboard = () => {
   });
 
   const handleAddBot = (guildId: string | number) => {
-    console.log('Add bot to guild', guildId);
     const url = `${DISCORD_BOT_INVITE_URL}&guild_id=${guildId}&disable_guild_select=true`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div className="min-h-screen bg-black text-slate-200 relative flex flex-col">
-      {/* Radial Gradient Background */}
-      <div className="absolute inset-0 h-full w-full pointer-events-none">
-        <div className="absolute inset-0 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#0433FF_100%)] z-0"></div>
-      </div>
+    <div className="relative flex min-h-screen flex-col text-zinc-100">
       <div className="relative z-10 w-full">
         <Header />
       </div>
-      <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-20 flex flex-col justify-start">
-        <h1
-          className="text-white font-bold uppercase text-[3rem] md:text-[6rem] leading-[0.85] tracking-tighter"
-          style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}
-        >
-          Select Your <span style={{ color: '#0433FF' }}>Server.</span>
+
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-start px-6 pb-20 pt-24 md:px-12">
+        <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-amber-400/25 bg-amber-400/10 px-3.5 py-1.5">
+          <span className="cyron-pulse-dot relative flex h-2 w-2 rounded-full bg-emerald-400" />
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-amber-300/90">
+            Workspace ready
+          </span>
+        </div>
+
+        <h1 className="font-display text-[2.75rem] font-bold leading-[0.92] tracking-tight text-white md:text-[5.5rem]">
+          Select your{' '}
+          <span className="bg-gradient-to-r from-[#F5A623] via-[#ffd27a] to-white bg-clip-text text-transparent">
+            server
+          </span>
+          .
         </h1>
-        <TextBlurIn delay={0.2} className="mt-4 text-lg md:text-xl text-neutral-400 font-medium max-w-xl leading-relaxed">
-          Select a server to manage its settings or add Cyron Assistant to a new one.
+
+        <TextBlurIn
+          delay={0.2}
+          className="mt-5 max-w-xl text-base font-medium leading-relaxed text-zinc-400 md:text-lg"
+        >
+          Choose a Discord server to configure Cyron — panels, knowledge, AI behavior, and usage analytics.
         </TextBlurIn>
 
         <ProfileSelect guilds={allGuilds} onAddBot={handleAddBot} />

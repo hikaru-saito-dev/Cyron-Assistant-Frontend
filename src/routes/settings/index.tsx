@@ -90,9 +90,9 @@ export const Settings = () => {
       <motion.section
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-16 text-center"
+        className="flex flex-col items-center justify-center cyron-glass cyron-glass-hover px-6 py-16 text-center"
       >
-        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>Select a server</TextBlurIn>
+        <TextBlurIn className="text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter font-display">Select a server</TextBlurIn>
         <TextBlurIn delay={0.2} className="mt-2 max-w-md text-[14px] text-slate-400 leading-relaxed">
           Choose a server from the sidebar to manage AI settings, embed color, and usage.
         </TextBlurIn>
@@ -105,7 +105,7 @@ export const Settings = () => {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center"
+        className="cyron-glass cyron-glass-hover p-6 text-center"
       >
         <p className="text-[14px] font-semibold text-red-400">Failed to load guild. Please refresh the page.</p>
       </motion.section>

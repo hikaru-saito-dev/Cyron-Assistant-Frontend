@@ -23,20 +23,8 @@ function SearchIcon() {
 
 function SearchBar({ value, onChange }: { value: string; onChange: (val: string) => void }) {
   return (
-    <div style={{ width: 420, maxWidth: "100%", height: 50, borderRadius: 64, overflow: "hidden", position: "relative", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      <div
-        className="bg-white/10 backdrop-blur-lg border border-white/20 shadow"
-        style={{
-          position: "absolute",
-          inset: 0,
-          borderRadius: 24,
-          display: "flex",
-          alignItems: "center",
-          padding: "0 13px",
-          gap: 10,
-          color: "#ffffff",
-        }}
-      >
+    <div className="relative h-[50px] w-full max-w-[420px] overflow-hidden rounded-[24px]">
+      <div className="cyron-glass absolute inset-0 flex items-center gap-2.5 px-3.5 text-white transition-all duration-300 hover:border-amber-400/30">
         <SearchIcon />
         <input
           type="text"
@@ -45,17 +33,7 @@ function SearchBar({ value, onChange }: { value: string; onChange: (val: string)
           onChange={(e) => onChange(e.target.value)}
           autoComplete="off"
           spellCheck="false"
-          className="transparent-input bg-transparent border-0 ring-0 outline-none focus:ring-0 focus:border-0 focus:outline-none placeholder:text-white/50"
-          style={{
-            background: "transparent",
-            border: "none",
-            outline: "none",
-            fontSize: 16,
-            lineHeight: "20px",
-            color: "#ffffff",
-            width: "100%",
-            boxShadow: "none"
-          }}
+          className="transparent-input w-full border-0 bg-transparent text-[15px] text-white outline-none ring-0 placeholder:text-white/40 focus:border-0 focus:outline-none focus:ring-0"
         />
       </div>
     </div>
@@ -162,17 +140,7 @@ export default function ProfileSelect({ guilds = [], onAddBot }: ServerCardsProp
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
           <button
             onClick={() => window.location.reload()}
-            className="bg-white/10 backdrop-blur-lg border border-white/20 shadow hover:bg-white/20 transition-colors"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 50,
-              height: 50,
-              borderRadius: 24,
-              cursor: "pointer",
-              flexShrink: 0,
-            }}
+            className="cyron-glass cyron-glass-hover flex h-[50px] w-[50px] shrink-0 cursor-pointer items-center justify-center rounded-[24px]"
             title="Refresh servers"
           >
             <RefreshCw size={20} color="#ffffff" />
@@ -285,48 +253,47 @@ function HorizontalProfileCard({ guild, onAddBot, onManage }: { guild: Guild; on
   };
 
   return (
-    <motion.div 
-      variants={cardVariants} 
+    <motion.div
+      variants={cardVariants}
       onClick={handleClick}
-      className="group relative flex w-full max-w-[400px] h-[120px] overflow-hidden rounded-[20px] bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-[1.02] hover:bg-white/20 hover:border-white/30 cursor-pointer shadow-lg"
+      className="group relative flex h-[120px] w-full max-w-[400px] cursor-pointer overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.05] shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.015] hover:border-amber-400/35 hover:bg-white/[0.08] hover:shadow-[0_0_32px_rgba(245,166,35,0.18)]"
     >
-      {/* Left side: Avatar */}
-      <div className="w-[35%] h-full flex items-center justify-center bg-black/20 border-r-2 border-white/20">
+      <div className="flex h-full w-[35%] items-center justify-center border-r border-white/10 bg-black/25">
         {guild.icon_url ? (
-          <img src={guild.icon_url} alt={guild.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <img
+            src={guild.icon_url}
+            alt={guild.name}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
         ) : (
-          <div className={`w-full h-full flex items-center justify-center ${parseInt(String(guild.id)) % 2 !== 0 ? 'bg-red-500' : 'bg-yellow-500'}`}>
-            <FaDiscord className="w-20 h-20 text-white drop-shadow-sm" />
+          <div
+            className={`flex h-full w-full items-center justify-center ${
+              parseInt(String(guild.id)) % 2 !== 0 ? "bg-rose-500/80" : "bg-amber-500/80"
+            }`}
+          >
+            <FaDiscord className="h-16 w-16 text-white drop-shadow-sm" />
           </div>
         )}
       </div>
 
-      {/* Right side: Name and Plan */}
-      <div className="relative w-[65%] h-full overflow-hidden">
-        {/* Default State */}
+      <div className="relative h-full w-[65%] overflow-hidden">
         <div className="absolute inset-0 flex flex-col justify-center px-6 transition-transform duration-300 group-hover:-translate-y-full">
-          <h3 
-            className="line-clamp-2 text-2xl font-bold text-white uppercase tracking-tighter leading-none"
-            style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}
-          >
+          <h3 className="line-clamp-2 font-display text-xl font-bold uppercase leading-none tracking-tight text-white">
             {guild.name}
           </h3>
-          <p className="mt-2 text-sm font-bold text-white/70 tracking-wide">
-            {guild.plan ? guild.plan.toUpperCase() : (guild.has_bot ? 'FREE' : 'NOT INSTALLED')}
+          <p className="mt-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-amber-300/80">
+            {guild.plan
+              ? guild.plan.toUpperCase()
+              : guild.has_bot
+                ? "FREE"
+                : "NOT INSTALLED"}
           </p>
         </div>
 
-        {/* Hover State */}
-        <div 
-          className="absolute inset-0 flex items-center justify-center translate-y-full transition-transform duration-300 group-hover:translate-y-0"
-          style={{ backgroundColor: '#ffffff' }}
-        >
-          <span 
-            className="font-bold uppercase tracking-tighter text-xl flex items-center gap-2" 
-            style={{ color: '#000000', fontFamily: 'Impact, "Arial Black", sans-serif' }}
-          >
-            {guild.has_bot ? "Manage" : "Add Bot"} 
-            <ArrowRight size={20} strokeWidth={4} color="#000000" />
+        <div className="absolute inset-0 flex translate-y-full items-center justify-center bg-gradient-to-r from-[#F5A623] to-[#ffd27a] transition-transform duration-300 group-hover:translate-y-0">
+          <span className="flex items-center gap-2 font-display text-lg font-bold uppercase tracking-tight text-[#0a0a0a]">
+            {guild.has_bot ? "Manage" : "Add Bot"}
+            <ArrowRight size={18} strokeWidth={3} color="#0a0a0a" />
           </span>
         </div>
       </div>

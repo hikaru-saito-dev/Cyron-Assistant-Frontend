@@ -172,11 +172,11 @@ const DEFAULT_PREMIUM_FAQS: readonly FaqItem[] = [
 ];
 
 function readThemeFromStorage(): ThemeMode {
-  if (typeof window === 'undefined') return 'light';
+  // Product UI is designed for the premium dark grid aesthetic.
+  if (typeof window === 'undefined') return 'dark';
   const stored = window.localStorage.getItem(LS_THEME_KEY);
   if (stored === 'light' || stored === 'dark') return stored;
-  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-  return prefersDark ? 'dark' : 'light';
+  return 'dark';
 }
 
 function readSelectedPlanFromStorage(): PlanType {

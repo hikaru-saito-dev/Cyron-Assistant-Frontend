@@ -17,20 +17,20 @@ export function FeatureCard({ feature, className, ...props }: FeatureCardPorps) 
 	return (
 		<div className={cn('relative overflow-hidden p-6', className)} {...props}>
 			<div className="pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]">
-				<div className="from-slate-200/50 to-slate-200/10 dark:from-slate-800/80 dark:to-slate-800/10 absolute inset-0 bg-gradient-to-r [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
+				<div className="from-amber-400/10 to-transparent absolute inset-0 bg-gradient-to-r [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
 					<GridPattern
 						width={20}
 						height={20}
 						x="-12"
 						y="4"
 						squares={p}
-						className="fill-slate-100/20 stroke-slate-200/50 dark:fill-slate-900/40 dark:stroke-slate-800/80 absolute inset-0 h-full w-full"
+						className="fill-white/[0.03] stroke-white/10 absolute inset-0 h-full w-full"
 					/>
 				</div>
 			</div>
-			<feature.icon className="text-foreground/75 size-6" strokeWidth={1} aria-hidden />
-			<h3 className="mt-10 text-sm md:text-base">{feature.title}</h3>
-			<p className="text-muted-foreground relative z-20 mt-2 text-xs font-light">{feature.description}</p>
+			<feature.icon className="text-amber-400/90 size-6" strokeWidth={1.25} aria-hidden />
+			<h3 className="mt-10 text-sm md:text-base font-semibold text-white">{feature.title}</h3>
+			<p className="relative z-20 mt-2 text-xs font-light text-white/50">{feature.description}</p>
 		</div>
 	);
 }

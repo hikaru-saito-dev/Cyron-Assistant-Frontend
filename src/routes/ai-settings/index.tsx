@@ -102,8 +102,8 @@ export function AiSettings() {
     <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-2">
         <div>
-          <div className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter" style={{ fontFamily: 'Impact, "Arial Black", sans-serif' }}>
-            <FaRobot className="text-[#0433FF]" />
+          <div className="flex items-center gap-4 text-white font-bold uppercase text-[2.5rem] md:text-[3.5rem] leading-[0.85] tracking-tighter font-display">
+            <FaRobot className="text-[#F5A623]" />
             <TextBlurIn>AI Settings</TextBlurIn>
           </div>
           <TextBlurIn delay={0.2} className="mt-1 text-[14px] text-slate-400">
@@ -154,14 +154,14 @@ export function AiSettings() {
               </p>
             </div>
             {!isActive && (
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#0433FF]/30 bg-[#0433FF]/10 px-5 py-4">
-                <p className="text-[14px] font-semibold text-[#0433FF]">
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#F5A623]/30 bg-[#F5A623]/10 px-5 py-4">
+                <p className="text-[14px] font-semibold text-[#F5A623]">
                   Prefer the guided setup?
                 </p>
                 <button
                   type="button"
                   onClick={() => setViewMode("welcome")}
-                  className="rounded-xl bg-[#0433FF] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#0433FF]/90 transition-colors shadow-lg shadow-[#0433FF]/20"
+                  className="rounded-xl bg-[#F5A623] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#F5A623]/90 transition-colors shadow-lg shadow-[#F5A623]/20"
                 >
                   Open wizard
                 </button>

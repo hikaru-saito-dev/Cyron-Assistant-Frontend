@@ -37,23 +37,27 @@ const features = [
 
 export function FeaturesSection() {
 	return (
-		<section className="py-16 md:py-32">
+		<section className="relative py-16 md:py-32 bg-transparent">
 			<div className="mx-auto w-full max-w-5xl space-y-8 px-4">
 				<AnimatedContainer className="mx-auto max-w-3xl text-center">
-					<h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold text-slate-900 dark:text-white">
+					<h2 className="font-display text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold text-white">
 						Power. Speed. Control.
 					</h2>
-					<p className="text-muted-foreground mt-4 text-sm tracking-wide text-balance md:text-base">
+					<p className="mt-4 text-sm tracking-wide text-balance text-white/50 md:text-base">
 						Everything you need to automate Discord support effortlessly.
 					</p>
 				</AnimatedContainer>
 
 				<AnimatedContainer
 					delay={0.4}
-					className="grid grid-cols-1 divide-x divide-y divide-dashed border border-dashed sm:grid-cols-2 md:grid-cols-3 dark:border-slate-800 dark:divide-slate-800"
+					className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
 				>
 					{features.map((feature, i) => (
-						<FeatureCard key={i} feature={feature} />
+						<FeatureCard
+							key={i}
+							feature={feature}
+							className="cyron-glass cyron-glass-hover rounded-2xl text-white"
+						/>
 					))}
 				</AnimatedContainer>
 			</div>

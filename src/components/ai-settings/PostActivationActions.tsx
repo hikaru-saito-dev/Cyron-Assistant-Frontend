@@ -245,7 +245,7 @@ export function PostActivationActions({
                 type="button"
                 disabled={saving}
                 onClick={() => void applyAccepted()}
-                className="rounded-xl bg-[#0433FF] hover:bg-[#0433FF]/90 transition-colors px-3 py-2 font-sans text-xs font-semibold text-white disabled:opacity-50"
+                className="rounded-xl bg-[#F5A623] hover:bg-[#F5A623]/90 transition-colors px-3 py-2 font-sans text-xs font-semibold text-white disabled:opacity-50"
               >
                 {saving ? "Applying…" : "Apply accepted proposals"}
               </button>
