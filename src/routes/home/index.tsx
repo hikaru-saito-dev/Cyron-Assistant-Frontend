@@ -9,6 +9,11 @@ import { FaqSection } from './FaqSection';
 import { CinematicFooter } from '../../components/ui/motion-footer';
 import { Header } from '../../components/ui/header-2';
 import { AtmosphereBackground } from '../../components/ui/AtmosphereBackground';
+import { TicketScenePlayer } from '../../components/marketing/TicketScenePlayer';
+import { AnswerPipeline } from '../../components/marketing/AnswerPipeline';
+import { CommandReference } from '../../components/marketing/CommandReference';
+import { TrustChecklist } from '../../components/marketing/TrustChecklist';
+import { FinalCta } from '../../components/marketing/FinalCta';
 import { motion } from 'framer-motion';
 
 const fadeIn = {
@@ -33,6 +38,9 @@ export const Home = () => {
               ctaLabel="Get Started"
             />
             <FeaturesSection />
+            <TicketScenePlayer />
+            <AnswerPipeline />
+            <CommandReference />
             <Stats />
             <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
               <ImpactSection />
@@ -41,9 +49,11 @@ export const Home = () => {
             <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
               <Testimonial3 />
             </motion.div>
+            <TrustChecklist />
             <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}>
               <FaqSection />
             </motion.div>
+            <FinalCta />
           </div>
         </div>
       </PageTransition>

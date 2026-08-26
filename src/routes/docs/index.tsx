@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from 'react';
-import { DOC_SECTIONS } from './docsContent';
+import { DOC_SECTIONS, DOC_QUICK_START } from './docsContent';
 import type { DocSection, DocItem } from './docsContent';
 import { CinematicFooter } from '../../components/ui/motion-footer';
 import { Header } from '../../components/ui/header-2';
@@ -114,6 +114,25 @@ function MobileNav({
 
 /* ─────────────── CONTENT AREA ─────────────── */
 
+function QuickStartStrip() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {DOC_QUICK_START.map((entry, index) => (
+        <div key={entry.title} className="cyron-glass cyron-glass-hover p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-400/90">
+              Path {String(index + 1).padStart(2, '0')}
+            </span>
+            <span className="font-mono text-[10px] text-white/30">{entry.duration}</span>
+          </div>
+          <h3 className="mt-3 text-[15px] font-semibold leading-snug text-white">{entry.title}</h3>
+          <p className="mt-2 text-[13px] leading-relaxed text-white/45">{entry.subtitle}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function DocContentArea({ section }: { section: DocSection }) {
   return (
     <div className="space-y-12">
@@ -143,6 +162,8 @@ function DocContentArea({ section }: { section: DocSection }) {
         </TextBlockAnimation>
       </div>
 
+      {section.id === 'getting-started' && <QuickStartStrip />}
+
       {/* Items */}
       <div className="space-y-8">
         {section.items.map((item) => (
@@ -160,7 +181,7 @@ const PLAN_BADGE: Record<string, { dot: string; bg: string; text: string }> = {
   admin: { dot: 'bg-amber-400', bg: 'bg-amber-400/[0.08]', text: 'text-amber-300' },
   staff: { dot: 'bg-amber-400', bg: 'bg-amber-400/[0.08]', text: 'text-amber-300' },
   free: { dot: 'bg-white/40', bg: 'bg-white/[0.04]', text: 'text-white/50' },
-  pro: { dot: 'bg-violet-400', bg: 'bg-violet-400/[0.08]', text: 'text-violet-300' },
+  pro: { dot: 'bg-amber-300', bg: 'bg-amber-300/[0.12]', text: 'text-amber-200' },
 };
 
 const PLAN_LABELS: Record<string, string> = {

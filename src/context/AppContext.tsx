@@ -122,25 +122,37 @@ const DEFAULT_HOME_FAQS: readonly FaqItem[] = [
     id: 'home-faq-1',
     question: 'Do I need to change how my tickets work today?',
     answer:
-      'No. Cyron Assistant sits on top of your existing channels and ticket flows. You decide which channels it can answer in and when to escalate to staff.',
+      'No. Cyron brings its own panels and ticket channels, and it only ever speaks inside tickets it opened. You choose which panels have AI auto-reply enabled and which support roles it escalates to.',
   },
   {
     id: 'home-faq-2',
     question: 'How does the bot learn our knowledge base?',
     answer:
-      'You can sync docs, FAQs, and canned replies from the dashboard. The bot only answers from that approved knowledge-no random internet browsing.',
+      'You write knowledge entries in the dashboard, or let Cyron extract recurring problem and solution pairs from your past ticket transcripts. It answers only from that approved knowledge — it never browses the internet.',
   },
   {
     id: 'home-faq-3',
-    question: 'Can we limit how many AI replies we use per month?',
+    question: 'What stops it from making something up?',
     answer:
-      'Yes. Plans include clear token and ticket limits, and you can configure per‑server caps so usage never surprises your team.',
+      'Every candidate answer is scored against your knowledge by meaning before it is used. Weak matches are left out of the prompt entirely, so the bot asks a clarifying question or offers your staff instead of inventing a price or a policy.',
   },
   {
     id: 'home-faq-4',
+    question: 'What happens when our staff want to take over?',
+    answer:
+      'The moment a staff member types in a ticket, the AI stops replying in that channel. It stays silent until someone runs /ticket ai resume, so the bot never talks over your team.',
+  },
+  {
+    id: 'home-faq-5',
+    question: 'Can each ticket category have different AI behaviour?',
+    answer:
+      'Yes. Every panel can point at its own AI context with its own instructions and its own knowledge, on top of your server-wide General Rules. A billing panel and a partnership panel never see each other’s knowledge.',
+  },
+  {
+    id: 'home-faq-6',
     question: 'What happens if we remove the bot from Discord?',
     answer:
-      'The dashboard will stop sending AI replies, but your existing ticket channels continue working as normal with human staff only.',
+      'AI replies stop, but your existing ticket channels continue working as normal with human staff only. Your configuration and knowledge stay in the dashboard if you invite it back.',
   },
 ];
 
@@ -153,21 +165,27 @@ const DEFAULT_PREMIUM_FAQS: readonly FaqItem[] = [
   },
   {
     id: 'premium-faq-2',
-    question: 'What happens if I hit my monthly token or ticket limit?',
+    question: 'What happens if I hit my monthly token limit?',
     answer:
-      "Cyron Assistant will gracefully fall back to human‑only tickets instead of failing mid‑conversation. You'll see clear warnings in the dashboard before limits are reached.",
+      'The AI stops replying, but the ticket system keeps working exactly as before — panels, forms, claiming, priorities, closing and transcripts are all unaffected. Your usage page shows tokens used against your limit at any time.',
   },
   {
     id: 'premium-faq-3',
-    question: 'Can I cancel or downgrade at any time?',
+    question: 'How is billing handled, and can I cancel?',
     answer:
-      'Absolutely. You can switch between Free and Pro month‑to‑month, and Business plans are handled via invoice with clear terms.',
+      'Pro and Business both run through Stripe Checkout, monthly or yearly, and you manage or cancel the subscription yourself in the Stripe billing portal. Card details never touch Cyron.',
   },
   {
     id: 'premium-faq-4',
-    question: 'How do you handle data and privacy?',
+    question: 'Is yearly billing cheaper?',
     answer:
-      'We only store the minimum required ticket and knowledge data to operate the bot, and you can delete knowledge or logs at any time from your dashboard.',
+      'Yes. Yearly billing costs the same as ten months on both paid plans — $90 a year for Pro instead of $108, and $200 a year for Business instead of $240. Promotion codes are accepted at checkout.',
+  },
+  {
+    id: 'premium-faq-5',
+    question: 'When do my counters reset?',
+    answer:
+      'Token allowance resets on the first of the month at 00:00 UTC, and the daily ticket counter resets every day at 00:00 UTC.',
   },
 ];
 
