@@ -5,38 +5,44 @@ const AppContext = createContext<AppContextValue | undefined>(undefined);
 const LS_THEME_KEY = 'theme';
 const LS_SELECTED_PLAN_KEY = 'selected_plan';
 
+/**
+ * Canonical plan copy for checkout and any AppContext consumer.
+ * Numbers mirror core/backend/schemas/plans.py + knowledge_service.py + config.py.
+ */
 const DEFAULT_PRICING_PLANS: readonly PricingPlan[] = [
   {
     id: 'free',
     name: 'Free',
     priceLabel: '$0',
     priceSubLabel: '/ month',
-    description: 'Perfect for getting started with basic ticket management and AI replies.',
+    description:
+      'Run a real ticket system with grounded AI replies and find out what your members actually ask.',
     features: [
-      'Core AI ticket replies',
-      'Limited monthly tokens & tickets',
-      'Basic knowledge base & canned replies',
-      'Community support via Discord',
+      '50,000 AI tokens per month',
+      '10 tickets per day · 1 AI session at a time',
+      '2 knowledge entries · 20,000 characters',
+      'Unlimited ticket panels, each with its own AI',
+      'No card required, never expires',
     ],
     variant: 'neutral',
-    ctaLabel: 'Get started free',
+    ctaLabel: 'Start on Free',
   },
   {
     id: 'pro',
     name: 'Pro',
     priceLabel: '$9',
     priceSubLabel: '/ month',
-    description: 'For serious support teams that want reliable AI coverage with human oversight.',
+    description:
+      'For communities where support is constant and the AI needs enough headroom to carry the repetitive questions.',
     features: [
-      '5-10× Free token & ticket limits',
-      'Priority AI models & faster responses',
-      'Customizable ticket embeds & branding',
-      'Fine‑grained concurrency & rate limits',
-      'Usage analytics with export‑ready charts',
-      'Email support with 24-48h response',
+      '1,500,000 AI tokens per month',
+      '50 tickets per day · 3 AI sessions at a time',
+      '5 knowledge entries · 50,000 characters',
+      'Everything in Free, with room to cover a busy queue',
+      'Two months free when billed yearly ($90/year)',
     ],
     variant: 'primary',
-    ctaLabel: 'Start Pro trial',
+    ctaLabel: 'Upgrade to Pro',
   },
   {
     id: 'business',
@@ -44,17 +50,16 @@ const DEFAULT_PRICING_PLANS: readonly PricingPlan[] = [
     priceLabel: '$20',
     priceSubLabel: '/ month',
     description:
-      'Highest-tier plan for mission-critical communities, SaaS products, and scaled support teams that require  rapid SLAs, and holistic control over all AI-enabled ticket handling.',
+      'For large servers and product communities that need the fullest knowledge base and the highest daily ticket ceiling.',
     features: [
-      '10× Pro plan limits for tokens, tickets, and concurrency',
-      'Priority access to the fastest AI models and shortest response queue times',
-      'Dedicated onboarding, account manager, and configuration with your team',
-      'Advanced audit logs, security controls, and SSO/SAML support',
-      'Role-based access for multiple admins and support staff',
-      'SLA-backed prioritzed incident response & uptime guarantees'
+      '3,000,000 AI tokens per month',
+      '100 tickets per day · 3 AI sessions at a time',
+      '10 knowledge entries · 100,000 characters',
+      'Widest knowledge capacity for detailed policies',
+      'Two months free when billed yearly ($200/year)',
     ],
     variant: 'success',
-    ctaLabel: 'Start Business trial',
+    ctaLabel: 'Upgrade to Business',
   },
 ];
 
