@@ -139,7 +139,7 @@ export function HeroCommandCenter() {
           <div className="relative lg:min-h-[560px]">
             <HudRings />
 
-            <div className="relative z-10 mx-auto max-w-[380px]">
+            {/* <div className="relative z-10 mx-auto max-w-[380px]">
               <DiscordFrame channel="ticket-4418" topic="General Support" className="shadow-[0_0_80px_-24px_rgba(245,166,35,0.45)]">
                 <DiscordMessage author="aurelia.draws" timestamp="2:13 PM">
                   <DiscordText>how long do I have to ask for a refund?</DiscordText>
@@ -152,15 +152,15 @@ export function HeroCommandCenter() {
                   <TokenFooter tokens="1,148" />
                 </DiscordMessage>
               </DiscordFrame>
-            </div>
+            </div> */}
 
-            <FloatCard
+            {/* <FloatCard
               className="lg:absolute lg:-left-6 lg:top-6 lg:w-[220px]"
               delay={0.15}
               reduceMotion={!!reduceMotion}
             >
               <ConfidenceCard />
-            </FloatCard>
+            </FloatCard> */}
 
             <FloatCard
               className="mt-4 lg:absolute lg:-right-4 lg:top-10 lg:mt-0 lg:w-[230px]"
